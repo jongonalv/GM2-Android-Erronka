@@ -1,10 +1,14 @@
 package com.ikaslea.komertzialakapp;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.ikaslea.komertzialakapp.fragments.CalendarFragment;
+import com.ikaslea.komertzialakapp.fragments.EskaerakFragment;
+import com.ikaslea.komertzialakapp.fragments.HomeFragment;
+import com.ikaslea.komertzialakapp.fragments.BazkideFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
             Fragment selectedFragment = null;
 
             if (item.getItemId() == R.id.nav_partner) {
-                selectedFragment = new PartnerFragment();
+                selectedFragment = new BazkideFragment();
             } else if (item.getItemId() == R.id.nav_calendar) {
                 selectedFragment = new CalendarFragment();
             } else if (item.getItemId() == R.id.nav_home) {

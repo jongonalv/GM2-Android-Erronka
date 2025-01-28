@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Fondo blanco -->
+    <solid android:color="@color/white" />
+
+    <!-- Bordes redondeados -->
+    <corners android:radius="12dp" />
+
+    <!-- Stroke con color naranja oscuro y grosor aumentado -->
+    <stroke
+        android:width="2dp"
+        android:color="@color/naranjaTuerkaOscuro" />
+
+    <!-- Sombra con color naranja oscuro (simulada con padding y elevation) -->
+    <padding
+        android:left="4dp"
+        android:top="4dp"
+        android:right="4dp"
+        android:bottom="4dp" />
+</shape>

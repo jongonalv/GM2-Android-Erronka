@@ -1,4 +1,4 @@
-package com.ikaslea.komertzialakapp;
+package com.ikaslea.komertzialakapp.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +14,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.ikaslea.komertzialakapp.R;
 
 public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
