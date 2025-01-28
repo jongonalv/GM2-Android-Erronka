@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
+/**
+ * Klasea hau localdatetime motako datuak long motako datu basean gordetzeko erabiliko da.
+ */
 public class LocalDateTimeLongType extends BaseDataType {
 
     private static final LocalDateTimeLongType singleTon = new LocalDateTimeLongType();

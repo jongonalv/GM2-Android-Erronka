@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @XStreamAlias("Bisita")
 
-public class Bisita {
+public class Bisita implements DbEntity{
 
     @XStreamAsAttribute
     @DatabaseField(generatedId = true)
@@ -34,10 +34,10 @@ public class Bisita {
     @DatabaseField
     private boolean eginda;
 
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, foreignAutoCreate = true, foreignAutoRefresh = true)
     private Bazkidea bazkidea;
 
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, foreignAutoCreate = true, foreignAutoRefresh = true)
     private Komerziala komerzila;
 
     public Bisita() {
@@ -116,7 +116,15 @@ public class Bisita {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Bisita bisita = (Bisita) o;
-        return id == bisita.id && eginda == bisita.eginda && Objects.equals(hasieraData, bisita.hasieraData) && Objects.equals(bukaeraData, bisita.bukaeraData) && Objects.equals(helbidea, bisita.helbidea) && Objects.equals(bisitarenHelburua, bisita.bisitarenHelburua) && Objects.equals(obserbazioak, bisita.obserbazioak) && Objects.equals(bazkidea, bisita.bazkidea) && Objects.equals(komerzila, bisita.komerzila);
+        return id == bisita.id &&
+                (eginda == bisita.eginda) &&
+                Objects.equals(hasieraData, bisita.hasieraData) &&
+                Objects.equals(bukaeraData, bisita.bukaeraData) &&
+                Objects.equals(helbidea, bisita.helbidea) &&
+                bisitarenHelburua.equals(bisita.bisitarenHelburua) &&
+                Objects.equals(obserbazioak, bisita.obserbazioak) &&
+                Objects.equals(bazkidea, bisita.bazkidea) &&
+                Objects.equals(komerzila, bisita.komerzila);
     }
 
     @Override
@@ -124,4 +132,3 @@ public class Bisita {
         return Objects.hash(id, hasieraData, bukaeraData, helbidea, bisitarenHelburua, obserbazioak, eginda, bazkidea, komerzila);
     }
 }
-

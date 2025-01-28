@@ -12,7 +12,7 @@ import java.util.Objects;
 
 @XStreamAlias("Komerziala")
 
-public class Komerziala {
+public class Komerziala implements DbEntity {
 
     @XStreamAsAttribute
     @DatabaseField(generatedId = true)
@@ -33,8 +33,8 @@ public class Komerziala {
     @ForeignCollectionField(eager = false)
     private ForeignCollection<Bazkidea> bazkideak;
 
-//    @ForeignCollectionField(eager = false)
-//    private ForeignCollection<Bisita> bisitak;
+    @ForeignCollectionField(eager = false)
+    private ForeignCollection<Bisita> bisitak;
 
     public Komerziala() {
     }
@@ -83,24 +83,28 @@ public class Komerziala {
         this.bazkideak = bazkideak;
     }
 
-//    public Collection<Bisita> getBisitak() {
-//        return bisitak;
-//    }
-//
-//    public void setBisitak(ForeignCollection<Bisita> bisitak) {
-//        this.bisitak = bisitak;
-//    }
+    public Collection<Bisita> getBisitak() {
+        return bisitak;
+    }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        Komerziala that = (Komerziala) o;
-//        return id == that.id && Objects.equals(izena, that.izena) && Objects.equals(email, that.email) && Objects.equals(telefonoa, that.telefonoa) && Objects.equals(pasahitza, that.pasahitza) && Objects.equals(bazkideak, that.bazkideak) && Objects.equals(bisitak, that.bisitak);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(id, izena, email, telefonoa, pasahitza, bazkideak, bisitak);
-//    }
+    public void setBisitak(ForeignCollection<Bisita> bisitak) {
+        this.bisitak = bisitak;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Komerziala that = (Komerziala) o;
+        return id == that.id &&
+                Objects.equals(izena, that.izena) &&
+                Objects.equals(email, that.email) &&
+                Objects.equals(telefonoa, that.telefonoa) &&
+                Objects.equals(pasahitza, that.pasahitza);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, izena, email, telefonoa, pasahitza);
+    }
 }

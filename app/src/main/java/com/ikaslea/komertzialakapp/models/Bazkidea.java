@@ -3,14 +3,17 @@ package com.ikaslea.komertzialakapp.models;
 import com.ikaslea.komertzialakapp.models.enums.BazkideMota;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+import java.util.Collection;
 import java.util.Objects;
 
 @XStreamAlias("Bazkidea")
 
-public class Bazkidea {
+public class Bazkidea implements DbEntity{
 
     @XStreamAsAttribute
     @DatabaseField(generatedId = true)
@@ -33,6 +36,22 @@ public class Bazkidea {
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Komerziala komerziala;
+
+    @XStreamOmitField
+    @ForeignCollectionField(eager = false)
+    private Collection<Bisita> bisitak;
+
+    public Collection<Bisita> getBisitak() {
+        return bisitak;
+    }
+
+    public void setBisitak(Collection<Bisita> bisitak) {
+        this.bisitak = bisitak;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Bazkidea() {
     }
@@ -81,6 +100,10 @@ public class Bazkidea {
         this.bazkideMota = bazkideMota.name();
     }
 
+    protected void setBazkideMota(String bazkideMota) {
+        this.bazkideMota = bazkideMota;
+    }
+
     public Komerziala getKomerziala() {
         return komerziala;
     }
@@ -94,7 +117,12 @@ public class Bazkidea {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Bazkidea bazkidea = (Bazkidea) o;
-        return id == bazkidea.id && Objects.equals(izena, bazkidea.izena) && Objects.equals(email, bazkidea.email) && Objects.equals(telefonoa, bazkidea.telefonoa) && Objects.equals(helbidea, bazkidea.helbidea) && bazkideMota == bazkidea.bazkideMota && Objects.equals(komerziala, bazkidea.komerziala);
+        return id == bazkidea.id &&
+                Objects.equals(izena, bazkidea.izena) &&
+                Objects.equals(email, bazkidea.email) &&
+                Objects.equals(telefonoa, bazkidea.telefonoa) &&
+                Objects.equals(helbidea, bazkidea.helbidea) &&
+                bazkideMota.equals(bazkidea.bazkideMota) && Objects.equals(komerziala, bazkidea.komerziala);
     }
 
     @Override
