@@ -40,11 +40,11 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
-    implementation("com.thoughtworks.xstream:xstream:1.4.21")
-    implementation("com.j256.ormlite:ormlite-android:6.1")
-    implementation("androidx.sqlite:sqlite:2.2.0")
+    testImplementation(libs.junit.jupiter.api)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+    implementation(libs.xstream)
+    implementation(libs.ormlite.android)
+    implementation(libs.sqlite)
     //implementation("com.prolificinteractive:material-calendarview:3.0.0")
 
 }

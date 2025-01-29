@@ -1,6 +1,5 @@
 package com.ikaslea.komertzialakapp.utils;
 
-import com.hruiz.models.*;
 import com.thoughtworks.xstream.XStream;
 
 import java.util.List;

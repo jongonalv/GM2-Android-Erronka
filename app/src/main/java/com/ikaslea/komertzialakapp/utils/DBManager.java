@@ -1,5 +1,9 @@
 package com.ikaslea.komertzialakapp.utils;
 
+import android.content.Context;
+
+import com.j256.ormlite.android.AndroidConnectionSource;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
@@ -17,14 +21,12 @@ public class DBManager {
 
     private static final Map<Type ,Dao<?, ?>> DAO_MAP = new HashMap<>();
 
-    private static final String DATABASE_URL = "jdbc:sqlite:komertzioa.db";
-
     private ConnectionSource connectionSource;
 
-    private DBManager() {
+    private DBManager(Context context) {
         try {
 
-            connectionSource = new JdbcConnectionSource(DATABASE_URL);
+            connectionSource = OpenHelperManager.getHelper(context, DBHelper.class).getConnectionSource();
 
             // Tabla bezela definitutta ditugun klassen Dao-a sortu
             for (Class<?> table : Const.TABLES) {
@@ -37,9 +39,15 @@ public class DBManager {
         }
     }
 
+    public static void inizializatu(Context context) {
+        if (instance == null) {
+            instance = new DBManager(context);
+        }
+    }
+
     public static DBManager getInstance() {
         if (instance == null) {
-            instance = new DBManager();
+            throw new RuntimeException("DBManager has not been initialized");
         }
         return instance;
     }

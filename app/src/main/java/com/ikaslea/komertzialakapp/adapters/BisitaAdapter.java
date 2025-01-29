@@ -65,6 +65,11 @@ public class BisitaAdapter extends RecyclerView.Adapter<BisitaAdapter.BisitaView
         return bisitaList.size();
     }
 
+    public void updateData(List<Bisita> bisitaList) {
+        this.bisitaList = bisitaList;
+        notifyDataSetChanged();
+    }
+
     public static class BisitaViewHolder extends RecyclerView.ViewHolder {
 
         TextView partnerName;
