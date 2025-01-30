@@ -10,4 +10,16 @@
     <string name="telefonoa">+34 699 69 69 69</string>
     <string name="helbidea">Guarromán, Calle Sevilla 45</string>
     <string name="footer">Kevin todo tuerkas\n</string>
+    <string name="hasieraHordua">Hasiera Hordua</string>
+    <string name="BukaeraOrdua">Bukaera Hordua</string>
+    <string name="BisitaData">Bisita Data</string>
+    <string name="Helbidea">Helbidea</string>
+    <string name="BisitarenHelburua">Bisitaren Helburua</string>
+    <string name="Obserbazioak">Obserbazioak</string>
+    <string name="MarkatuEginda">Markatu Eginda</string>
+    <string name="Ezabatu">Ezabatu</string>
+    <string name="GordeAldaketak">Gorde Aldaketak</string>
+    <string name="title_activity_edit_bisita">EditBisitaActivity</string>
+    <string name="Berria">Berria</string>
+    <string name="Bazkidea">Bazkidea</string>
 </resources>

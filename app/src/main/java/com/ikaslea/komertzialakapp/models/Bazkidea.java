@@ -8,12 +8,13 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
 
 @XStreamAlias("Bazkidea")
 
-public class Bazkidea implements DbEntity{
+public class Bazkidea implements DbEntity, Serializable {
 
     @XStreamAsAttribute
     @DatabaseField(generatedId = true)

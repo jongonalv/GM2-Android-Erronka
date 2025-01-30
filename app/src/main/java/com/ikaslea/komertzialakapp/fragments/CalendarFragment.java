@@ -1,6 +1,6 @@
 package com.ikaslea.komertzialakapp.fragments;
 
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,26 +8,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.TextView;
 
+import com.ikaslea.komertzialakapp.EditBisitaActivity;
 import com.ikaslea.komertzialakapp.R;
 import com.ikaslea.komertzialakapp.adapters.BisitaAdapter;
 import com.ikaslea.komertzialakapp.models.Bazkidea;
 import com.ikaslea.komertzialakapp.models.Bisita;
-import com.ikaslea.komertzialakapp.models.Komerziala;
 import com.ikaslea.komertzialakapp.models.enums.BazkideMota;
 import com.ikaslea.komertzialakapp.utils.DBManager;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CalendarFragment extends Fragment {
@@ -35,7 +30,7 @@ public class CalendarFragment extends Fragment {
     private RecyclerView recyclerView;
     private BisitaAdapter bisitaAdapter;
     CalendarView calendarView;
-    TextView partnerNameText;
+    Button berriaButton
     View view;
     DBManager dbManager = DBManager.getInstance();
 
@@ -52,9 +47,25 @@ public class CalendarFragment extends Fragment {
         sortuBazkideLista();
         sortuCalendarView();
 
-        partnerNameText = view.findViewById(R.id.partnerNameText);
+        berriaButton = view.findViewById(R.id.berriaButton);
+
+
+        berriaButton.setOnClickListener(v -> {
+            Bisita bisita = new Bisita();
+            bisita.setHasieraData(LocalDateTime.now());
+            bisita.setBukaeraData(LocalDateTime.now().plusHours(1));
+
+            Intent intent = new Intent(getContext(), EditBisitaActivity.class);
+            startActivity(intent);
+        });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateBistaList();
     }
 
     private void sortuBazkideLista() {
@@ -73,7 +84,9 @@ public class CalendarFragment extends Fragment {
 
         // Adapter-a sortu eta datuak sartu, eta baita ere onclick listener-a botoiari aplikatzeko
         bisitaAdapter = new BisitaAdapter(getContext(), bisitaList, bisita -> {
-            partnerNameText.setText(bisita.getBazkidea().getIzena());
+            Intent intent = new Intent(getContext(), EditBisitaActivity.class);
+            intent.putExtra("bisita", bisita);
+            startActivity(intent);
         });
 
         recyclerView.setAdapter(bisitaAdapter);
@@ -98,6 +111,12 @@ public class CalendarFragment extends Fragment {
                         bisita.getHasieraData().getMonthValue() == month + 1 &&
                         bisita.getHasieraData().getDayOfMonth() == day)
                 .collect(Collectors.toList());
+
+        bisitaAdapter.updateData(bisitaList);
+    }
+
+    private void updateBistaList() {
+        List<Bisita> bisitaList = dbManager.getAll(Bisita.class);
 
         bisitaAdapter.updateData(bisitaList);
     }

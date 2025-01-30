@@ -9,6 +9,7 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Objects;
 
 @XStreamAlias("Eskaera")
-public class Eskaera implements DbEntity{
+public class Eskaera implements DbEntity, Serializable {
 
     @XStreamAsAttribute
     @DatabaseField(generatedId = true)

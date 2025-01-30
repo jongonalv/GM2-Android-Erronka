@@ -6,13 +6,14 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
 @XStreamAlias("Komerziala")
 
-public class Komerziala implements DbEntity {
+public class Komerziala implements DbEntity, Serializable {
 
     @XStreamAsAttribute
     @DatabaseField(generatedId = true)

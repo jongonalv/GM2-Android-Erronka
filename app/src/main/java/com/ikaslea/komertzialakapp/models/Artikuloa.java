@@ -5,8 +5,10 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+import java.io.Serializable;
+
 @XStreamAlias("Artikuloa")
-public class Artikuloa implements DbEntity {
+public class Artikuloa implements DbEntity, Serializable {
 
     @XStreamAsAttribute
     @DatabaseField(generatedId = true)

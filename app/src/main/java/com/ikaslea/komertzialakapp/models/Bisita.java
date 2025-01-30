@@ -5,12 +5,13 @@ import com.j256.ormlite.field.DatabaseField;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @XStreamAlias("Bisita")
 
-public class Bisita implements DbEntity{
+public class Bisita implements DbEntity, Serializable {
 
     @XStreamAsAttribute
     @DatabaseField(generatedId = true)

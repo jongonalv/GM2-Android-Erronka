@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:name=".AppInit"
         android:allowBackup="true"
@@ -13,9 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KomertzialakApp"
         tools:targetApi="31">
+        <activity
+            android:name=".EditBisitaActivity"
+            android:exported="false"
+            android:label="@string/title_activity_edit_bisita"
+            android:theme="@style/Theme.KomertzialakApp" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAtXGD-0c2fHrn3PeBi9pehHZWz6g7N6lc"/>
+            android:value="AIzaSyAtXGD-0c2fHrn3PeBi9pehHZWz6g7N6lc" />
 
         <activity
             android:name=".MainActivity"
@@ -27,6 +36,5 @@
             </intent-filter>
         </activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
 </manifest>
