@@ -30,7 +30,7 @@ public class CalendarFragment extends Fragment {
     private RecyclerView recyclerView;
     private BisitaAdapter bisitaAdapter;
     CalendarView calendarView;
-    Button berriaButton
+    Button berriaButton;
     View view;
     DBManager dbManager = DBManager.getInstance();
 
