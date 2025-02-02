@@ -7,14 +7,22 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.ikaslea.komertzialakapp.adapters.BazkideaAdapter;
+import com.ikaslea.komertzialakapp.adapters.BisitaAdapter;
+import com.ikaslea.komertzialakapp.models.Bazkidea;
 import com.ikaslea.komertzialakapp.models.Bisita;
 import com.ikaslea.komertzialakapp.utils.DBManager;
+
+import java.util.List;
 
 public class EditBisitaActivity extends AppCompatActivity {
 
@@ -28,6 +36,7 @@ public class EditBisitaActivity extends AppCompatActivity {
             bukaeraOrduaText,
             bazkideaEditText;
     private Button gordeButton, ezabatuButton, egindaButton;
+    private Bisita bisita;
 
 
     @Override
@@ -51,7 +60,7 @@ public class EditBisitaActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        Bisita bisita = (Bisita) intent.getSerializableExtra("bisita");
+        bisita = (Bisita) intent.getSerializableExtra("bisita");
 
         idText.setText(String.valueOf(bisita.getId()));
         helbideaText.setText(bisita.getHelbidea());
@@ -104,10 +113,10 @@ public class EditBisitaActivity extends AppCompatActivity {
             timePickerDialog.show();
         });
 
-        bazkideaEditText.setOnClickListener( v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Aukeratu Bazkidea");
 
+
+        bazkideaEditText.setOnClickListener(v -> {
+            showBazkideakDialog();
         });
 
 
@@ -135,5 +144,27 @@ public class EditBisitaActivity extends AppCompatActivity {
 
 
 
+    }
+
+    private void showBazkideakDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_bisita_list, null);
+        builder.setView(dialogView);
+
+        RecyclerView recyclerView = dialogView.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        AlertDialog alertDialog = builder.create();
+
+        List<Bazkidea> bazkideaList = DBManager.getInstance().getAll(Bazkidea.class);
+        BazkideaAdapter bazkideaAdapter = new BazkideaAdapter(this, bazkideaList, bazkidea -> {
+            bazkideaEditText.setText(bazkidea.getIzena()); // Actualiza el EditText con el nombre del Bazkidea seleccionado
+            bisita.setBazkidea(bazkidea); // Actualiza el Bazkidea de la Bisitabazkidea
+            alertDialog.dismiss(); // Cierra el diálogo
+        });
+
+        recyclerView.setAdapter(bazkideaAdapter);
+
+        alertDialog.show();
     }
 }
