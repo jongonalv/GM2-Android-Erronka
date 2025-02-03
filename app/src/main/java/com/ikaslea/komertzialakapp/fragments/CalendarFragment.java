@@ -52,10 +52,12 @@ public class CalendarFragment extends Fragment {
 
         berriaButton.setOnClickListener(v -> {
             Bisita bisita = new Bisita();
-            bisita.setHasieraData(LocalDateTime.now());
-            bisita.setBukaeraData(LocalDateTime.now().plusHours(1));
+            bisita.setHasieraData(LocalDateTime.now().withSecond(0).withNano(0));
+            bisita.setBukaeraData(LocalDateTime.now().withSecond(0).withNano(0).plusHours(1));
 
             Intent intent = new Intent(getContext(), EditBisitaActivity.class);
+
+            intent.putExtra("bisita", bisita);
             startActivity(intent);
         });
 
