@@ -7,4 +7,118 @@
     android:layout_height="match_parent"
     tools:context=".EditBazkideaActivity">
 
+    <TextView
+        android:id="@+id/idText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="ID"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/izenaEdittext"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Name"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="155dp" />
+
+    <EditText
+        android:id="@+id/telefonoaEditText"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:inputType="phone"
+        app:layout_constraintBottom_toBottomOf="@+id/izenaEdittext"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/emailEditText"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <Spinner
+        android:id="@+id/motaSpinner"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <Button
+        android:id="@+id/ezabatuButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="120dp"
+        android:text="@string/Ezabatu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/motaSpinner" />
+
+    <Button
+        android:id="@+id/gordeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:text="@string/GordeAldaketak"
+        app:layout_constraintBottom_toBottomOf="@+id/ezabatuButton"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/Mota"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/Email"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@+id/izenaEdittext"
+        tools:layout_editor_absoluteX="56dp" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/Izena"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/izenaEdittext"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/Telefonoa"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/telefonoaEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView11"
+        app:layout_constraintVertical_bias="1.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

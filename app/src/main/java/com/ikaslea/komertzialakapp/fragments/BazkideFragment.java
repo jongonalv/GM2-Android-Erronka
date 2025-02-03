@@ -72,7 +72,12 @@ public class BazkideFragment extends Fragment {
 
         List<Bazkidea> bazkideaList = DBManager.getInstance().getAll(Bazkidea.class);
 
-        adapter = new BazkideaEditAdapter(getContext(), bazkideaList, bazkidea -> {});
+        adapter = new BazkideaEditAdapter(getContext(), bazkideaList, bazkidea -> {
+            Intent intent = new Intent(getContext(), EditBazkideaActivity.class);
+            intent.putExtra("bazkidea", bazkidea);
+
+            startActivity(intent);
+        });
 
 
         bazkideakRecyclerView.setAdapter(adapter);

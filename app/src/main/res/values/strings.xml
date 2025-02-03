@@ -23,4 +23,8 @@
     <string name="Berria">Berria</string>
     <string name="Bazkidea">Bazkidea</string>
     <string name="Editatu">Editatu</string>
+    <string name="Mota">Mota</string>
+    <string name="Email">Email</string>
+    <string name="Izena">Izena</string>
+    <string name="Telefonoa" >Telefonoa</string>
 </resources>
