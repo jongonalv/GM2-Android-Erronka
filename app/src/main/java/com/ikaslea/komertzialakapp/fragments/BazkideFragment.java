@@ -158,7 +158,7 @@ public class BazkideFragment extends Fragment {
     private void filterBazkideaList(String telefonoa, String izena, String email, String mota) {
         List<Bazkidea> bazkideaList = DBManager.getInstance().getAll(Bazkidea.class);
 
-        if (telefonoa != null && !telefonoa.isEmpty()) {
+        if (telefonoa != null) {
             bazkideaList = bazkideaList.stream()
                     .filter(
                             bazkidea -> bazkidea.getTelefonoa().toLowerCase()
@@ -166,7 +166,7 @@ public class BazkideFragment extends Fragment {
                     ).collect(Collectors.toList());
         }
 
-        if (izena != null && !izena.isEmpty()) {
+        if (izena != null) {
             bazkideaList = bazkideaList.stream()
                     .filter(
                             bazkidea -> bazkidea.getIzena().toLowerCase()
@@ -174,7 +174,7 @@ public class BazkideFragment extends Fragment {
                     ).collect(Collectors.toList());
         }
 
-        if (email != null && !email.isEmpty()) {
+        if (email != null) {
             bazkideaList = bazkideaList.stream()
                     .filter(
                             bazkidea -> bazkidea.getEmail().toLowerCase()
