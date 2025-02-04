@@ -4,7 +4,7 @@
     <string name="partner">Partner</string>
     <string name="etxea">Etxea</string>
     <string name="eskaera">Eskaerak</string>
-    <string name="atzera">Atzera</string>
+    <string name="atzera">Gora ETA</string>
     <string name="hello_blank_fragment">Eskaerak</string>
     <string name="home">Etxea</string>
     <string name="telefonoa">+34 699 69 69 69</string>
@@ -26,5 +26,6 @@
     <string name="Mota">Mota</string>
     <string name="Email">Email</string>
     <string name="Izena">Izena</string>
-    <string name="Telefonoa" >Telefonoa</string>
+    <string name="Telefonoa">Telefonoa</string>
+    <string name="Kargatu">Kargatu Datuak</string>
 </resources>

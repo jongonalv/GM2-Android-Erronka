@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="130dp">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="136dp"
+        android:layout_height="120dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/test" />
+
+    <TextView
+        android:id="@+id/artikuloaText"
+        android:layout_width="72dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/prezioaText"
+        android:layout_width="79dp"
+        android:layout_height="54dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/kategoriaText"
+        android:layout_width="198dp"
+        android:layout_height="55dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/prezioaText"
+        app:layout_constraintStart_toEndOf="@+id/prezioaText" />
+
+    <EditText
+        android:id="@+id/cantidadText"
+        android:layout_width="110dp"
+        android:layout_height="44dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/stockText"
+        app:layout_constraintTop_toTopOf="@+id/stockText" />
+
+    <TextView
+        android:id="@+id/stockText"
+        android:layout_width="85dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="2dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/artikuloaText"
+        app:layout_constraintTop_toTopOf="@+id/artikuloaText" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

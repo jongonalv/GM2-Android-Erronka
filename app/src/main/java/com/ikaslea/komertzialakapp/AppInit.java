@@ -2,6 +2,7 @@ package com.ikaslea.komertzialakapp;
 
 import android.app.Application;
 
+import com.ikaslea.komertzialakapp.models.Artikuloa;
 import com.ikaslea.komertzialakapp.models.Bazkidea;
 import com.ikaslea.komertzialakapp.models.Bisita;
 import com.ikaslea.komertzialakapp.models.enums.BazkideMota;
@@ -26,6 +27,12 @@ public class AppInit extends Application {
             for (Bisita bisita : createTestBisitaList()) {
                 dbManager.save(bisita);
                 dbManager.save(bisita.getBazkidea());
+            }
+        }
+
+        if (dbManager.getAll(Artikuloa.class).isEmpty()) {
+            for (Artikuloa artikuloa : createArticulos()) {
+                dbManager.save(artikuloa);
             }
         }
 
@@ -134,5 +141,23 @@ public class AppInit extends Application {
         bisitaList.add(bisita8);
 
         return bisitaList;
+    }
+
+    private List<Artikuloa> createArticulos(){
+
+        var a1 = new Artikuloa(1, "Articulo 1", "Categoria 1", 10.0, 100.0);
+        var a2 = new Artikuloa(2, "Articulo 2", "Categoria 2", 20.0, 200.0);
+        var a3 = new Artikuloa(3, "Articulo 3", "Categoria 3", 30.0, 300.0);
+        var a4 = new Artikuloa(4, "Articulo 4", "Categoria 3", 40.0, 400.0);
+        var a5 = new Artikuloa(5, "Articulo 5", "Categoria 2", 50.0, 500.0);
+
+        ArrayList<Artikuloa> articulos = new ArrayList<>();
+        articulos.add(a1);
+        articulos.add(a2);
+        articulos.add(a3);
+        articulos.add(a4);
+        articulos.add(a5);
+
+        return articulos;
     }
 }

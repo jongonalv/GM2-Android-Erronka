@@ -84,6 +84,7 @@ public class BazkideFragment extends Fragment {
 
         berriaButton.setOnClickListener(v -> {
             Bazkidea bazkidea = new Bazkidea();
+            bazkidea.setBazkideMota(BazkideMota.BERRIA);
             Intent intent = new Intent(getContext(), EditBazkideaActivity.class);
             intent.putExtra("bazkidea", bazkidea);
 

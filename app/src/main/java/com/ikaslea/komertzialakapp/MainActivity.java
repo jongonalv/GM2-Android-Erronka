@@ -9,6 +9,7 @@ import com.ikaslea.komertzialakapp.fragments.CalendarFragment;
 import com.ikaslea.komertzialakapp.fragments.EskaerakFragment;
 import com.ikaslea.komertzialakapp.fragments.HomeFragment;
 import com.ikaslea.komertzialakapp.fragments.BazkideFragment;
+import com.ikaslea.komertzialakapp.fragments.KatalogoaFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,8 +41,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (item.getItemId() == R.id.nav_pedido) {
                 selectedFragment = new EskaerakFragment();
             } else if (item.getItemId() == R.id.nav_back) {
-                onBackPressed();
-                return true;
+                selectedFragment = new KatalogoaFragment();
             }
 
             if (selectedFragment != null) {
