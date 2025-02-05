@@ -21,16 +21,16 @@ public class Bazkidea implements DbEntity, Serializable {
     private int id;
 
     @DatabaseField
-    private String izena;
+    private String izena = "";
 
     @DatabaseField
-    private String email;
+    private String email = "";
 
     @DatabaseField
-    private String telefonoa;
+    private String telefonoa = "";
 
     @DatabaseField
-    private String helbidea;
+    private String helbidea = "";
 
     @DatabaseField(dataType = DataType.STRING)
     private String bazkideMota;

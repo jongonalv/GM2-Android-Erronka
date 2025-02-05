@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="190dp">
+
+    <TextView
+        android:id="@+id/eskeraDataText"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/estadoText"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/eskeraDataText"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/konzeptuaText"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@+id/eskeraDataText"
+        app:layout_constraintTop_toBottomOf="@+id/eskeraDataText" />
+
+    <TextView
+        android:id="@+id/bazkideaText"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/konzeptuaText"
+        app:layout_constraintEnd_toEndOf="@+id/estadoText" />
+
+    <Button
+        android:id="@+id/editatuButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:text="Button"
+        app:layout_constraintTop_toBottomOf="@+id/bazkideaText"
+        tools:layout_editor_absoluteX="147dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,15 +7,16 @@
     tools:context=".fragments.EskaerakFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listEskaerak"
         android:layout_width="0dp"
         android:layout_height="500dp"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/berriaButton" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/estadoSpinner"
         android:layout_width="180dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
@@ -23,15 +24,15 @@
         tools:layout_editor_absoluteY="16dp" />
 
     <Spinner
-        android:id="@+id/spinner2"
+        android:id="@+id/bazkideaSpinner"
         android:layout_width="180dp"
         android:layout_height="50dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextDate"
+        app:layout_constraintBottom_toBottomOf="@+id/dataEditText"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
-        android:id="@+id/editTextDate"
+        android:id="@+id/dataEditText"
         android:layout_width="180dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
@@ -39,26 +40,26 @@
         android:ems="10"
         android:inputType="date"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/estadoSpinner" />
 
     <EditText
-        android:id="@+id/editTextText"
+        android:id="@+id/idKonzeptuaEditText"
         android:layout_width="180dp"
         android:layout_height="50dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:inputType="text"
         android:text="Name"
-        app:layout_constraintBottom_toBottomOf="@+id/spinner"
+        app:layout_constraintBottom_toBottomOf="@+id/estadoSpinner"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/berriaButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/Berria"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+        app:layout_constraintTop_toBottomOf="@+id/dataEditText" />
 </androidx.constraintlayout.widget.ConstraintLayout>
