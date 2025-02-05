@@ -5,7 +5,9 @@ import android.app.Application;
 import com.ikaslea.komertzialakapp.models.Artikuloa;
 import com.ikaslea.komertzialakapp.models.Bazkidea;
 import com.ikaslea.komertzialakapp.models.Bisita;
+import com.ikaslea.komertzialakapp.models.Eskaera;
 import com.ikaslea.komertzialakapp.models.enums.BazkideMota;
+import com.ikaslea.komertzialakapp.models.enums.Egoera;
 import com.ikaslea.komertzialakapp.utils.DBManager;
 
 import java.time.LocalDateTime;
@@ -33,6 +35,13 @@ public class AppInit extends Application {
         if (dbManager.getAll(Artikuloa.class).isEmpty()) {
             for (Artikuloa artikuloa : createArticulos()) {
                 dbManager.save(artikuloa);
+            }
+        }
+
+        if (dbManager.getAll(Eskaera.class).isEmpty()) {
+            List<Bazkidea> bazkideaList = dbManager.getAll(Bazkidea.class);
+            for (Eskaera eskaera : createEskaeraList(bazkideaList)) {
+                dbManager.save(eskaera);
             }
         }
 
@@ -159,5 +168,18 @@ public class AppInit extends Application {
         articulos.add(a5);
 
         return articulos;
+    }
+
+    private  List<Eskaera> createEskaeraList(List<Bazkidea> bazkideaList) {
+        List<Eskaera> eskaeraList = new ArrayList<>();
+
+        eskaeraList.add(new Eskaera( "Konzeptua 1", LocalDateTime.of(2025, 1, 15, 10, 0), Egoera.PRESTATZEN, bazkideaList.get(0)));
+
+        eskaeraList.add(new Eskaera( "Konzeptua 2", LocalDateTime.of(2025, 1, 18, 14, 30), Egoera.PRESTATUTA, bazkideaList.get(1)));
+
+        eskaeraList.add(new Eskaera( "Konzeptua 3", LocalDateTime.of(2025, 1, 20, 9, 0), Egoera.BIDALITA, bazkideaList.get(2)));
+
+        eskaeraList.add(new Eskaera( "Konzeptua 4", LocalDateTime.of(2025, 1, 22, 16, 0), Egoera.BUKATUTA, bazkideaList.get(3)));
+        return eskaeraList;
     }
 }

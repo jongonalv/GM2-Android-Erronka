@@ -30,17 +30,25 @@ public class Eskaera implements DbEntity, Serializable {
     private Bazkidea bazkidea;
 
     @DatabaseField
-    private String kontzeptua;
+    private String kontzeptua = "";
 
     @DatabaseField(dataType = DataType.STRING)
-    private String egoera;
+    private String egoera = Egoera.PRESTATZEN.name();
 
     @ForeignCollectionField
     private ForeignCollection<EskaeraArtikuloa> eskaeraArtikuloak;
 
-    private double guztira;
+    private double guztira = 0;
 
     public Eskaera() {
+    }
+
+    public Eskaera(String kontzeptua, LocalDateTime eskaeraData, Egoera egoera, Bazkidea bazkidea) {
+
+        this.egoera = egoera.name();
+        this.kontzeptua = kontzeptua;
+        this.bazkidea = bazkidea;
+        this.eskaeraData = eskaeraData;
     }
 
     public Collection<EskaeraArtikuloa> getEskaeraArtikuloak() {

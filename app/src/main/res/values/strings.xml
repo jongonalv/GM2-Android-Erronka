@@ -28,4 +28,10 @@
     <string name="Izena">Izena</string>
     <string name="Telefonoa">Telefonoa</string>
     <string name="Kargatu">Kargatu Datuak</string>
+    <string name="Egoera">Egoera</string>
+    <string name="Ezkakizuna">Eskakizun data</string>
+    <string name="Totala">Totala</string>
+    <string name="Konzeptua">Konzeptua</string>
+    <string name="Gehitu">Artikuloak Gehitu</string>
+    <string name="Entregatuta">Markatu entregatuta</string>
 </resources>

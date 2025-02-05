@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
         tools:ignore="CoarseFineLocation" />
 
     <application
@@ -17,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KomertzialakApp"
         tools:targetApi="31">
+        <activity
+            android:name=".EditEskaeraActivity"
+            android:exported="false" />
         <activity
             android:name=".EditBazkideaActivity"
             android:exported="false" />

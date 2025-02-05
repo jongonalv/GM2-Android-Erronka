@@ -1,11 +1,15 @@
 package com.ikaslea.komertzialakapp.fragments;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,17 +19,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.ikaslea.komertzialakapp.EditEskaeraActivity;
 import com.ikaslea.komertzialakapp.R;
+import com.ikaslea.komertzialakapp.adapters.EskaeraAdapter;
 import com.ikaslea.komertzialakapp.models.Bazkidea;
+import com.ikaslea.komertzialakapp.models.Eskaera;
 import com.ikaslea.komertzialakapp.models.enums.BazkideMota;
 import com.ikaslea.komertzialakapp.models.enums.Egoera;
 import com.ikaslea.komertzialakapp.utils.DBManager;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class EskaerakFragment extends Fragment {
 
@@ -38,6 +47,8 @@ public class EskaerakFragment extends Fragment {
     private Button berriaButton;
 
     private RecyclerView eskaerakRecyclerView;
+
+    private EskaeraAdapter adapter;
 
 
     public EskaerakFragment() {
@@ -57,9 +68,34 @@ public class EskaerakFragment extends Fragment {
         berriaButton = view.findViewById(R.id.berriaButton);
         eskaerakRecyclerView = view.findViewById(R.id.listEskaerak);
 
+        estadoSpinnerConf();
+        bazkideaSpinnerConf();
+        dataEditConf();
+        eskaeraRecyclerViewConf();
+        berriaButtonConf();
+
         dataEditText.setFocusable(false);
 
+        idKonzeptuaEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filterEskaeraList(null,
+                        idKonzeptuaEditText.getText().toString(),
+                        null,
+                        null);
+
+            }
+        });
 
         return view;
     }
@@ -68,9 +104,16 @@ public class EskaerakFragment extends Fragment {
         dataEditText.setOnClickListener( v -> {
             DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), (view, year, month, dayOfMonth) -> {
                 dataEditText.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
-                LocalDate.of(year, month + 1, dayOfMonth);
-                // Filtrar la lista con el localdate
+                LocalDateTime.of(year, month + 1, dayOfMonth, 0, 0);
+
+                filterEskaeraList(null,
+                        null,
+                        LocalDateTime.of(year, month + 1, dayOfMonth, 0, 0),
+                        null);
+
+
             }, 2021, 0, 1);
+            datePickerDialog.show();
         });
     }
 
@@ -91,7 +134,10 @@ public class EskaerakFragment extends Fragment {
         estadoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Filtrar la lista con el estado seleccionado
+                filterEskaeraList(estadoSpinner.getSelectedItem().toString(),
+                        null,
+                        null,
+                        null);
             }
 
             @Override
@@ -120,7 +166,10 @@ public class EskaerakFragment extends Fragment {
         bazkdieaSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                // Filtrar la lista con el Bazkidea seleccionado
+                filterEskaeraList(null,
+                        null,
+                        null,
+                        bazkdieaSpinner.getSelectedItem().toString());
             }
 
             @Override
@@ -132,12 +181,63 @@ public class EskaerakFragment extends Fragment {
 
     private void berriaButtonConf() {
         berriaButton.setOnClickListener( v -> {
-            // Crear una nueva Eskaera con los datos introducidos
+            Eskaera eskaera = new Eskaera();
+            Intent intent = new Intent(getContext(), EditEskaeraActivity.class);
+
+            intent.putExtra("eskaera", eskaera);
+
+            startActivity(intent);
 
         });
     }
 
     private void eskaeraRecyclerViewConf() {
-        // Configurar el RecyclerView
+
+        List<Eskaera> eskaerak = DBManager.getInstance().getAll(Eskaera.class);
+
+        adapter = new EskaeraAdapter(eskaerak, eskaera -> {
+            Intent intent = new Intent(getContext(), EditEskaeraActivity.class);
+
+            intent.putExtra("eskaera", eskaera);
+
+            startActivity(intent);
+        });
+
+        eskaerakRecyclerView.setAdapter(adapter);
+        eskaerakRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    public void filterEskaeraList(String estado, String konzeptua, LocalDateTime data, String bazkidea) {
+        List<Eskaera> eskaerak = DBManager.getInstance().getAll(Eskaera.class);
+        if (estado != null) {
+            eskaerak = eskaerak.stream()
+                    .filter(
+                            eskaera -> eskaera.getEgoera().name().contains(estado)
+                    ).collect(Collectors.toList());
+        }
+        if (konzeptua != null) {
+            eskaerak = eskaerak.stream()
+                    .filter(
+                            eskaera -> eskaera.getKontzeptua().contains(konzeptua)
+                    ).collect(Collectors.toList());
+        }
+
+        if (data != null) {
+            eskaerak= eskaerak.stream()
+                    .filter(
+                            eskaera -> eskaera.getEskaeraData().isAfter(data)
+                    ).collect(Collectors.toList());
+        }
+
+        if (bazkidea != null) {
+            eskaerak = eskaerak.stream()
+                    .filter(
+                            eskaera -> eskaera.getBazkidea().getIzena().contains(bazkidea)
+                    ).collect(Collectors.toList());
+        }
+
+        // Actualizar el RecyclerView
+       adapter.setEskaerak(eskaerak);
+
     }
 }
