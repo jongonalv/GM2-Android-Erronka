@@ -44,12 +44,13 @@ public class CalendarFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_calendar, container, false);
 
+        // view-eko elmentuak sortu eta konfiguratu
         sortuBazkideLista();
         sortuCalendarView();
 
         berriaButton = view.findViewById(R.id.berriaButton);
 
-
+        // berriaButton-ari click listener-a aplikatu EditBisitaActivity-ra joateko sortutako bisita berriarekin
         berriaButton.setOnClickListener(v -> {
             Bisita bisita = new Bisita();
             bisita.setHasieraData(LocalDateTime.now().withSecond(0).withNano(0));
@@ -72,6 +73,7 @@ public class CalendarFragment extends Fragment {
 
     private void sortuBazkideLista() {
 
+        // Recycler view-a sortu eta layout manager-a aplikatu
         recyclerView = view.findViewById(R.id.partnerListView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -92,6 +94,7 @@ public class CalendarFragment extends Fragment {
 
     private void sortuCalendarView() {
 
+        // CalendarView-a sortu eta listener-a aplikatu
         calendarView = view.findViewById(R.id.calendarView);
 
         calendarView.setOnDateChangeListener((view, year, month, dayOfMonth) ->
@@ -100,6 +103,12 @@ public class CalendarFragment extends Fragment {
                 });
     }
 
+    /**
+     * metodo honek kalendariona aukeratutako egunarrian egindako bisitak lortzen ditu
+     * @param year kalendarion aukeratutako urtea
+     * @param month kalendarion aukeratutako hilabetea
+     * @param day kalendarion aukeratutako eguna
+     */
     private void updateBistaList(int year, int month, int day) {
         List<Bisita> bisitaList = dbManager.getAll(Bisita.class);
 
@@ -112,11 +121,13 @@ public class CalendarFragment extends Fragment {
         bisitaAdapter.updateData(bisitaList);
     }
 
+    /**
+     * metodo honek bisita lista eguneratzen du datubaseko bisita guztiekin
+     */
     private void updateBistaList() {
         List<Bisita> bisitaList = dbManager.getAll(Bisita.class);
 
         bisitaAdapter.updateData(bisitaList);
     }
-
 
 }

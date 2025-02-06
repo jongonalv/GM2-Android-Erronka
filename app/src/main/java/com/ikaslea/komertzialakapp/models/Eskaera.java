@@ -29,6 +29,9 @@ public class Eskaera implements DbEntity, Serializable {
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Bazkidea bazkidea;
 
+    /**
+     * TODO: cambiar konzeptua to helbidea
+     */
     @DatabaseField
     private String kontzeptua = "";
 

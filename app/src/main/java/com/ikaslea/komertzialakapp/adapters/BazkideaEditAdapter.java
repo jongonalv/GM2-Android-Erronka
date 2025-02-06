@@ -16,6 +16,9 @@ import com.ikaslea.komertzialakapp.models.Bisita;
 
 import java.util.List;
 
+/**
+ * Apdaptadore hau bazkideak erakusteko da eta botoiarai hemandakoan pasatutako OnEditButtonClickListener interfazea implementatzen du
+ */
 public class BazkideaEditAdapter extends RecyclerView.Adapter<BazkideaEditAdapter.BazkideaEditViewHolder> {
 
     private Context context;
@@ -55,6 +58,10 @@ public class BazkideaEditAdapter extends RecyclerView.Adapter<BazkideaEditAdapte
         return bazkideaList.size();
     }
 
+    /**
+     * datuak eguneratzeko metodoa
+     * @param bazkideaList bazkideen lista
+     */
     public void updateData(List<Bazkidea> bazkideaList) {
         this.bazkideaList = bazkideaList;
         notifyDataSetChanged();

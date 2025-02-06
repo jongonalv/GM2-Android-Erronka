@@ -14,6 +14,10 @@ import com.ikaslea.komertzialakapp.models.Bazkidea;
 
 import java.util.List;
 
+/**
+ * Klase hau bazkideak bazkidea aukeratzeko dialogo batean erabiltzen da
+ * onItemClickListener-en bidez haukeratutako bazkidea pasatzen da
+ */
 public class BazkideaAdapter extends RecyclerView.Adapter<BazkideaAdapter.BazkideaViewHolder> {
 
     private Context context;
@@ -39,6 +43,7 @@ public class BazkideaAdapter extends RecyclerView.Adapter<BazkideaAdapter.Bazkid
 
     @Override
     public void onBindViewHolder(@NonNull BazkideaAdapter.BazkideaViewHolder holder, int position) {
+
         Bazkidea bazkidea = bazkideaList.get(position);
         holder.id.setText(String.valueOf(bazkidea.getId()));
         holder.izena.setText(bazkidea.getIzena());

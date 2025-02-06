@@ -39,7 +39,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         return rootView;
     }
 
+
     @Override
+    /**
+     *  Mapa konfiguratu
+     */
     public void onMapReady(@NonNull GoogleMap googleMap) {
         // Mapa hasieratu
         mMap = googleMap;

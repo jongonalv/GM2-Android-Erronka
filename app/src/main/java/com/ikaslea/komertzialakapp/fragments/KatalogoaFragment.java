@@ -47,10 +47,13 @@ public class KatalogoaFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_katalogoa, container, false);
 
+
+        // view-ko kontrolak lortu
         spinnerKategoria = view.findViewById(R.id.kategoriakSpinner);
         btnKargatu = view.findViewById(R.id.kargatuButton);
         recyclerView = view.findViewById(R.id.artikuloakList);
 
+        // kategoriak lortu eta spinnerrean gehitu
         List<Artikuloa> artikuloaList = DBManager.getInstance().getAll(Artikuloa.class);
 
         List<String> kategoriak = artikuloaList.stream().map(Artikuloa::getKategoria).distinct().collect(Collectors.toList());
@@ -59,7 +62,7 @@ public class KatalogoaFragment extends Fragment {
         spinnerKategoria.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, kategoriak));
         spinnerKategoria.setSelection(kategoriak.size() - 1);
 
-
+        // Artikulonetzako adaptadorea sortu
         ArtikuloaAdapter adapter = new ArtikuloaAdapter(artikuloaList, getContext(), null);
 
         recyclerView.setAdapter(adapter);

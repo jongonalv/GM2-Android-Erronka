@@ -38,6 +38,8 @@ public class EditEskaeraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_eskaera);
 
+        //TODO: Esto esta sin terminar faltan cosas
+
         Intent intent = getIntent();
         Eskaera eskaera = (Eskaera) intent.getSerializableExtra("eskaera");
 

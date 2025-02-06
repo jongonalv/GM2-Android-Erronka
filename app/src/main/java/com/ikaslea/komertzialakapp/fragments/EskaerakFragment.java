@@ -61,6 +61,8 @@ public class EskaerakFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_eskaerak, container, false);
 
+        // view-ko elementuak lortu
+
         estadoSpinner = view.findViewById(R.id.estadoSpinner);
         bazkdieaSpinner = view.findViewById(R.id.bazkideaSpinner);
         idKonzeptuaEditText = view.findViewById(R.id.idKonzeptuaEditText);
@@ -68,6 +70,7 @@ public class EskaerakFragment extends Fragment {
         berriaButton = view.findViewById(R.id.berriaButton);
         eskaerakRecyclerView = view.findViewById(R.id.listEskaerak);
 
+        // Elementuak konfiguratu
         estadoSpinnerConf();
         bazkideaSpinnerConf();
         dataEditConf();
@@ -76,6 +79,7 @@ public class EskaerakFragment extends Fragment {
 
         dataEditText.setFocusable(false);
 
+        // Konzeptua EditText-en testua aldatzean, filtroa aplikatu
         idKonzeptuaEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -100,6 +104,9 @@ public class EskaerakFragment extends Fragment {
         return view;
     }
 
+    /**
+     * MEtodo honek data aukeratzean data EditTextean filtroa aplikatzen du data hau baino beranduago egindako eskaerak erakusteko
+     */
     private void dataEditConf() {
         dataEditText.setOnClickListener( v -> {
             DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), (view, year, month, dayOfMonth) -> {
@@ -117,6 +124,10 @@ public class EskaerakFragment extends Fragment {
         });
     }
 
+    /**
+     * Metodo honek egoeramo mota guztiak lista batean lortzen ditu eta spinnerean jartzen ditu aukeratzeko,
+     * hauetako batr aukeratutakoa filtratu egingo ditu estadu horretan dauden eskaera guztiak
+     */
     private void estadoSpinnerConf() {
         List<String> estaduakList = new ArrayList<>();
 
@@ -147,6 +158,10 @@ public class EskaerakFragment extends Fragment {
         });
     }
 
+    /**
+     *  dataubestik bazkide guztiak lortzen ditue ta hoene arabera spinnerean bazkide hauek aukeratzeko
+     *  auekra hemanten ditu eskaerak bazkide bidez filtratzeko
+     */
     private void bazkideaSpinnerConf() {
         List<String> bazkideaList = new ArrayList<>();
 
@@ -179,6 +194,9 @@ public class EskaerakFragment extends Fragment {
         });
     }
 
+    /**
+     * berria botoia konfiguratzen du klik egitean EditEskaeraAktivityra juateko sortutako eskera berriarekin
+     */
     private void berriaButtonConf() {
         berriaButton.setOnClickListener( v -> {
             Eskaera eskaera = new Eskaera();
@@ -191,6 +209,9 @@ public class EskaerakFragment extends Fragment {
         });
     }
 
+    /**
+     * eskaeraRecyclerView-a konfiguratzen du datuabseko eskerak erakusteko
+     */
     private void eskaeraRecyclerViewConf() {
 
         List<Eskaera> eskaerak = DBManager.getInstance().getAll(Eskaera.class);
@@ -207,6 +228,13 @@ public class EskaerakFragment extends Fragment {
         eskaerakRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
+    /**
+     * datuabseko eskaerak filtratzen ditu
+     * @param estado eskeraren egoera
+     * @param konzeptua eskaeraren konzeptua
+     * @param data dataren konzeptua
+     * @param bazkidea elbidearen bazkidearen izena
+     */
     public void filterEskaeraList(String estado, String konzeptua, LocalDateTime data, String bazkidea) {
         List<Eskaera> eskaerak = DBManager.getInstance().getAll(Eskaera.class);
         if (estado != null) {

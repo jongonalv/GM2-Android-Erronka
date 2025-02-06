@@ -53,6 +53,7 @@ public class BazkideFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bazkidea, container, false);
 
+        // view-eko elementuak lortu
         bazkideMotaSpinner = view.findViewById(R.id.staduaSpinner);
 
         telefonoaInput = view.findViewById(R.id.telefonoInput);
@@ -65,6 +66,7 @@ public class BazkideFragment extends Fragment {
 
         bazkideakRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        // elemtuak konfiguratu
         estaduaSpinnerConf();
         telefonoaInputConf();
         izenaInputConf();
@@ -72,6 +74,7 @@ public class BazkideFragment extends Fragment {
 
         List<Bazkidea> bazkideaList = DBManager.getInstance().getAll(Bazkidea.class);
 
+        // adaptadorea sortu eta listerner batekin konfiguratu bazkidea lortu eta bazkidea editatzeko avtivity-ra joateko
         adapter = new BazkideaEditAdapter(getContext(), bazkideaList, bazkidea -> {
             Intent intent = new Intent(getContext(), EditBazkideaActivity.class);
             intent.putExtra("bazkidea", bazkidea);
@@ -82,6 +85,7 @@ public class BazkideFragment extends Fragment {
 
         bazkideakRecyclerView.setAdapter(adapter);
 
+        // berria botoia konfiguratu klik egitean editBazkideaActivity-ra joateko eta bazkidea berria sortzeko
         berriaButton.setOnClickListener(v -> {
             Bazkidea bazkidea = new Bazkidea();
             bazkidea.setBazkideMota(BazkideMota.BERRIA);
@@ -98,10 +102,12 @@ public class BazkideFragment extends Fragment {
 
         List<String> bazkideMotaList = new ArrayList<>();
 
+        // bazkide mota guztiak lortueta hutsa aukera gehitu spinnerrean
         bazkideMotaList.add("");
 
         Arrays.stream(BazkideMota.values())
                 .forEach(bazkideMota -> bazkideMotaList.add(bazkideMota.name()));
+
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, bazkideMotaList);
 
@@ -109,6 +115,8 @@ public class BazkideFragment extends Fragment {
 
         bazkideMotaSpinner.setAdapter(adapter);
 
+
+        // spinnerra konfiguratu aukeratzen den mota bidez bazkideak filtratzeko
         bazkideMotaSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -155,6 +163,13 @@ public class BazkideFragment extends Fragment {
         });
     }
 
+    /**
+     * bazkideak filtratzeko metodoa parametroren null bezela psatu ezgero honen filtroa ez da aplikatuko
+     * @param telefonoa telekonoak  eduki bhearreko textua
+     * @param izena izenak eduki beharreko textua
+     * @param email emailak eduki beharreko textua
+     * @param mota bazkide mota eduki beharreko textua
+     */
     private void filterBazkideaList(String telefonoa, String izena, String email, String mota) {
         List<Bazkidea> bazkideaList = DBManager.getInstance().getAll(Bazkidea.class);
 

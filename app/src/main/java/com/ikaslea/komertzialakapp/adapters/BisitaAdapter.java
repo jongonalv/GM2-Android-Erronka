@@ -46,15 +46,11 @@ public class BisitaAdapter extends RecyclerView.Adapter<BisitaAdapter.BisitaView
         holder.partnerType.setText(bazkidea.getBazkideMota().name());
         holder.partnerObjective.setText(bisita.getBisitarenHelburua());
 
-        if (bisita.getHasieraData() != null) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.getDefault());
-            String visitDateTime = bisita.getHasieraData().format(formatter);
-            holder.visitDateTime.setText(visitDateTime);
-        } else {
-            holder.visitDateTime.setText("Fecha no disponible");
-        }
 
-        // TODO: Bisita kudeaketa orrialdera eraman beharko du
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.getDefault());
+        String visitDateTime = bisita.getHasieraData().format(formatter);
+        holder.visitDateTime.setText(visitDateTime);
+
         holder.editButton.setOnClickListener(v -> {
             onEditButtonClickListener.onEditButtonClick(bisita);
         });
@@ -65,6 +61,11 @@ public class BisitaAdapter extends RecyclerView.Adapter<BisitaAdapter.BisitaView
         return bisitaList.size();
     }
 
+
+    /**
+     * Bisiak eguneratzeko metodoa
+     * @param bisitaList Bisiak
+     */
     public void updateData(List<Bisita> bisitaList) {
         this.bisitaList = bisitaList;
         notifyDataSetChanged();

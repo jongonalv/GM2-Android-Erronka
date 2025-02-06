@@ -14,6 +14,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * hasiran datubase hasirazteko erabiltzen da eta probaratako datuak kargatzeko
+ */
 public class AppInit extends Application {
 
     @Override

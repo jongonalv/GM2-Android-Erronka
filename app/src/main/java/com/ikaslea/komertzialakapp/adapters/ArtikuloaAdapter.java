@@ -15,6 +15,10 @@ import com.ikaslea.komertzialakapp.models.Artikuloa;
 
 import java.util.List;
 
+/**
+ * Adaptadore hau artikuloak bistaratzeaz enkargatzen da eta hauen kantitatea aldatzean artikuloa eskerara gehitzeko logikarekin,
+ * horretarako OnFocusChangeListener bat behar da. hau gabe sortu ezgero, ez duk kantitatea aldatzeko aukera hemago.
+ */
 public class ArtikuloaAdapter extends RecyclerView.Adapter<ArtikuloaAdapter.ArtikuloaViewHolder> {
 
     private List<Artikuloa> artikuloaList;
@@ -36,10 +40,12 @@ public class ArtikuloaAdapter extends RecyclerView.Adapter<ArtikuloaAdapter.Arti
 
     @Override
     public void onBindViewHolder(@NonNull ArtikuloaViewHolder holder, int position) {
+        // Ez badago onFocusChangeListener, ez dugu kantitatea erakutsiko
         if (onFocusChangeListener == null) {
             holder.kantitatea.setVisibility(View.GONE);
             holder.stock.setVisibility(View.GONE);
         }
+
         Artikuloa artikuloa = artikuloaList.get(position);
         holder.artikuloa.setText(artikuloa.getIzena());
         holder.kategoriaText.setText(artikuloa.getKategoria());
@@ -54,6 +60,10 @@ public class ArtikuloaAdapter extends RecyclerView.Adapter<ArtikuloaAdapter.Arti
         return artikuloaList.size();
     }
 
+    /**
+     * Artikuloen lista aktualizatu eta notifikatzen du.
+     * @param collect Artikuloen lista berria.
+     */
     public void setArtikuloaList(List<Artikuloa> collect) {
         this.artikuloaList = collect;
         notifyDataSetChanged();

@@ -15,6 +15,10 @@ import com.ikaslea.komertzialakapp.models.Eskaera;
 
 import java.util.List;
 
+/**
+ * Adapter hau eskaerak editatzeko lista batean erakusteko erabiltzen da, non editatu botoiari klikatutakoan
+ * OnEditButtonClickListener interfazea deituko du eta eskaera bat pasatuko dio.
+ */
 public class EskaeraAdapter extends RecyclerView.Adapter<EskaeraAdapter.EskaeraViewHolder> {
 
     private List<Eskaera> eskaerak;
