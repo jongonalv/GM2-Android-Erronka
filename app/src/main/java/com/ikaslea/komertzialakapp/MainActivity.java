@@ -1,5 +1,7 @@
 package com.ikaslea.komertzialakapp;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,25 +12,39 @@ import com.ikaslea.komertzialakapp.fragments.EskaerakFragment;
 import com.ikaslea.komertzialakapp.fragments.HomeFragment;
 import com.ikaslea.komertzialakapp.fragments.BazkideFragment;
 import com.ikaslea.komertzialakapp.fragments.KatalogoaFragment;
+import com.ikaslea.komertzialakapp.utils.DBManager;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences prefs = getSharedPreferences("USER_SESSION", MODE_PRIVATE);
+        String erabiltzailea = prefs.getString("IZENA", null);
+        System.out.println(erabiltzailea);
+
+        // Erabiltzailea oraindik ez badago, login-a aktibatu
+        if (erabiltzailea == null) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
+        // Bestela, activity hasierakoa
         setContentView(R.layout.activity_hasiera);
 
         // Menu-a kargatu
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
-        // Hasierako fragmentua kargatzen dugu, non "Home orrialdea izango da"
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.containerView, new HomeFragment())
                     .commit();
         }
 
-        // Menu-arentzako gertakaria, fragment ezberdinen artean nabigatzeko
+        // Menuaren logika, fragment ezberdinetara bidaltzeko aukeraren arabera
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
 

@@ -38,8 +38,12 @@ public class Eskaera implements DbEntity, Serializable {
     @DatabaseField(dataType = DataType.STRING)
     private String egoera = Egoera.PRESTATZEN.name();
 
-    @ForeignCollectionField
+    @ForeignCollectionField(eager = true)
     private ForeignCollection<EskaeraArtikuloa> eskaeraArtikuloak;
+
+    public ForeignCollection<EskaeraArtikuloa> getEskaeraArtikuloak() {
+        return eskaeraArtikuloak;
+    }
 
     private double guztira = 0;
 
@@ -52,10 +56,6 @@ public class Eskaera implements DbEntity, Serializable {
         this.kontzeptua = kontzeptua;
         this.bazkidea = bazkidea;
         this.eskaeraData = eskaeraData;
-    }
-
-    public Collection<EskaeraArtikuloa> getEskaeraArtikuloak() {
-        return eskaeraArtikuloak;
     }
 
     public void setEskaeraArtikuloak(ForeignCollection<EskaeraArtikuloa> eskaeraArtikuloak) {
@@ -126,6 +126,9 @@ public class Eskaera implements DbEntity, Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id, eskaeraData, bazkidea, kontzeptua, egoera, guztira);
+    }
+
+    public void setGuztira(double guztira) {
     }
 }
 

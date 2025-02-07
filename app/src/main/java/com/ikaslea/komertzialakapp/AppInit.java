@@ -6,6 +6,8 @@ import com.ikaslea.komertzialakapp.models.Artikuloa;
 import com.ikaslea.komertzialakapp.models.Bazkidea;
 import com.ikaslea.komertzialakapp.models.Bisita;
 import com.ikaslea.komertzialakapp.models.Eskaera;
+import com.ikaslea.komertzialakapp.models.EskaeraArtikuloa;
+import com.ikaslea.komertzialakapp.models.Komerziala;
 import com.ikaslea.komertzialakapp.models.enums.BazkideMota;
 import com.ikaslea.komertzialakapp.models.enums.Egoera;
 import com.ikaslea.komertzialakapp.utils.DBManager;
@@ -19,170 +21,244 @@ import java.util.List;
  */
 public class AppInit extends Application {
 
+    private static DBManager dbManager;
+
     @Override
     public void onCreate() {
         super.onCreate();
         DBManager.inizializatu(this);
 
-        DBManager dbManager = DBManager.getInstance();
+        dbManager = DBManager.getInstance();
 
         dbManager.deleteAll();
 
-        if (dbManager.getAll(Bisita.class).isEmpty()) {
-            for (Bisita bisita : createTestBisitaList()) {
-                dbManager.save(bisita);
-                dbManager.save(bisita.getBazkidea());
-            }
+        List<Artikuloa> artikuloaList = createArticulos();
+        for (Artikuloa artikuloa : artikuloaList) {
+            dbManager.save(artikuloa);
         }
 
-        if (dbManager.getAll(Artikuloa.class).isEmpty()) {
-            for (Artikuloa artikuloa : createArticulos()) {
-                dbManager.save(artikuloa);
-            }
+        List<Bisita> bisitaList = createTestBisitaList();
+        for (Bisita bisita : bisitaList) {
+            dbManager.save(bisita.getBazkidea());
+            dbManager.save(bisita);
         }
 
-        if (dbManager.getAll(Eskaera.class).isEmpty()) {
-            List<Bazkidea> bazkideaList = dbManager.getAll(Bazkidea.class);
-            for (Eskaera eskaera : createEskaeraList(bazkideaList)) {
-                dbManager.save(eskaera);
-            }
+        List<Bazkidea> bazkideaList = dbManager.getAll(Bazkidea.class);
+        List<Eskaera> eskaeraList = createEskaeraList(bazkideaList, artikuloaList);
+
+        for (Eskaera eskaera : eskaeraList) {
+            dbManager.save(eskaera);
         }
 
+        for (Bazkidea bazkidea : bazkideaList) {
+            dbManager.save(bazkidea);
+        }
     }
 
     // TEST BAT PROBATZEKO ADAPTER-A, DATUAK EZ DIRA HEMENDIK LORTUKO
     private List<Bisita> createTestBisitaList() {
         List<Bisita> bisitaList = new ArrayList<>();
 
+        Komerziala komerzila1 = new Komerziala();
+        komerzila1.setIzena("Jon Etxebarria");
+        komerzila1.setEmail("jon@example.com");
+        komerzila1.setTelefonoa("655123456");
+        komerzila1.setPasahitza("123");
+
+        Komerziala komerzila2 = new Komerziala();
+        komerzila2.setIzena("Maite Zubiri");
+        komerzila2.setEmail("maite@example.com");
+        komerzila2.setTelefonoa("666234567");
+        komerzila2.setPasahitza("123");
+
+        Komerziala komerzila3 = new Komerziala();
+        komerzila3.setIzena("Peio Mendizabal");
+        komerzila3.setEmail("peio@example.com");
+        komerzila3.setTelefonoa("677345678");
+        komerzila3.setPasahitza("123");
+
+        Komerziala komerzila4 = new Komerziala();
+        komerzila4.setIzena("Irati Garmendia");
+        komerzila4.setEmail("irati@example.com");
+        komerzila4.setTelefonoa("688456789");
+        komerzila4.setPasahitza("123");
+
+        Komerziala komerzila5 = new Komerziala();
+        komerzila5.setIzena("Xabier Olaizola");
+        komerzila5.setEmail("xabier@example.com");
+        komerzila5.setTelefonoa("699567890");
+        komerzila5.setPasahitza("123");
+
         Bazkidea bazkidea1 = new Bazkidea();
-        bazkidea1.setIzena("Partner 1");
+        bazkidea1.setIzena("Ander Olaizola");
+        bazkidea1.setEmail("ander@example.com");
+        bazkidea1.setTelefonoa("600123456");
+        bazkidea1.setHelbidea("Calle Mayor 12, Bilbao");
         bazkidea1.setBazkideMota(BazkideMota.BERRIA);
+        bazkidea1.setKomerziala(komerzila1);
 
         Bazkidea bazkidea2 = new Bazkidea();
-        bazkidea2.setIzena("Partner 2");
-        bazkidea2.setBazkideMota(BazkideMota.POTENZIALA);
+        bazkidea2.setIzena("Miren Agirre");
+        bazkidea2.setEmail("miren@example.com");
+        bazkidea2.setTelefonoa("611234567");
+        bazkidea2.setHelbidea("Avenida Libertad 5, Donostia");
+        bazkidea2.setBazkideMota(BazkideMota.BERRIA);
+        bazkidea2.setKomerziala(komerzila3);
 
         Bazkidea bazkidea3 = new Bazkidea();
-        bazkidea3.setIzena("Partner 3");
-        bazkidea3.setBazkideMota(BazkideMota.REKURRENTEA);
+        bazkidea3.setIzena("Iñaki Lertxundi");
+        bazkidea3.setEmail("inaki@example.com");
+        bazkidea3.setTelefonoa("622345678");
+        bazkidea3.setHelbidea("Calle San Juan 34, Vitoria");
+        bazkidea3.setBazkideMota(BazkideMota.BERRIA);
+        bazkidea3.setKomerziala(komerzila2);
 
         Bazkidea bazkidea4 = new Bazkidea();
-        bazkidea4.setIzena("Partner 4");
-        bazkidea4.setBazkideMota(BazkideMota.POTENZIALA);
+        bazkidea4.setIzena("Ane Etxeberria");
+        bazkidea4.setEmail("ane@example.com");
+        bazkidea4.setTelefonoa("633456789");
+        bazkidea4.setHelbidea("Plaza Nueva 8, Bilbao");
+        bazkidea4.setBazkideMota(BazkideMota.REKURRENTEA);
+        bazkidea4.setKomerziala(komerzila1);
 
         Bazkidea bazkidea5 = new Bazkidea();
-        bazkidea5.setIzena("Partner 5");
-        bazkidea5.setBazkideMota(BazkideMota.BERRIA);
+        bazkidea5.setIzena("Jokin Mendizabal");
+        bazkidea5.setEmail("jokin@example.com");
+        bazkidea5.setTelefonoa("644567890");
+        bazkidea5.setHelbidea("Paseo de la Concha 15, Donostia");
+        bazkidea5.setBazkideMota(BazkideMota.POTENZIALA);
+        bazkidea5.setKomerziala(komerzila1);
 
-        Bazkidea bazkidea6 = new Bazkidea();
-        bazkidea6.setIzena("Partner 6");
-        bazkidea6.setBazkideMota(BazkideMota.REKURRENTEA);
-
-        Bazkidea bazkidea7 = new Bazkidea();
-        bazkidea7.setIzena("Partner 7");
-        bazkidea7.setBazkideMota(BazkideMota.POTENZIALA);
-
-        Bazkidea bazkidea8 = new Bazkidea();
-        bazkidea8.setIzena("Partner 8");
-        bazkidea8.setBazkideMota(BazkideMota.BERRIA);
-
-        // Crear visitas con fechas diferentes
         Bisita bisita1 = new Bisita();
-        bisita1.setHasieraData(LocalDateTime.of(2025, 1, 15, 10, 0));  // 15 Enero 2025
-        bisita1.setBisitarenHelburua("Objetivo 1");
+        bisita1.setHasieraData(LocalDateTime.of(2025, 1, 10, 9, 0));
+        bisita1.setBukaeraData(LocalDateTime.of(2025, 1, 10, 10, 0));
+        bisita1.setBisitarenHelburua("Bezeroarekin hasierako bilera");
+        bisita1.setHelbidea("Kale Nagusia 123, Bilbo");
+        bisita1.setObserbazioak("Bezeroa interesatuta dago premium tresnerian");
+        bisita1.setEginda(true);
         bisita1.setBazkidea(bazkidea1);
-        bisita1.setHasieraData(LocalDateTime.of(2025, 1, 15, 10, 0));  // 15 Enero 2025
-        bisita1.setBukaeraData(LocalDateTime.of(2025, 1, 15, 11, 0));  // 15 Enero 2025
+        bisita1.setKomerzila(komerzila1);
 
         Bisita bisita2 = new Bisita();
-        bisita2.setHasieraData(LocalDateTime.of(2025, 1, 18, 14, 30));  // 18 Enero 2025
-        bisita2.setBisitarenHelburua("Objetivo 2");
+        bisita2.setHasieraData(LocalDateTime.of(2025, 1, 15, 11, 30));
+        bisita2.setBukaeraData(LocalDateTime.of(2025, 1, 15, 12, 30));
+        bisita2.setBisitarenHelburua("Katalogo berria aurkeztea");
+        bisita2.setHelbidea("Askatasun etorbidea 45, Donostia");
+        bisita2.setObserbazioak("Bezeroak deskontuak eskatu ditu bolumen handietarako");
+        bisita2.setEginda(false);
         bisita2.setBazkidea(bazkidea2);
-        bisita2.setHasieraData(LocalDateTime.of(2025, 1, 18, 14, 30));  // 18 Enero 2025
-        bisita2.setBukaeraData(LocalDateTime.of(2025, 1, 18, 15, 30));  // 18 Enero 2025
+        bisita2.setKomerzila(komerzila2);
 
         Bisita bisita3 = new Bisita();
-        bisita3.setHasieraData(LocalDateTime.of(2025, 1, 20, 9, 0));  // 20 Enero 2025
-        bisita3.setBisitarenHelburua("Objetivo 3");
+        bisita3.setHasieraData(LocalDateTime.of(2025, 1, 20, 14, 0));
+        bisita3.setBukaeraData(LocalDateTime.of(2025, 1, 20, 15, 0));
+        bisita3.setBisitarenHelburua("Urteko kontratua negoziatzea");
+        bisita3.setHelbidea("Kolon pasealekua 78, Gasteiz");
+        bisita3.setObserbazioak("Bezeroa interesatuta dago epe luzerako akordio batean");
+        bisita3.setEginda(false);
         bisita3.setBazkidea(bazkidea3);
-        bisita3.setHasieraData(LocalDateTime.of(2025, 1, 20, 9, 0));  // 20 Enero 2025
-        bisita3.setBukaeraData(LocalDateTime.of(2025, 1, 20, 10, 0));  // 20 Enero 2025
+        bisita3.setKomerzila(komerzila3);
 
         Bisita bisita4 = new Bisita();
-        bisita4.setHasieraData(LocalDateTime.of(2025, 1, 22, 16, 0));  // 22 Enero 2025
-        bisita4.setBisitarenHelburua("Objetivo 4");
+        bisita4.setHasieraData(LocalDateTime.of(2025, 1, 25, 16, 30));
+        bisita4.setBukaeraData(LocalDateTime.of(2025, 1, 25, 17, 30));
+        bisita4.setBisitarenHelburua("Bezeroaren gogobetetze jarraipena");
+        bisita4.setHelbidea("Gran Vía kalea 56, Bilbo");
+        bisita4.setObserbazioak("Bezeroak entrega arazoak aipatu ditu");
+        bisita4.setEginda(true);
         bisita4.setBazkidea(bazkidea4);
-        bisita4.setHasieraData(LocalDateTime.of(2025, 1, 22, 16, 0));  // 22 Enero 2025
-        bisita4.setBukaeraData(LocalDateTime.of(2025, 1, 22, 17, 0));  // 22 Enero 2025
+        bisita4.setKomerzila(komerzila4);
 
         Bisita bisita5 = new Bisita();
-        bisita5.setHasieraData(LocalDateTime.of(2025, 1, 25, 11, 0));  // 25 Enero 2025
-        bisita5.setBisitarenHelburua("Objetivo 5");
+        bisita5.setHasieraData(LocalDateTime.of(2025, 1, 30, 10, 0));
+        bisita5.setBukaeraData(LocalDateTime.of(2025, 1, 30, 11, 0));
+        bisita5.setBisitarenHelburua("Produktu berrien inguruko prestakuntza");
+        bisita5.setHelbidea("Plaza Berria 23, Iruñea");
+        bisita5.setObserbazioak("Produktuen laginak entregatu dira");
+        bisita5.setEginda(true);
         bisita5.setBazkidea(bazkidea5);
-        bisita5.setHasieraData(LocalDateTime.of(2025, 1, 25, 11, 0));  // 25 Enero 2025
-        bisita5.setBukaeraData(LocalDateTime.of(2025, 1, 25, 12, 0));  // 25 Enero 2025
-
-        Bisita bisita6 = new Bisita();
-        bisita6.setHasieraData(LocalDateTime.of(2025, 1, 28, 15, 0));  // 28 Enero 2025
-        bisita6.setBisitarenHelburua("Objetivo 6");
-        bisita6.setBazkidea(bazkidea6);
-        bisita6.setHasieraData(LocalDateTime.of(2025, 1, 28, 15, 0));  // 28 Enero 2025
-        bisita6.setBukaeraData(LocalDateTime.of(2025, 1, 28, 16, 0));  // 28 Enero 2025
-
-        Bisita bisita7 = new Bisita();
-        bisita7.setHasieraData(LocalDateTime.of(2025, 1, 30, 12, 0));  // 30 Enero 2025
-        bisita7.setBisitarenHelburua("Objetivo 7");
-        bisita7.setBazkidea(bazkidea7);
-        bisita7.setHasieraData(LocalDateTime.of(2025, 1, 30, 12, 0));  // 30 Enero 2025
-        bisita7.setBukaeraData(LocalDateTime.of(2025, 1, 30, 13, 0));  // 30 Enero 2025
-
-        Bisita bisita8 = new Bisita();
-        bisita8.setHasieraData(LocalDateTime.of(2025, 2, 2, 10, 0));  // 2 Febrero 2025
-        bisita8.setBisitarenHelburua("Objetivo 8");
-        bisita8.setBazkidea(bazkidea8);
-        bisita8.setHasieraData(LocalDateTime.of(2025, 2, 2, 10, 0));  // 2 Febrero 2025
-        bisita8.setBukaeraData(LocalDateTime.of(2025, 2, 2, 11, 0));  // 2 Febrero 2025
+        bisita5.setKomerzila(komerzila5);
 
         bisitaList.add(bisita1);
         bisitaList.add(bisita2);
         bisitaList.add(bisita3);
         bisitaList.add(bisita4);
         bisitaList.add(bisita5);
-        bisitaList.add(bisita6);
-        bisitaList.add(bisita7);
-        bisitaList.add(bisita8);
 
         return bisitaList;
     }
 
     private List<Artikuloa> createArticulos(){
 
-        var a1 = new Artikuloa(1, "Articulo 1", "Categoria 1", 10.0, 100.0);
-        var a2 = new Artikuloa(2, "Articulo 2", "Categoria 2", 20.0, 200.0);
-        var a3 = new Artikuloa(3, "Articulo 3", "Categoria 3", 30.0, 300.0);
-        var a4 = new Artikuloa(4, "Articulo 4", "Categoria 3", 40.0, 400.0);
-        var a5 = new Artikuloa(5, "Articulo 5", "Categoria 2", 50.0, 500.0);
+        List<Artikuloa> articulos = new ArrayList<>();
 
-        ArrayList<Artikuloa> articulos = new ArrayList<>();
-        articulos.add(a1);
-        articulos.add(a2);
-        articulos.add(a3);
-        articulos.add(a4);
-        articulos.add(a5);
+        // Categoría: Materiales de construcción
+        articulos.add(new Artikuloa(1, "Cemento 25KG", "Materiales de construcción", 6.99, 100.0));
+        articulos.add(new Artikuloa(2, "Saco de arena fina 40KG", "Materiales de construcción", 4.99, 100.0));
+        articulos.add(new Artikuloa(3, "Yeso 20KG", "Materiales de construcción", 5.50, 100.0));
+
+        // Categoría: Burdindegia (Ferretería)
+        articulos.add(new Artikuloa(4, "Tornillo 0,69x2 (100 unidades)", "Burdindegia", 4.99, 1000.0));
+        articulos.add(new Artikuloa(5, "Tuerca x100", "Burdindegia", 3.99, 1000.0));
+
+        // Categoría: Eskuzko tresnak (Herramientas manuales)
+        articulos.add(new Artikuloa(6, "Destornillador multipunta", "Eskuzko tresnak", 12.50, 150.0));
+        articulos.add(new Artikuloa(7, "Llave inglesa", "Eskuzko tresnak", 14.95, 250.0));
+        articulos.add(new Artikuloa(8, "Martillo para carpintero", "Eskuzko tresnak", 9.99, 100.0));
+
+        // Categoría: Tresna elektrikoak (Herramientas eléctricas)
+        articulos.add(new Artikuloa(9, "Destornillador eléctrico", "Tresna elektrikoak", 74.95, 30.0));
+        articulos.add(new Artikuloa(10, "Motosierra eléctrica", "Tresna elektrikoak", 300.0, 15.0));
+        articulos.add(new Artikuloa(11, "Taladro eléctrico", "Tresna elektrikoak", 89.99, 10.0));
 
         return articulos;
     }
 
-    private  List<Eskaera> createEskaeraList(List<Bazkidea> bazkideaList) {
+    private List<Eskaera> createEskaeraList(List<Bazkidea> bazkideaList, List<Artikuloa> artikuloaList) {
         List<Eskaera> eskaeraList = new ArrayList<>();
 
-        eskaeraList.add(new Eskaera( "Konzeptua 1", LocalDateTime.of(2025, 1, 15, 10, 0), Egoera.PRESTATZEN, bazkideaList.get(0)));
+        Eskaera eskaera1 = new Eskaera(
+                "Calle Mayor 12, Bilbao",
+                LocalDateTime.of(2025, 1, 10, 9, 30),
+                Egoera.PRESTATZEN,
+                bazkideaList.get(0)
+        );
 
-        eskaeraList.add(new Eskaera( "Konzeptua 2", LocalDateTime.of(2025, 1, 18, 14, 30), Egoera.PRESTATUTA, bazkideaList.get(1)));
+        Eskaera eskaera2 = new Eskaera(
+                "Avenida Libertad 5, Donostia",
+                LocalDateTime.of(2025, 2, 5, 14, 0),
+                Egoera.PRESTATUTA,
+                bazkideaList.get(1)
+        );
 
-        eskaeraList.add(new Eskaera( "Konzeptua 3", LocalDateTime.of(2025, 1, 20, 9, 0), Egoera.BIDALITA, bazkideaList.get(2)));
+        Eskaera eskaera3 = new Eskaera(
+                "Calle San Juan 34, Vitoria",
+                LocalDateTime.of(2025, 3, 20, 11, 15),
+                Egoera.BIDALITA,
+                bazkideaList.get(2)
+        );
 
-        eskaeraList.add(new Eskaera( "Konzeptua 4", LocalDateTime.of(2025, 1, 22, 16, 0), Egoera.BUKATUTA, bazkideaList.get(3)));
+        Eskaera eskaera4 = new Eskaera(
+                "Plaza Nueva 8, Bilbao",
+                LocalDateTime.of(2025, 4, 12, 16, 45),
+                Egoera.BUKATUTA,
+                bazkideaList.get(3)
+        );
+
+        Eskaera eskaera5 = new Eskaera(
+                "Paseo de la Concha 15, Donostia",
+                LocalDateTime.of(2025, 5, 8, 10, 30),
+                Egoera.PRESTATZEN,
+                bazkideaList.get(4)
+        );
+
+        // Eskaerak gehitu
+        eskaeraList.add(eskaera1);
+        eskaeraList.add(eskaera2);
+        eskaeraList.add(eskaera3);
+        eskaeraList.add(eskaera4);
+        eskaeraList.add(eskaera5);
+
         return eskaeraList;
     }
 }

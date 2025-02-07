@@ -2,6 +2,7 @@ package com.ikaslea.komertzialakapp.utils;
 
 import android.content.Context;
 
+import com.ikaslea.komertzialakapp.models.Komerziala;
 import com.j256.ormlite.android.AndroidConnectionSource;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
@@ -118,6 +119,27 @@ public class DBManager {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Komerzial bat izenaren arabera bilatzeko metodoa (LOGIN-erako erabilia dena)
+     * @param izena
+     * @return
+     */
+    public Komerziala getByIzena(String izena) {
+        try {
+            @SuppressWarnings("unchecked")
+            Dao<Komerziala, ?> dao = (Dao<Komerziala, ?>) DAO_MAP.get(Komerziala.class);
+
+            return dao.queryBuilder()
+                    .where()
+                    .eq("izena", izena)
+                    .queryForFirst();  // Devuelve el primer resultado encontrado
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     /**
      * Datubaseako tabla guztiak garbitzen ditu datubasearen Dao-a erabiliz

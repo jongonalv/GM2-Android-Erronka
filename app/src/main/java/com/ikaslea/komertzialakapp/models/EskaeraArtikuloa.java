@@ -69,6 +69,11 @@ public class EskaeraArtikuloa implements DbEntity, Serializable {
     }
 
 
+    public void setGuztira(double guztira) {
+        this.guztira = guztira;
+    }
+
+
     public int getId() {
         return id;
     }
