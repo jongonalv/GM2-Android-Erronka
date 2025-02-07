@@ -17,6 +17,7 @@ import com.ikaslea.komertzialakapp.R;
 import com.ikaslea.komertzialakapp.adapters.BisitaAdapter;
 import com.ikaslea.komertzialakapp.models.Bazkidea;
 import com.ikaslea.komertzialakapp.models.Bisita;
+import com.ikaslea.komertzialakapp.models.Komerziala;
 import com.ikaslea.komertzialakapp.models.enums.BazkideMota;
 import com.ikaslea.komertzialakapp.utils.DBManager;
 
@@ -34,6 +35,8 @@ public class CalendarFragment extends Fragment {
     View view;
     DBManager dbManager = DBManager.getInstance();
 
+    String erabiltzailea;
+
     public CalendarFragment() {
 
     }
@@ -41,29 +44,30 @@ public class CalendarFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_calendar, container, false);
 
-        // view-eko elmentuak sortu eta konfiguratu
+        if (getArguments() != null) {
+            erabiltzailea = getArguments().getString("erabiltzailea");
+        }
+
         sortuBazkideLista();
         sortuCalendarView();
 
         berriaButton = view.findViewById(R.id.berriaButton);
 
-        // berriaButton-ari click listener-a aplikatu EditBisitaActivity-ra joateko sortutako bisita berriarekin
         berriaButton.setOnClickListener(v -> {
             Bisita bisita = new Bisita();
             bisita.setHasieraData(LocalDateTime.now().withSecond(0).withNano(0));
             bisita.setBukaeraData(LocalDateTime.now().withSecond(0).withNano(0).plusHours(1));
 
             Intent intent = new Intent(getContext(), EditBisitaActivity.class);
-
             intent.putExtra("bisita", bisita);
             startActivity(intent);
         });
 
         return view;
     }
+
 
     @Override
     public void onResume() {
@@ -104,30 +108,48 @@ public class CalendarFragment extends Fragment {
     }
 
     /**
-     * metodo honek kalendariona aukeratutako egunarrian egindako bisitak lortzen ditu
+     * Metodo honek kalendariona aukeratutako egunarrian egindako bisitak lortzen ditu
      * @param year kalendarion aukeratutako urtea
      * @param month kalendarion aukeratutako hilabetea
      * @param day kalendarion aukeratutako eguna
      */
     private void updateBistaList(int year, int month, int day) {
-        List<Bisita> bisitaList = dbManager.getAll(Bisita.class);
+        if (erabiltzailea == null) return;
 
-        bisitaList = bisitaList.stream()
+        Komerziala komerziala = dbManager.getByIzena(erabiltzailea);
+        if (komerziala == null) return;
+
+        List<Bisita> bisitaList = dbManager.getAll(Bisita.class)
+                .stream()
+                .map(bisita -> (Bisita) bisita)
                 .filter(bisita -> bisita.getHasieraData().getYear() == year &&
                         bisita.getHasieraData().getMonthValue() == month + 1 &&
-                        bisita.getHasieraData().getDayOfMonth() == day)
+                        bisita.getHasieraData().getDayOfMonth() == day &&
+                        bisita.getKomerzila().getId() == komerziala.getId())
                 .collect(Collectors.toList());
 
         bisitaAdapter.updateData(bisitaList);
     }
 
+
     /**
      * metodo honek bisita lista eguneratzen du datubaseko bisita guztiekin
      */
     private void updateBistaList() {
-        List<Bisita> bisitaList = dbManager.getAll(Bisita.class);
+        if (erabiltzailea == null) return;
+
+        // Komerziala lortu
+        Komerziala komerziala = dbManager.getByIzena(erabiltzailea);
+
+        if (komerziala == null) return;
+
+        // Bisitak filtratu komerzialaren arabera
+        List<Bisita> bisitaList = dbManager.getAll(Bisita.class)
+                .stream()
+                .map(bisita -> (Bisita) bisita)
+                .filter(bisita -> bisita.getKomerzila().getId() == komerziala.getId())
+                .collect(Collectors.toList());
 
         bisitaAdapter.updateData(bisitaList);
     }
-
 }

@@ -15,7 +15,6 @@ public class AuthManager {
         if (user != null && user.getPasahitza().equals(pasahitza)) {
             return user;
         }
-
         return null;
     }
 }
