@@ -3,51 +3,65 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="190dp">
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_background"
+    android:padding="16dp"
+    android:elevation="4dp"
+    android:layout_margin="8dp">
 
     <TextView
         android:id="@+id/eskeraDataText"
-        android:layout_width="180dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Eskera Data"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/estadoText"/>
 
     <TextView
         android:id="@+id/estadoText"
-        android:layout_width="180dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="16dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="@+id/eskeraDataText"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Estado"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/eskeraDataText"
+        app:layout_constraintStart_toEndOf="@id/eskeraDataText"/>
 
     <TextView
         android:id="@+id/konzeptuaText"
-        android:layout_width="180dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="@+id/eskeraDataText"
-        app:layout_constraintTop_toBottomOf="@+id/eskeraDataText" />
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Konzeptua"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@id/eskeraDataText"
+        app:layout_constraintTop_toBottomOf="@id/eskeraDataText"
+        app:layout_constraintEnd_toStartOf="@id/bazkideaText"
+        android:layout_marginTop="8dp" />
 
     <TextView
         android:id="@+id/bazkideaText"
-        android:layout_width="180dp"
-        android:layout_height="50dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="@+id/konzeptuaText"
-        app:layout_constraintEnd_toEndOf="@+id/estadoText" />
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Bazkidea"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/konzeptuaText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/estadoText"
+        android:layout_marginTop="8dp" />
 
     <Button
         android:id="@+id/editatuButton"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:text="Button"
-        app:layout_constraintTop_toBottomOf="@+id/bazkideaText"
-        tools:layout_editor_absoluteX="147dp" />
+        android:layout_height="wrap_content"
+        android:text="Editatu"
+        android:backgroundTint="@color/naranjaTuerkaOscuro"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/konzeptuaText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

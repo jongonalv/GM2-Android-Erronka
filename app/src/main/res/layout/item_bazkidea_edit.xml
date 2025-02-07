@@ -1,45 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="170dp">
+    android:layout_height="140dp"
+    android:background="@drawable/card_background"
+    android:elevation="4dp"
+    android:padding="10dp"
+    android:layout_margin="10dp">
 
     <TextView
         android:id="@+id/izenaText"
-        android:layout_width="180dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Nombre"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/motaText"
+        android:layout_marginEnd="8dp"/>
 
     <TextView
         android:id="@+id/motaText"
-        android:layout_width="180dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="16dp"
-        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tipo"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/izenaText" />
-
-    <TextView
-        android:id="@+id/emailText"
-        android:layout_width="180dp"
-        android:layout_height="30dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="@+id/izenaText"
-        app:layout_constraintTop_toTopOf="@+id/telefonoaText" />
+        app:layout_constraintTop_toTopOf="@id/izenaText"/>
 
     <TextView
         android:id="@+id/telefonoaText"
-        android:layout_width="180dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="@+id/motaText"
-        app:layout_constraintTop_toBottomOf="@+id/motaText" />
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Teléfono"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@id/izenaText"
+        app:layout_constraintTop_toBottomOf="@id/izenaText"
+        app:layout_constraintEnd_toStartOf="@id/emailText"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"/>
+
+    <TextView
+        android:id="@+id/emailText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/telefonoaText"/>
 
     <Button
         android:id="@+id/editatuButton"
@@ -47,7 +63,11 @@
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:text="@string/Editatu"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/naranjaTuerkaOscuro"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailText" />
+        app:layout_constraintTop_toBottomOf="@id/telefonoaText" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

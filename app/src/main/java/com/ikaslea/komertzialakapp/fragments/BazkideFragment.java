@@ -58,7 +58,7 @@ public class BazkideFragment extends Fragment {
 
         telefonoaInput = view.findViewById(R.id.telefonoInput);
         izenaInput = view.findViewById(R.id.izenaInput);
-        emailInput = view.findViewById(R.id.emialInput);
+        emailInput = view.findViewById(R.id.emailInput);
 
         berriaButton = view.findViewById(R.id.berriaButton);
 

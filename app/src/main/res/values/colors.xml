@@ -5,8 +5,13 @@
     <color name="purple">#8692f7</color>
     <color name="naranjaTuerka">#FF7F11</color>
     <color name="naranjaTuerkaOscuro">#CC6600</color>
-    <color name="gray">#808080</color>
     <color name="gray_light">#E0E0E0</color>
-    <color name="primaryColor">#6200EE</color>
     <color name="secondaryTextColor">#757575</color>
+    <color name="primaryColor">#007BFF</color>
+    <color name="gray">#BDBDBD</color>
+    <color name="grayDark">#757575</color>
+    <color name="lightGray">#F0F0F0</color>
+    <color name="whiteTransparent">#FAFAFA</color>
+    <color name="shadowGray">#33000000</color>
+    <color name="shadowLight">#11000000</color>
 </resources>

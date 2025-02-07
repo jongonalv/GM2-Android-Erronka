@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fondohasiera"
     tools:context=".fragments.EskaerakFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listEskaerak"
+    <!-- Título -->
+    <TextView
+        android:id="@+id/titleEskaerak"
         android:layout_width="0dp"
-        android:layout_height="500dp"
-        android:layout_marginTop="32dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/rounded_corner_bg"
+        android:padding="12dp"
+        android:text="Eskaerak"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/berriaButton" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
         android:id="@+id/estadoSpinner"
@@ -21,16 +31,9 @@
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:background="@drawable/edittext_background"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Spinner
-        android:id="@+id/bazkideaSpinner"
-        android:layout_width="180dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/dataEditText"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/titleEskaerak" />
 
     <EditText
         android:id="@+id/dataEditText"
@@ -38,20 +41,32 @@
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:background="@drawable/edittext_background"
+        android:hint="Data"
         android:ems="10"
         android:inputType="date"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/estadoSpinner" />
+        app:layout_constraintTop_toBottomOf="@id/estadoSpinner" />
+
+    <Spinner
+        android:id="@+id/bazkideaSpinner"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:background="@drawable/edittext_background"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/dataEditText"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
         android:id="@+id/idKonzeptuaEditText"
         android:layout_width="180dp"
         android:layout_height="50dp"
         android:layout_marginEnd="16dp"
+        android:background="@drawable/edittext_background"
         android:ems="10"
         android:inputType="text"
         android:text="Name"
-        app:layout_constraintBottom_toBottomOf="@+id/estadoSpinner"
+        app:layout_constraintBottom_toBottomOf="@id/estadoSpinner"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
@@ -59,8 +74,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:backgroundTint="@color/naranjaTuerkaOscuro"
         android:text="@string/Berria"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dataEditText" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listEskaerak"
+        android:layout_margin="15dp"
+        android:layout_width="0dp"
+        android:layout_height="500dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/rounded_corner_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/berriaButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

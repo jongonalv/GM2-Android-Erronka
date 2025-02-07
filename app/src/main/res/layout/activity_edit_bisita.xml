@@ -4,11 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusable="false"
-    android:orientation="vertical"
+    android:background="@drawable/fondohasiera"
     tools:context=".EditBisitaActivity">
-
-    <!-- TODO: Update blank fragment layout -->
 
     <TextView
         android:id="@+id/idText"
@@ -16,9 +13,23 @@
         android:layout_height="wrap_content"
         android:text="1"
         android:textSize="24sp"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/BisitaData"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idText"
+        android:layout_marginTop="8dp" />
 
     <EditText
         android:id="@+id/dateText"
@@ -28,6 +39,9 @@
         android:ems="10"
         android:focusable="false"
         android:inputType="date"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/black"
+        android:hint="Data"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -41,6 +55,7 @@
         android:text="@string/hasieraHordua"
         android:textAlignment="center"
         android:textSize="24sp"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dateText" />
 
@@ -50,6 +65,9 @@
         android:layout_height="50dp"
         android:ems="10"
         android:inputType="time"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/black"
+        android:hint="@string/hasieraHordua"
         app:layout_constraintEnd_toEndOf="@+id/textView2"
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -64,6 +82,7 @@
         android:text="@string/BukaeraOrdua"
         android:textAlignment="center"
         android:textSize="24sp"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/dateText" />
@@ -75,6 +94,9 @@
         android:ems="10"
         android:focusable="false"
         android:inputType="time"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/black"
+        android:hint="@string/BukaeraOrdua"
         app:layout_constraintEnd_toEndOf="@+id/textView3"
         app:layout_constraintStart_toStartOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -87,6 +109,7 @@
         android:text="@string/Helbidea"
         android:textAlignment="center"
         android:textSize="24sp"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bukaeraOrduaText" />
@@ -99,6 +122,8 @@
         android:ems="10"
         android:hint="Helbidea"
         android:inputType="text"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -111,6 +136,7 @@
         android:text="@string/BisitarenHelburua"
         android:textAlignment="center"
         android:textSize="24sp"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/helbideaText" />
@@ -123,6 +149,8 @@
         android:ems="10"
         android:hint="Helburua"
         android:inputType="text|textMultiLine"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -135,6 +163,7 @@
         android:text="@string/Obserbazioak"
         android:textAlignment="center"
         android:textSize="24sp"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/helburaText" />
@@ -147,6 +176,8 @@
         android:ems="10"
         android:hint="Obserbazioak"
         android:inputType="text|textMultiLine"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -158,6 +189,8 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:text="@string/MarkatuEginda"
+        android:backgroundTint="@color/naranjaTuerkaOscuro"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bazkideaEditText" />
 
@@ -167,6 +200,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="@string/GordeAldaketak"
+        android:backgroundTint="@color/naranjaTuerkaOscuro"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ezabatuButton"
         app:layout_constraintTop_toTopOf="@+id/ezabatuButton" />
@@ -178,29 +213,10 @@
         android:layout_marginStart="8dp"
         android:focusable="true"
         android:text="@string/Ezabatu"
+        android:backgroundTint="@color/naranjaTuerkaOscuro"
+        android:textColor="@color/white"
         app:layout_constraintStart_toEndOf="@id/egindaButton"
         app:layout_constraintTop_toTopOf="@+id/egindaButton" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/BisitaData"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idText" />
-
-    <EditText
-        android:id="@+id/bazkideaEditText"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Bazkidea"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <TextView
         android:id="@+id/textView7"
@@ -209,8 +225,22 @@
         android:layout_marginTop="8dp"
         android:text="@string/Bazkidea"
         android:textSize="24sp"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/obserbazioakText" />
+
+    <EditText
+        android:id="@+id/bazkideaEditText"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Bazkidea"
+        android:inputType="text"
+        android:background="@drawable/edittext_background"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
