@@ -24,6 +24,7 @@ import com.ikaslea.komertzialakapp.R;
 import com.ikaslea.komertzialakapp.adapters.EskaeraAdapter;
 import com.ikaslea.komertzialakapp.models.Bazkidea;
 import com.ikaslea.komertzialakapp.models.Eskaera;
+import com.ikaslea.komertzialakapp.models.Komerziala;
 import com.ikaslea.komertzialakapp.models.enums.BazkideMota;
 import com.ikaslea.komertzialakapp.models.enums.Egoera;
 import com.ikaslea.komertzialakapp.utils.DBManager;
@@ -50,6 +51,7 @@ public class EskaerakFragment extends Fragment {
 
     private EskaeraAdapter adapter;
 
+    private String erabiltzailea;
 
     public EskaerakFragment() {
         // Required empty public constructor
@@ -68,6 +70,7 @@ public class EskaerakFragment extends Fragment {
         dataEditText = view.findViewById(R.id.dataEditText);
         berriaButton = view.findViewById(R.id.berriaButton);
         eskaerakRecyclerView = view.findViewById(R.id.listEskaerak);
+
 
         // Elementuak konfiguratu
         estadoSpinnerConf();
@@ -213,7 +216,14 @@ public class EskaerakFragment extends Fragment {
      */
     private void eskaeraRecyclerViewConf() {
 
+        if (getArguments() != null) {
+            erabiltzailea = getArguments().getString("erabiltzailea");
+        }
+
+        Komerziala komerziala = DBManager.getInstance().getByIzena(erabiltzailea);
+
         List<Eskaera> eskaerak = DBManager.getInstance().getAll(Eskaera.class);
+
 
         adapter = new EskaeraAdapter(eskaerak, eskaera -> {
             Intent intent = new Intent(getContext(), EditEskaeraActivity.class);
