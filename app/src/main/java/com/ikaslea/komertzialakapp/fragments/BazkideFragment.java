@@ -19,6 +19,7 @@ import com.ikaslea.komertzialakapp.EditBazkideaActivity;
 import com.ikaslea.komertzialakapp.R;
 import com.ikaslea.komertzialakapp.adapters.BazkideaEditAdapter;
 import com.ikaslea.komertzialakapp.models.Bazkidea;
+import com.ikaslea.komertzialakapp.models.Komerziala;
 import com.ikaslea.komertzialakapp.models.enums.BazkideMota;
 import com.ikaslea.komertzialakapp.utils.DBManager;
 
@@ -43,6 +44,8 @@ public class BazkideFragment extends Fragment {
 
     private String lastMota = "";
 
+    private String erabiltzailea;
+
     public BazkideFragment() {
         // Required empty public constructor
     }
@@ -52,6 +55,12 @@ public class BazkideFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bazkidea, container, false);
+
+        if (getArguments() != null) {
+            erabiltzailea = getArguments().getString("erabiltzailea");
+        }
+
+        System.out.println(erabiltzailea);
 
         // view-eko elementuak lortu
         bazkideMotaSpinner = view.findViewById(R.id.staduaSpinner);
@@ -72,7 +81,9 @@ public class BazkideFragment extends Fragment {
         izenaInputConf();
         emailInputConf();
 
-        List<Bazkidea> bazkideaList = DBManager.getInstance().getAll(Bazkidea.class);
+        Komerziala komerziala = DBManager.getInstance().getByIzena(erabiltzailea);
+
+        List<Bazkidea> bazkideaList = DBManager.getInstance().getBazkideByKomerzialaId(komerziala.getId());
 
         // adaptadorea sortu eta listerner batekin konfiguratu bazkidea lortu eta bazkidea editatzeko avtivity-ra joateko
         adapter = new BazkideaEditAdapter(getContext(), bazkideaList, bazkidea -> {
@@ -171,7 +182,9 @@ public class BazkideFragment extends Fragment {
      * @param mota bazkide mota eduki beharreko textua
      */
     private void filterBazkideaList(String telefonoa, String izena, String email, String mota) {
-        List<Bazkidea> bazkideaList = DBManager.getInstance().getAll(Bazkidea.class);
+        Komerziala komerziala = DBManager.getInstance().getByIzena(erabiltzailea);
+
+        List<Bazkidea> bazkideaList = DBManager.getInstance().getBazkideByKomerzialaId(komerziala.getId());
 
         if (telefonoa != null) {
             bazkideaList = bazkideaList.stream()

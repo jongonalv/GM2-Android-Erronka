@@ -55,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
                 selectedFragment.setArguments(args);
             } else if (item.getItemId() == R.id.nav_partner) {
                 selectedFragment = new BazkideFragment();
+                Bundle args = new Bundle();
+                args.putString("erabiltzailea", erabiltzailea);
+                selectedFragment.setArguments(args);
             } else if (item.getItemId() == R.id.nav_home) {
                 selectedFragment = new HomeFragment();
             } else if (item.getItemId() == R.id.nav_pedido) {

@@ -39,6 +39,7 @@ public class AppInit extends Application {
 
         List<Bisita> bisitaList = createTestBisitaList();
         for (Bisita bisita : bisitaList) {
+            dbManager.save(bisita.getKomerzila());
             dbManager.save(bisita.getBazkidea());
             dbManager.save(bisita);
         }
@@ -55,8 +56,7 @@ public class AppInit extends Application {
         }
     }
 
-    // TEST BAT PROBATZEKO ADAPTER-A, DATUAK EZ DIRA HEMENDIK LORTUKO
-    private List<Bisita> createTestBisitaList() {
+    private List<Komerziala> createKomerzialak() {
         List<Bisita> bisitaList = new ArrayList<>();
 
         Komerziala komerzila1 = new Komerziala();
@@ -89,13 +89,29 @@ public class AppInit extends Application {
         komerzila5.setTelefonoa("699567890");
         komerzila5.setPasahitza("123");
 
+        ArrayList<Komerziala> komerzialak = new ArrayList<>();
+        komerzialak.add(komerzila1);
+        komerzialak.add(komerzila2);
+        komerzialak.add(komerzila3);
+        komerzialak.add(komerzila4);
+        komerzialak.add(komerzila5);
+
+        return komerzialak;
+    }
+
+    // TEST BAT PROBATZEKO ADAPTER-A, DATUAK EZ DIRA HEMENDIK LORTUKO
+    private List<Bisita> createTestBisitaList() {
+        List<Bisita> bisitaList = new ArrayList<>();
+
+        ArrayList<Komerziala> komerzialak = (ArrayList<Komerziala>) createKomerzialak();
+
         Bazkidea bazkidea1 = new Bazkidea();
         bazkidea1.setIzena("Ander Olaizola");
         bazkidea1.setEmail("ander@example.com");
         bazkidea1.setTelefonoa("600123456");
         bazkidea1.setHelbidea("Calle Mayor 12, Bilbao");
         bazkidea1.setBazkideMota(BazkideMota.BERRIA);
-        bazkidea1.setKomerziala(komerzila1);
+        bazkidea1.setKomerziala(komerzialak.get(0));
 
         Bazkidea bazkidea2 = new Bazkidea();
         bazkidea2.setIzena("Miren Agirre");
@@ -103,7 +119,7 @@ public class AppInit extends Application {
         bazkidea2.setTelefonoa("611234567");
         bazkidea2.setHelbidea("Avenida Libertad 5, Donostia");
         bazkidea2.setBazkideMota(BazkideMota.BERRIA);
-        bazkidea2.setKomerziala(komerzila3);
+        bazkidea2.setKomerziala(komerzialak.get(3));
 
         Bazkidea bazkidea3 = new Bazkidea();
         bazkidea3.setIzena("Iñaki Lertxundi");
@@ -111,7 +127,7 @@ public class AppInit extends Application {
         bazkidea3.setTelefonoa("622345678");
         bazkidea3.setHelbidea("Calle San Juan 34, Vitoria");
         bazkidea3.setBazkideMota(BazkideMota.BERRIA);
-        bazkidea3.setKomerziala(komerzila2);
+        bazkidea3.setKomerziala(komerzialak.get(0));
 
         Bazkidea bazkidea4 = new Bazkidea();
         bazkidea4.setIzena("Ane Etxeberria");
@@ -119,7 +135,7 @@ public class AppInit extends Application {
         bazkidea4.setTelefonoa("633456789");
         bazkidea4.setHelbidea("Plaza Nueva 8, Bilbao");
         bazkidea4.setBazkideMota(BazkideMota.REKURRENTEA);
-        bazkidea4.setKomerziala(komerzila1);
+        bazkidea4.setKomerziala(komerzialak.get(2));
 
         Bazkidea bazkidea5 = new Bazkidea();
         bazkidea5.setIzena("Jokin Mendizabal");
@@ -127,7 +143,7 @@ public class AppInit extends Application {
         bazkidea5.setTelefonoa("644567890");
         bazkidea5.setHelbidea("Paseo de la Concha 15, Donostia");
         bazkidea5.setBazkideMota(BazkideMota.POTENZIALA);
-        bazkidea5.setKomerziala(komerzila1);
+        bazkidea5.setKomerziala(komerzialak.get(1));
 
         Bisita bisita1 = new Bisita();
         bisita1.setHasieraData(LocalDateTime.of(2025, 1, 10, 9, 0));
@@ -137,7 +153,7 @@ public class AppInit extends Application {
         bisita1.setObserbazioak("Bezeroa interesatuta dago premium tresnerian");
         bisita1.setEginda(true);
         bisita1.setBazkidea(bazkidea1);
-        bisita1.setKomerzila(komerzila1);
+        bisita1.setKomerzila(komerzialak.get(0));
 
         Bisita bisita2 = new Bisita();
         bisita2.setHasieraData(LocalDateTime.of(2025, 1, 15, 11, 30));
@@ -147,7 +163,7 @@ public class AppInit extends Application {
         bisita2.setObserbazioak("Bezeroak deskontuak eskatu ditu bolumen handietarako");
         bisita2.setEginda(false);
         bisita2.setBazkidea(bazkidea2);
-        bisita2.setKomerzila(komerzila2);
+        bisita2.setKomerzila(komerzialak.get(3));
 
         Bisita bisita3 = new Bisita();
         bisita3.setHasieraData(LocalDateTime.of(2025, 1, 20, 14, 0));
@@ -157,7 +173,7 @@ public class AppInit extends Application {
         bisita3.setObserbazioak("Bezeroa interesatuta dago epe luzerako akordio batean");
         bisita3.setEginda(false);
         bisita3.setBazkidea(bazkidea3);
-        bisita3.setKomerzila(komerzila3);
+        bisita3.setKomerzila(komerzialak.get(0));
 
         Bisita bisita4 = new Bisita();
         bisita4.setHasieraData(LocalDateTime.of(2025, 1, 25, 16, 30));
@@ -167,7 +183,7 @@ public class AppInit extends Application {
         bisita4.setObserbazioak("Bezeroak entrega arazoak aipatu ditu");
         bisita4.setEginda(true);
         bisita4.setBazkidea(bazkidea4);
-        bisita4.setKomerzila(komerzila4);
+        bisita4.setKomerzila(komerzialak.get(2));
 
         Bisita bisita5 = new Bisita();
         bisita5.setHasieraData(LocalDateTime.of(2025, 1, 30, 10, 0));
@@ -177,7 +193,7 @@ public class AppInit extends Application {
         bisita5.setObserbazioak("Produktuen laginak entregatu dira");
         bisita5.setEginda(true);
         bisita5.setBazkidea(bazkidea5);
-        bisita5.setKomerzila(komerzila5);
+        bisita5.setKomerzila(komerzialak.get(1));
 
         bisitaList.add(bisita1);
         bisitaList.add(bisita2);

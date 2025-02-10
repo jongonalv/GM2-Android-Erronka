@@ -3,6 +3,7 @@ package com.ikaslea.komertzialakapp.utils;
 import android.content.Context;
 
 import com.ikaslea.komertzialakapp.models.Artikuloa;
+import com.ikaslea.komertzialakapp.models.Bazkidea;
 import com.ikaslea.komertzialakapp.models.Komerziala;
 import com.j256.ormlite.android.AndroidConnectionSource;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -155,6 +156,21 @@ public class DBManager {
                     .where()
                     .eq("izena", izena)
                     .queryForFirst();  // Devuelve el primer resultado encontrado
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Bazkidea> getBazkideByKomerzialaId(int komerzialaId) {
+        try {
+            @SuppressWarnings("unchecked")
+            Dao<Bazkidea, ?> dao = (Dao<Bazkidea, ?>) DAO_MAP.get(Bazkidea.class);
+
+            return dao.queryBuilder()
+                    .where()
+                    .eq("komerziala_id", komerzialaId)
+                    .query();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
