@@ -13,6 +13,7 @@ import com.ikaslea.komertzialakapp.R;
 import com.ikaslea.komertzialakapp.models.Bazkidea;
 import com.ikaslea.komertzialakapp.models.Eskaera;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -45,7 +46,12 @@ public class EskaeraAdapter extends RecyclerView.Adapter<EskaeraAdapter.EskaeraV
     public void onBindViewHolder(@NonNull EskaeraViewHolder holder, int position) {
         Eskaera eskaera = eskaerak.get(position);
         holder.idKonzeptuaText.setText(eskaera.getKontzeptua());
-        holder.dataText.setText(eskaera.getEskaeraData().toString());
+
+        // Data formateatu ordua ez azaltzeko pantailan
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String formattedDate = eskaera.getEskaeraData().format(dateFormatter);
+        holder.dataText.setText(formattedDate);
+
         holder.egoeraText.setText(eskaera.getEgoera().name());
         holder.bazkideaText.setText(eskaera.getBazkidea().getIzena());
 
@@ -53,6 +59,7 @@ public class EskaeraAdapter extends RecyclerView.Adapter<EskaeraAdapter.EskaeraV
             onEditButtonClickListener.onEditButtonClick(eskaera);
         });
     }
+
 
     @Override
     public int getItemCount() {

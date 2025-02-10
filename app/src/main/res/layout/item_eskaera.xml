@@ -13,7 +13,7 @@
         android:id="@+id/eskeraDataText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Eskera Data"
+        android:text="Eskaera Data"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"

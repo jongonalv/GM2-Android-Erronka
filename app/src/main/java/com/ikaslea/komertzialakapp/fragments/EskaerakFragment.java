@@ -62,7 +62,6 @@ public class EskaerakFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_eskaerak, container, false);
 
         // view-ko elementuak lortu
-
         estadoSpinner = view.findViewById(R.id.estadoSpinner);
         bazkdieaSpinner = view.findViewById(R.id.bazkideaSpinner);
         idKonzeptuaEditText = view.findViewById(R.id.idKonzeptuaEditText);
@@ -266,6 +265,5 @@ public class EskaerakFragment extends Fragment {
 
         // Actualizar el RecyclerView
        adapter.setEskaerak(eskaerak);
-
     }
 }
