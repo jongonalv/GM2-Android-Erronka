@@ -2,6 +2,7 @@ package com.ikaslea.komertzialakapp.utils;
 
 import android.content.Context;
 
+import com.ikaslea.komertzialakapp.models.Artikuloa;
 import com.ikaslea.komertzialakapp.models.Komerziala;
 import com.j256.ormlite.android.AndroidConnectionSource;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -119,6 +120,26 @@ public class DBManager {
             throw new RuntimeException(e);
         }
     }
+
+
+    /**
+     * Artikulo bat izenaren arabera bilatzeko metodoa
+     * @param izena
+     * @return
+     */
+    public Artikuloa getArtikuloaByIzena(String izena) {
+        try {
+            @SuppressWarnings("unchecked")
+            Dao<Artikuloa, ?> dao = (Dao<Artikuloa, ?>) DAO_MAP.get(Artikuloa.class);
+            return dao.queryBuilder()
+                    .where()
+                    .eq("izena", izena)
+                    .queryForFirst();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     /**
      * Komerzial bat izenaren arabera bilatzeko metodoa (LOGIN-erako erabilia dena)

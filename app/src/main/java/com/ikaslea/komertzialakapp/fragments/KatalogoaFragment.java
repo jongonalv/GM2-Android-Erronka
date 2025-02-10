@@ -13,11 +13,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.ikaslea.komertzialakapp.R;
 import com.ikaslea.komertzialakapp.adapters.ArtikuloaAdapter;
 import com.ikaslea.komertzialakapp.models.Artikuloa;
 import com.ikaslea.komertzialakapp.utils.DBManager;
+import com.ikaslea.komertzialakapp.utils.XMLManager;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -84,6 +86,43 @@ public class KatalogoaFragment extends Fragment {
             }
         });
 
+        /**
+         *  XML fitxategia kargatzeko logika guztia botoiari klik egiten diogunean
+         */
+/**
+ *  XML fitxategia kargatzeko logika guztia botoiari klik egiten diogunean
+ */
+        btnKargatu.setOnClickListener(v -> {
+            try {
+                String xml = XMLManager.getInstance().XMLKargatuFitxategitik(requireContext());
+                List<Artikuloa> artikuloakFromXML = XMLManager.getInstance().fromXML(xml);
+
+                // XML artikuloak irakurri eta eguneratu
+                if (artikuloakFromXML != null) {
+                    for (Artikuloa artikuloXML : artikuloakFromXML) {
+                        Artikuloa existingArtikuloa = DBManager.getInstance().getArtikuloaByIzena(artikuloXML.getIzena());
+
+                        if (existingArtikuloa != null) {
+                            existingArtikuloa.setStock(artikuloXML.getStock());
+                            existingArtikuloa.setPrezioa(artikuloXML.getPrezioa());
+                            existingArtikuloa.setKategoria(artikuloXML.getKategoria());
+
+                            DBManager.getInstance().save(existingArtikuloa);
+                        } else {
+                            DBManager.getInstance().save(artikuloXML);
+                        }
+                    }
+                }
+
+                // Datuak eguneratu XML fitxategiko datuekin
+                List<Artikuloa> artikuloaListXML = DBManager.getInstance().getAll(Artikuloa.class);
+                adapter.setArtikuloaList(artikuloaListXML);
+                Toast.makeText(requireContext(), "XML fitxategia ondo kargatu da!", Toast.LENGTH_SHORT).show();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 
 
         return view;

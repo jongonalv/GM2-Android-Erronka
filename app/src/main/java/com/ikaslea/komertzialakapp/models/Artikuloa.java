@@ -3,8 +3,6 @@ package com.ikaslea.komertzialakapp.models;
 import com.j256.ormlite.field.DatabaseField;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
 import java.io.Serializable;
 
 @XStreamAlias("Artikuloa")
@@ -15,19 +13,15 @@ public class Artikuloa implements DbEntity, Serializable {
     private int id;
 
     @DatabaseField
-    @XStreamOmitField
     private String izena;
 
     @DatabaseField
-    @XStreamOmitField
     private String kategoria;
 
     @DatabaseField
-    @XStreamOmitField
     private double prezioa;
 
     @DatabaseField
-    @XStreamOmitField
     private double stock;
 
     public int getId() {
@@ -50,6 +44,18 @@ public class Artikuloa implements DbEntity, Serializable {
         return stock;
     }
 
+    public void setKategoria(String kategoria) {
+        this.kategoria = kategoria;
+    }
+
+    public void setStock(double stock) {
+        this.stock = stock;
+    }
+
+    public void setPrezioa(double prezioa) {
+        this.prezioa = prezioa;
+    }
+
     public Artikuloa(int id, String izena, String kategoria, double prezioa, double stock) {
         this.id = id;
         this.izena = izena;
@@ -60,6 +66,4 @@ public class Artikuloa implements DbEntity, Serializable {
 
     public Artikuloa() {
     }
-
-
 }
