@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.ikaslea.komertzialakapp.models.Artikuloa;
 import com.ikaslea.komertzialakapp.models.Bazkidea;
+import com.ikaslea.komertzialakapp.models.Eskaera;
 import com.ikaslea.komertzialakapp.models.Komerziala;
 import com.j256.ormlite.android.AndroidConnectionSource;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -14,6 +15,7 @@ import com.j256.ormlite.table.TableUtils;
 
 import java.lang.reflect.Type;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -176,6 +178,24 @@ public class DBManager {
             throw new RuntimeException(e);
         }
     }
+
+    public List<Eskaera> getEskaerakByBazkideaIds(List<Integer> bazkideIds) {
+        if (bazkideIds.isEmpty()) return new ArrayList<>();
+
+        try {
+            @SuppressWarnings("unchecked")
+            Dao<Eskaera, ?> dao = (Dao<Eskaera, ?>) DAO_MAP.get(Eskaera.class);
+
+            return dao.queryBuilder()
+                    .where()
+                    .in("bazkidea_id", bazkideIds)
+                    .query();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 
     /**

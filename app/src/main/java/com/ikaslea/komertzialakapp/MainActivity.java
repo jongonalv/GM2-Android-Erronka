@@ -62,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
                 selectedFragment = new HomeFragment();
             } else if (item.getItemId() == R.id.nav_pedido) {
                 selectedFragment = new EskaerakFragment();
+                Bundle args = new Bundle();
+                args.putString("erabiltzailea", erabiltzailea);
+                selectedFragment.setArguments(args);
             } else if (item.getItemId() == R.id.nav_back) {
                 selectedFragment = new KatalogoaFragment();
             }

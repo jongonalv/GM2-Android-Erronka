@@ -216,11 +216,6 @@ public class EskaerakFragment extends Fragment {
      */
     private void eskaeraRecyclerViewConf() {
 
-        if (getArguments() != null) {
-            erabiltzailea = getArguments().getString("erabiltzailea");
-        }
-
-        Komerziala komerziala = DBManager.getInstance().getByIzena(erabiltzailea);
 
         List<Eskaera> eskaerak = DBManager.getInstance().getAll(Eskaera.class);
 
@@ -245,7 +240,20 @@ public class EskaerakFragment extends Fragment {
      * @param bazkidea elbidearen bazkidearen izena
      */
     public void filterEskaeraList(String estado, String konzeptua, LocalDateTime data, String bazkidea) {
-        List<Eskaera> eskaerak = DBManager.getInstance().getAll(Eskaera.class);
+
+        if (getArguments() != null) {
+            erabiltzailea = getArguments().getString("erabiltzailea");
+        }
+
+        Komerziala komerziala = DBManager.getInstance().getByIzena(erabiltzailea);
+
+        List<Bazkidea> bazkideak = DBManager.getInstance().getBazkideByKomerzialaId(komerziala.getId());
+
+
+        List<Integer> bazkideIds = bazkideak.stream().map(Bazkidea::getId).collect(Collectors.toList());
+
+        List<Eskaera> eskaerak = DBManager.getInstance().getEskaerakByBazkideaIds(bazkideIds);
+
         if (estado != null) {
             eskaerak = eskaerak.stream()
                     .filter(

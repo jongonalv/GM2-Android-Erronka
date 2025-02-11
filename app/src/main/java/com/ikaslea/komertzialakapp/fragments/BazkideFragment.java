@@ -85,7 +85,7 @@ public class BazkideFragment extends Fragment {
 
         List<Bazkidea> bazkideaList = DBManager.getInstance().getBazkideByKomerzialaId(komerziala.getId());
 
-        // adaptadorea sortu eta listerner batekin konfiguratu bazkidea lortu eta bazkidea editatzeko avtivity-ra joateko
+        // adaptadorea sortu eta listerner batekin konfiguratu bazkidea lortu eta bazkidea editatzeko activity-ra joateko
         adapter = new BazkideaEditAdapter(getContext(), bazkideaList, bazkidea -> {
             Intent intent = new Intent(getContext(), EditBazkideaActivity.class);
             intent.putExtra("bazkidea", bazkidea);
