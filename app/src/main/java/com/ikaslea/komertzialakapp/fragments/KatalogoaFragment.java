@@ -59,10 +59,12 @@ public class KatalogoaFragment extends Fragment {
         List<Artikuloa> artikuloaList = DBManager.getInstance().getAll(Artikuloa.class);
 
         List<String> kategoriak = artikuloaList.stream().map(Artikuloa::getKategoria).distinct().collect(Collectors.toList());
-        kategoriak.add("");
+            kategoriak.add(0, "Guztiak");
+
 
         spinnerKategoria.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, kategoriak));
-        spinnerKategoria.setSelection(kategoriak.size() - 1);
+        spinnerKategoria.setSelection(0);
+
 
         // Artikulonetzako adaptadorea sortu
         ArtikuloaAdapter adapter = new ArtikuloaAdapter(artikuloaList, getContext(), null);
@@ -73,25 +75,25 @@ public class KatalogoaFragment extends Fragment {
         spinnerKategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (kategoriak.get(i).isEmpty()) {
+                if (kategoriak.get(i).equals("Guztiak")) {
                     adapter.setArtikuloaList(artikuloaList);
                 } else {
-                    adapter.setArtikuloaList(artikuloaList.stream().filter(artikuloa -> artikuloa.getKategoria().equals(kategoriak.get(i))).collect(Collectors.toList()));
+                    adapter.setArtikuloaList(
+                            artikuloaList.stream()
+                                    .filter(artikuloa -> artikuloa.getKategoria().equals(kategoriak.get(i)))
+                                    .collect(Collectors.toList())
+                    );
                 }
-                }
+            }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
+            public void onNothingSelected(AdapterView<?> adapterView) {}
         });
+
 
         /**
          *  XML fitxategia kargatzeko logika guztia botoiari klik egiten diogunean
          */
-/**
- *  XML fitxategia kargatzeko logika guztia botoiari klik egiten diogunean
- */
         btnKargatu.setOnClickListener(v -> {
             try {
                 String xml = XMLManager.getInstance().XMLKargatuFitxategitik(requireContext());

@@ -1,6 +1,7 @@
 package com.ikaslea.komertzialakapp;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.ikaslea.komertzialakapp.models.Artikuloa;
 import com.ikaslea.komertzialakapp.models.Bazkidea;
@@ -11,6 +12,7 @@ import com.ikaslea.komertzialakapp.models.Komerziala;
 import com.ikaslea.komertzialakapp.models.enums.BazkideMota;
 import com.ikaslea.komertzialakapp.models.enums.Egoera;
 import com.ikaslea.komertzialakapp.utils.DBManager;
+import com.ikaslea.komertzialakapp.utils.XMLManager;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -32,10 +34,7 @@ public class AppInit extends Application {
 
         dbManager.deleteAll();
 
-        List<Artikuloa> artikuloaList = createArticulos();
-        for (Artikuloa artikuloa : artikuloaList) {
-            dbManager.save(artikuloa);
-        }
+        List<Artikuloa> artikuloaList = cargarArtikuloakDesdeXML(this);
 
         List<Bisita> bisitaList = createTestBisitaList();
         for (Bisita bisita : bisitaList) {
@@ -204,31 +203,37 @@ public class AppInit extends Application {
         return bisitaList;
     }
 
-    private List<Artikuloa> createArticulos(){
+    private List<Artikuloa> cargarArtikuloakDesdeXML(Context context) {
+        List<Artikuloa> artikuloakList = new ArrayList<>();
 
-        List<Artikuloa> articulos = new ArrayList<>();
+        try {
+            String xml = XMLManager.getInstance().XMLKargatuFitxategitik(context);
+            List<Artikuloa> artikuloakFromXML = XMLManager.getInstance().fromXML(xml);
 
-        // Categoría: Materiales de construcción
-        articulos.add(new Artikuloa(1, "Cemento 25KG", "Materiales de construcción", 6.99, 100.0));
-        articulos.add(new Artikuloa(2, "Saco de arena fina 40KG", "Materiales de construcción", 4.99, 100.0));
-        articulos.add(new Artikuloa(3, "Yeso 20KG", "Materiales de construcción", 5.50, 100.0));
+            if (artikuloakFromXML != null) {
+                for (Artikuloa artikuloXML : artikuloakFromXML) {
+                    Artikuloa existingArtikuloa = dbManager.getArtikuloaByIzena(artikuloXML.getIzena());
 
-        // Categoría: Burdindegia (Ferretería)
-        articulos.add(new Artikuloa(4, "Tornillo 0,69x2 (100 unidades)", "Burdindegia", 4.99, 1000.0));
-        articulos.add(new Artikuloa(5, "Tuerca x100", "Burdindegia", 3.99, 1000.0));
+                    if (existingArtikuloa != null) {
+                        existingArtikuloa.setStock(artikuloXML.getStock());
+                        existingArtikuloa.setPrezioa(artikuloXML.getPrezioa());
+                        existingArtikuloa.setKategoria(artikuloXML.getKategoria());
 
-        // Categoría: Eskuzko tresnak (Herramientas manuales)
-        articulos.add(new Artikuloa(6, "Destornillador multipunta", "Eskuzko tresnak", 12.50, 150.0));
-        articulos.add(new Artikuloa(7, "Llave inglesa", "Eskuzko tresnak", 14.95, 250.0));
-        articulos.add(new Artikuloa(8, "Martillo para carpintero", "Eskuzko tresnak", 9.99, 100.0));
-
-        // Categoría: Tresna elektrikoak (Herramientas eléctricas)
-        articulos.add(new Artikuloa(9, "Destornillador eléctrico", "Tresna elektrikoak", 74.95, 30.0));
-        articulos.add(new Artikuloa(10, "Motosierra eléctrica", "Tresna elektrikoak", 300.0, 15.0));
-        articulos.add(new Artikuloa(11, "Taladro eléctrico", "Tresna elektrikoak", 89.99, 10.0));
-
-        return articulos;
+                        dbManager.save(existingArtikuloa);
+                        artikuloakList.add(existingArtikuloa);
+                    } else {
+                        dbManager.save(artikuloXML);
+                        artikuloakList.add(artikuloXML);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return artikuloakList;
     }
+
+
 
     private List<Eskaera> createEskaeraList(List<Bazkidea> bazkideaList, List<Artikuloa> artikuloaList) {
         List<Eskaera> eskaeraList = new ArrayList<>();

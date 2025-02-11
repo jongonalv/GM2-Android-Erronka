@@ -1,0 +1,32 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Sombra sutil para efecto de elevación -->
+    <item
+        android:left="2dp"
+        android:right="2dp"
+        android:top="2dp"
+        android:bottom="4dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#20000000"/>
+            <corners android:radius="5dp"/>
+        </shape>
+    </item>
+
+    <!-- Fondo con degradado elegante -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="@color/naranjaTuerka"/>
+            <corners android:radius="5dp"/>
+        </shape>
+    </item>
+
+    <!-- Borde con estilo más definido -->
+    <item>
+        <shape android:shape="rectangle">
+            <stroke
+                android:width="2dp"
+                android:color="@color/naranjaTuerkaOscuro"/> <!-- Borde sutil -->
+            <corners android:radius="5dp"/>
+        </shape>
+    </item>
+</layer-list>

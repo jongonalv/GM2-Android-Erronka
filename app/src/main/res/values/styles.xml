@@ -4,4 +4,27 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">8dp</item>
     </style>
+    <style name="CustomSpinnerStyle" parent="Widget.AppCompat.Spinner">
+        <!-- Fondo personalizado con bordes redondeados -->
+        <item name="android:background">@drawable/spinner_background</item>
+
+        <!-- Color del icono de la flecha -->
+        <item name="android:colorControlNormal">@color/naranjaTuerkaOscuro</item>
+
+        <!-- Padding mejorado -->
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+
+        <!-- Color del texto -->
+        <item name="android:textColor">@color/black</item>
+
+        <!-- Tamaño del texto para mejor visibilidad -->
+        <item name="android:textSize">16sp</item>
+
+        <!-- Indicador personalizado para la flecha del Spinner -->
+        <item name="android:popupBackground">@drawable/spinner_dropdown_background</item>
+    </style>
+
 </resources>

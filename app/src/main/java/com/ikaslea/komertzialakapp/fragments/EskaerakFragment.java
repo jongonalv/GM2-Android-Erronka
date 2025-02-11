@@ -132,33 +132,29 @@ public class EskaerakFragment extends Fragment {
      */
     private void estadoSpinnerConf() {
         List<String> estaduakList = new ArrayList<>();
-
-        estaduakList.add("");
+        estaduakList.add("Guztiak"); // Opción predeterminada
 
         Arrays.stream(Egoera.values())
                 .forEach(egoera -> estaduakList.add(egoera.name()));
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, estaduakList);
-
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         estadoSpinner.setAdapter(adapter);
+        estadoSpinner.setSelection(0);
 
         estadoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                filterEskaeraList(estadoSpinner.getSelectedItem().toString(),
-                        null,
-                        null,
-                        null);
+                String selected = estadoSpinner.getSelectedItem().toString();
+                filterEskaeraList(selected.equals("Guztiak") ? null : selected, null, null, null);
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
+
 
     /**
      *  dataubestik bazkide guztiak lortzen ditue ta hoene arabera spinnerean bazkide hauek aukeratzeko
@@ -169,9 +165,9 @@ public class EskaerakFragment extends Fragment {
 
         bazkideaList.add("");
 
-        List<Bazkidea> bazkideak = DBManager.getInstance().getAll(Bazkidea.class);
+        List<Bazkidea> bazkideakSpinner = DBManager.getInstance().getAll(Bazkidea.class);
 
-        for (Bazkidea bazkidea : bazkideak) {
+        for (Bazkidea bazkidea : bazkideakSpinner) {
             bazkideaList.add(bazkidea.getIzena());
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, bazkideaList);
@@ -216,8 +212,14 @@ public class EskaerakFragment extends Fragment {
      */
     private void eskaeraRecyclerViewConf() {
 
+        if (getArguments() != null) {
+            erabiltzailea = getArguments().getString("erabiltzailea");
+        }
 
-        List<Eskaera> eskaerak = DBManager.getInstance().getAll(Eskaera.class);
+        Komerziala komerziala = DBManager.getInstance().getByIzena(erabiltzailea);
+        List<Bazkidea> bazkideak = DBManager.getInstance().getBazkideByKomerzialaId(komerziala.getId());
+        List<Integer> bazkideIds = bazkideak.stream().map(Bazkidea::getId).collect(Collectors.toList());
+        List<Eskaera> eskaerak = DBManager.getInstance().getEskaerakByBazkideaIds(bazkideIds);
 
 
         adapter = new EskaeraAdapter(eskaerak, eskaera -> {
@@ -246,12 +248,8 @@ public class EskaerakFragment extends Fragment {
         }
 
         Komerziala komerziala = DBManager.getInstance().getByIzena(erabiltzailea);
-
         List<Bazkidea> bazkideak = DBManager.getInstance().getBazkideByKomerzialaId(komerziala.getId());
-
-
         List<Integer> bazkideIds = bazkideak.stream().map(Bazkidea::getId).collect(Collectors.toList());
-
         List<Eskaera> eskaerak = DBManager.getInstance().getEskaerakByBazkideaIds(bazkideIds);
 
         if (estado != null) {

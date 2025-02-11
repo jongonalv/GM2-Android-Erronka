@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class Artikuloa implements DbEntity, Serializable {
 
     @XStreamAsAttribute
-    @DatabaseField(generatedId = true)
+    @DatabaseField(generatedId = true) // ID autogenerado
     private int id;
 
     @DatabaseField
@@ -24,46 +24,42 @@ public class Artikuloa implements DbEntity, Serializable {
     @DatabaseField
     private double stock;
 
-    public int getId() {
-        return id;
+    @DatabaseField // Asegura que ORMLite maneje este campo
+    private String imageUrl;
+
+    // --- Getters ---
+    public int getId() { return id; }
+
+    public String getIzena() { return izena; }
+
+    public String getKategoria() { return kategoria; }
+
+    public double getPrezioa() { return prezioa; }
+
+    public double getStock() { return stock; }
+
+    public String getImageUrl() { return imageUrl; }
+
+    // --- Setters ---
+    public void setKategoria(String kategoria) { this.kategoria = kategoria; }
+
+    public void setStock(double stock) { this.stock = stock; }
+
+    public void setPrezioa(double prezioa) { this.prezioa = prezioa; }
+
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+
+    // --- Constructores ---
+    public Artikuloa() {
+        // Constructor vacío necesario para ORMLite y XStream
     }
 
-    public String getIzena() {
-        return izena;
-    }
-
-    public String getKategoria() {
-        return kategoria;
-    }
-
-    public double getPrezioa() {
-        return prezioa;
-    }
-
-    public double getStock() {
-        return stock;
-    }
-
-    public void setKategoria(String kategoria) {
-        this.kategoria = kategoria;
-    }
-
-    public void setStock(double stock) {
-        this.stock = stock;
-    }
-
-    public void setPrezioa(double prezioa) {
-        this.prezioa = prezioa;
-    }
-
-    public Artikuloa(int id, String izena, String kategoria, double prezioa, double stock) {
+    public Artikuloa(int id, String izena, String kategoria, double prezioa, double stock, String imageUrl) {
         this.id = id;
         this.izena = izena;
         this.kategoria = kategoria;
         this.prezioa = prezioa;
         this.stock = stock;
-    }
-
-    public Artikuloa() {
+        this.imageUrl = imageUrl;
     }
 }

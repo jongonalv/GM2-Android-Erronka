@@ -5,20 +5,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.ikaslea.komertzialakapp.R;
 import com.ikaslea.komertzialakapp.models.Artikuloa;
 
 import java.util.List;
 
-/**
- * Adaptadore hau artikuloak bistaratzeaz enkargatzen da eta hauen kantitatea aldatzean artikuloa eskerara gehitzeko logikarekin,
- * horretarako OnFocusChangeListener bat behar da. hau gabe sortu ezgero, ez duk kantitatea aldatzeko aukera hemago.
- */
 public class ArtikuloaAdapter extends RecyclerView.Adapter<ArtikuloaAdapter.ArtikuloaViewHolder> {
 
     private List<Artikuloa> artikuloaList;
@@ -40,19 +38,31 @@ public class ArtikuloaAdapter extends RecyclerView.Adapter<ArtikuloaAdapter.Arti
 
     @Override
     public void onBindViewHolder(@NonNull ArtikuloaViewHolder holder, int position) {
-        // Ez badago onFocusChangeListener, ez dugu kantitatea erakutsiko
+        // Si no hay onFocusChangeListener, ocultar los campos de cantidad y stock
         if (onFocusChangeListener == null) {
             holder.kantitatea.setVisibility(View.GONE);
             holder.stock.setVisibility(View.GONE);
         }
 
         Artikuloa artikuloa = artikuloaList.get(position);
+
+        // Asignar los datos a las vistas
         holder.artikuloa.setText(artikuloa.getIzena());
         holder.kategoriaText.setText(artikuloa.getKategoria());
         holder.prezioa.setText(artikuloa.getPrezioa() + "€");
         holder.stock.setText(artikuloa.getStock() + " uds");
         holder.kantitatea.setOnFocusChangeListener(onFocusChangeListener);
 
+        // Cargar la imagen con Glide
+        if (artikuloa.getImageUrl() != null && !artikuloa.getImageUrl().isEmpty()) {
+            Glide.with(context)
+                    .load(artikuloa.getImageUrl())
+                    .placeholder(R.drawable.placeholder_image)
+                    .error(R.drawable.error_image)
+                    .into(holder.imageView);
+        } else {
+            holder.imageView.setImageResource(R.drawable.default_image);
+        }
     }
 
     @Override
@@ -60,10 +70,6 @@ public class ArtikuloaAdapter extends RecyclerView.Adapter<ArtikuloaAdapter.Arti
         return artikuloaList.size();
     }
 
-    /**
-     * Artikuloen lista aktualizatu eta notifikatzen du.
-     * @param collect Artikuloen lista berria.
-     */
     public void setArtikuloaList(List<Artikuloa> collect) {
         this.artikuloaList = collect;
         notifyDataSetChanged();
@@ -72,12 +78,12 @@ public class ArtikuloaAdapter extends RecyclerView.Adapter<ArtikuloaAdapter.Arti
     public static class ArtikuloaViewHolder extends RecyclerView.ViewHolder {
 
         TextView artikuloa,
-            kategoriaText,
-            prezioa,
-            stock;
+                kategoriaText,
+                prezioa,
+                stock;
 
         EditText kantitatea;
-
+        ImageView imageView; // Nuevo campo para la imagen
 
         public ArtikuloaViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -87,6 +93,7 @@ public class ArtikuloaAdapter extends RecyclerView.Adapter<ArtikuloaAdapter.Arti
             prezioa = itemView.findViewById(R.id.prezioaText);
             stock = itemView.findViewById(R.id.stockText);
             kantitatea = itemView.findViewById(R.id.cantidadText);
+            imageView = itemView.findViewById(R.id.imageView); // Asignar el ImageView
         }
     }
 }

@@ -62,6 +62,6 @@ dependencies {
     implementation(libs.xstream)
     implementation(libs.ormlite.android)
     implementation(libs.sqlite)
-    //implementation("com.prolificinteractive:material-calendarview:3.0.0")
-
+    implementation(libs.glide)
+    annotationProcessor(libs.glideCompiler)
 }

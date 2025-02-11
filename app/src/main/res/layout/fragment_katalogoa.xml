@@ -8,31 +8,92 @@
     android:background="@drawable/fondohasiera"
     tools:context=".fragments.KatalogoaFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/artikuloakList"
+    <!-- Título con fondo redondeado -->
+    <TextView
+        android:id="@+id/titleKatalogoa"
         android:layout_width="0dp"
-        android:layout_height="630dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="Katalogoa"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:background="@drawable/rounded_corner_bg"
+        android:padding="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/kargatuButton" />
-
-    <Spinner
-        android:id="@+id/kategoriakSpinner"
-        android:layout_width="180dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/kargatuButton"
-        android:layout_width="180dp"
+    <!-- Contenedor para el Spinner y el Botón en la misma línea -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/spinnerContainer"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/Kargatu"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/kategoriakSpinner" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleKatalogoa">
+
+        <!-- Hint del Spinner -->
+        <TextView
+            android:id="@+id/spinnerHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/kategoria"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- Spinner -->
+        <Spinner
+            android:id="@+id/kategoriakSpinner"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            style="@style/CustomSpinnerStyle"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:padding="8dp"
+            app:layout_constraintStart_toEndOf="@id/spinnerHint"
+            app:layout_constraintEnd_toStartOf="@id/kargatuButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- Botón -->
+        <Button
+            android:id="@+id/kargatuButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Kargatu"
+            android:backgroundTint="@color/naranjaTuerkaOscuro"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- RecyclerView ocupa la mayor parte de la pantalla -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/artikuloakList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_corner_bg"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinnerContainer"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
