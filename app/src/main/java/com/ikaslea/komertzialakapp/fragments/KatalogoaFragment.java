@@ -1,5 +1,8 @@
 package com.ikaslea.komertzialakapp.fragments;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -21,7 +24,9 @@ import com.ikaslea.komertzialakapp.models.Artikuloa;
 import com.ikaslea.komertzialakapp.utils.DBManager;
 import com.ikaslea.komertzialakapp.utils.XMLManager;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -35,6 +40,10 @@ public class KatalogoaFragment extends Fragment {
     private Button btnKargatu;
 
     private RecyclerView recyclerView;
+    private boolean activateFields = false;
+    private Map<Artikuloa, Integer> selectedProducts;
+
+
 
     public KatalogoaFragment() {
     }
@@ -68,20 +77,35 @@ public class KatalogoaFragment extends Fragment {
         spinnerKategoria.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, kategoriak));
         spinnerKategoria.setSelection(0);
 
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            activateFields = bundle.getBoolean("activateFields", false);
+        }
+
 
         // Artikulonetzako adaptadorea sortu
-        ArtikuloaAdapter adapter = new ArtikuloaAdapter(artikuloaList, getContext(), null);
+        ArtikuloaAdapter artikuloaAdapter = new ArtikuloaAdapter(artikuloaList, getContext(), activateFields ? new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+            }
+        } : null);
 
-        recyclerView.setAdapter(adapter);
+        Button confirmButton = view.findViewById(R.id.confirmButton);
+        confirmButton.setOnClickListener(v -> {
+            selectedProducts = artikuloaAdapter.getSelectedProducts();
+            returnSelectedProducts();
+        });
+
+        recyclerView.setAdapter(artikuloaAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         spinnerKategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (kategoriak.get(i).equals("Guztiak")) {
-                    adapter.setArtikuloaList(artikuloaList);
+                    artikuloaAdapter.setArtikuloaList(artikuloaList);
                 } else {
-                    adapter.setArtikuloaList(
+                    artikuloaAdapter.setArtikuloaList(
                             artikuloaList.stream()
                                     .filter(artikuloa -> artikuloa.getKategoria().equals(kategoriak.get(i)))
                                     .collect(Collectors.toList())
@@ -121,7 +145,7 @@ public class KatalogoaFragment extends Fragment {
 
                 // Datuak eguneratu XML fitxategiko datuekin
                 List<Artikuloa> artikuloaListXML = DBManager.getInstance().getAll(Artikuloa.class);
-                adapter.setArtikuloaList(artikuloaListXML);
+                artikuloaAdapter.setArtikuloaList(artikuloaListXML);
                 Toast.makeText(requireContext(), "XML fitxategia ondo kargatu da!", Toast.LENGTH_SHORT).show();
 
             } catch (Exception e) {
@@ -131,5 +155,16 @@ public class KatalogoaFragment extends Fragment {
 
 
         return view;
+    }
+
+    private void returnSelectedProducts() {
+        if (selectedProducts != null && !selectedProducts.isEmpty()) {
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("selectedProducts", new HashMap<>(selectedProducts));
+            requireActivity().setResult(RESULT_OK, resultIntent);
+            requireActivity().finish();
+        } else {
+            Toast.makeText(getContext(), "Ez dituzu aukeratu fragmentuak", Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -15,8 +15,8 @@ import com.ikaslea.komertzialakapp.fragments.KatalogoaFragment;
 import com.ikaslea.komertzialakapp.utils.DBManager;
 
 /**
- * erabiltzailearen saioa egiaztatzen du, erabiltzaileak sartu ondoren aplikazioko menuaren bidez
- * hainbat fragmentu kargatzen ditu.
+ * Erabiltzailearen saioa egiaztatzen du, eta behin saioa hasita, aplikazioko
+ * nabigazio-menuaren bidez hainbat fragmentu kargatzen ditu.
  */
 
 public class MainActivity extends AppCompatActivity {
@@ -25,11 +25,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Erabiltzailearen saioa egiaztatu
         SharedPreferences prefs = getSharedPreferences("USER_SESSION", MODE_PRIVATE);
         String erabiltzailea = prefs.getString("IZENA", null);
-        System.out.println(erabiltzailea);
+        boolean activateFields = getIntent().getBooleanExtra("activateFields", false);
 
-        // Erabiltzailea oraindik ez badago, login-a aktibatu
+        // Erabiltzailea saiatuta ez badago, LoginActivity-ra birbideratu
         if (erabiltzailea == null) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
@@ -37,22 +38,39 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        // Bestela, activity hasierakoa
+        // Hasierako diseinua kargatu
         setContentView(R.layout.activity_hasiera);
 
-        // Menu-a kargatu
+        // activateFields parametroa egia bada, zuzenean KatalogoaFragment kargatu
+        if (activateFields) {
+            KatalogoaFragment katalogoaFragment = new KatalogoaFragment();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("activateFields", true);
+            katalogoaFragment.setArguments(bundle);
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.containerView, katalogoaFragment)
+                    .commit();
+
+            // BottomNavigationView ez konfiguratu oraindik
+            return;
+        }
+
+        // BottomNavigationView konfiguratu
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
+        // Hasierako pantaila: HomeFragment kargatu, baldin eta ez badago aurreko egoera gordeta
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.containerView, new HomeFragment())
                     .commit();
         }
 
-        // Menuaren logika, fragment ezberdinetara bidaltzeko aukeraren arabera
+        // BottomNavigationView-aren aukerak konfiguratu
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
 
+            // Nabigazio botoiak kudeatu
             if (item.getItemId() == R.id.nav_calendar) {
                 selectedFragment = new CalendarFragment();
                 Bundle args = new Bundle();
@@ -74,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 selectedFragment = new KatalogoaFragment();
             }
 
+            // Hautatutako fragment-a bistaratzea
             if (selectedFragment != null) {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.containerView, selectedFragment)

@@ -13,9 +13,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="TextView"
+        android:text="Eskaera #123"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="28sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,20 +25,24 @@
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:text="@string/Egoera"
         android:textColor="@color/black"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/egoerakSpinner"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/egoerakSpinner"
         app:layout_constraintTop_toBottomOf="@+id/idText" />
 
     <Spinner
         android:id="@+id/egoerakSpinner"
-        android:layout_width="180dp"
+        android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/spinner_background"
+        android:padding="8dp"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
@@ -45,154 +50,182 @@
         android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:text="@string/Bazkidea"
         android:textColor="@color/black"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/bazkideaEditText"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/bazkideaEditText"
-        app:layout_constraintTop_toTopOf="@+id/textView13" />
+        app:layout_constraintTop_toBottomOf="@+id/egoerakSpinner" />
 
     <EditText
         android:id="@+id/bazkideaEditText"
-        android:layout_width="180dp"
+        android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/edittext_background"
         android:ems="10"
-        android:hint="Bazkidea"
+        android:hint="Hautatu bazkidea"
         android:inputType="text"
+        android:padding="12dp"
         android:textColor="@color/black"
+        android:textColorHint="@color/gray"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/egoerakSpinner" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
     <TextView
         android:id="@+id/textView15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:text="@string/Ezkakizuna"
         android:textColor="@color/black"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/dataEditText"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/dataEditText"
-        app:layout_constraintTop_toBottomOf="@+id/egoerakSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/bazkideaEditText" />
+
+    <EditText
+        android:id="@+id/dataEditText"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/edittext_background"
+        android:ems="10"
+        android:hint="Data"
+        android:inputType="date"
+        android:padding="12dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
     <TextView
         android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:text="@string/Totala"
         android:textColor="@color/black"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/totalaEditText"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/totalaEditText"
-        app:layout_constraintTop_toTopOf="@+id/textView15" />
-
-    <EditText
-        android:id="@+id/dataEditText"
-        android:layout_width="180dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/edittext_background"
-        android:ems="10"
-        android:hint="Data"
-        android:inputType="date"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toBottomOf="@+id/dataEditText" />
 
     <EditText
         android:id="@+id/totalaEditText"
-        android:layout_width="180dp"
+        android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/edittext_background"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/edittext_background_green"
         android:ems="10"
-        android:hint="Totala"
+        android:hint="0.00 €"
         android:inputType="numberDecimal"
-        android:textColor="@color/black"
+        android:padding="12dp"
+        android:textColor="@color/green"
+        android:textColorHint="@color/green"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/dataEditText" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
     <TextView
         android:id="@+id/textView17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:text="@string/Helbidea"
         android:textColor="@color/black"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/konzeptuaEditText"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/konzeptuaEditText"
-        app:layout_constraintTop_toBottomOf="@+id/dataEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/totalaEditText" />
 
     <EditText
         android:id="@+id/konzeptuaEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/edittext_background"
         android:ems="10"
         android:gravity="start|top"
-        android:hint="Helbidea"
+        android:hint="Idatzi helbidea"
         android:inputType="textMultiLine"
         android:minLines="3"
+        android:padding="12dp"
         android:textColor="@color/black"
+        android:textColorHint="@color/gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
     <Button
         android:id="@+id/gehituButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
         android:backgroundTint="@color/naranjaTuerkaOscuro"
         android:text="@string/Gehitu"
         android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/konzeptuaEditText" />
 
-    <Button
-        android:id="@+id/ezabatuButton"
-        android:layout_width="110dp"
-        android:layout_height="61dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="@color/naranjaTuerkaOscuro"
-        android:text="@string/Ezabatu"
-        android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gehituButton" />
-
-    <Button
-        android:id="@+id/entregatutaButton"
-        android:layout_width="130dp"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/naranjaTuerkaOscuro"
-        android:text="@string/Entregatuta"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toStartOf="@+id/gordeButton"
-        app:layout_constraintHorizontal_bias="0.38"
-        app:layout_constraintStart_toEndOf="@+id/ezabatuButton"
-        app:layout_constraintTop_toTopOf="@+id/ezabatuButton" />
-
-    <Button
-        android:id="@+id/gordeButton"
-        android:layout_width="134dp"
-        android:layout_height="55dp"
-        android:backgroundTint="@color/naranjaTuerkaOscuro"
-        android:text="@string/GordeAldaketak"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        android:weightSum="3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gehituButton"
-        app:layout_constraintVertical_bias="0.042" />
+        app:layout_constraintTop_toBottomOf="@+id/gehituButton">
+
+        <Button
+            android:id="@+id/ezabatuButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/red"
+            android:text="@string/Ezabatu"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:padding="8dp" />
+
+        <Button
+            android:id="@+id/entregatutaButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/shadowGray"
+            android:text="@string/Entregatuta"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:padding="8dp" />
+
+        <Button
+            android:id="@+id/gordeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/naranjaTuerkaOscuro"
+            android:text="@string/GordeAldaketak"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:padding="8dp" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

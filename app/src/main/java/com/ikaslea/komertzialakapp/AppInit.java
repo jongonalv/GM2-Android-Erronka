@@ -34,7 +34,7 @@ public class AppInit extends Application {
 
         dbManager.deleteAll();
 
-        List<Artikuloa> artikuloaList = cargarArtikuloakDesdeXML(this);
+        List<Artikuloa> artikuloaList = kargatuArtikuloakXMLBidez(this);
 
         List<Bisita> bisitaList = createTestBisitaList();
         for (Bisita bisita : bisitaList) {
@@ -54,55 +54,42 @@ public class AppInit extends Application {
             dbManager.save(bazkidea);
         }
     }
+    private List<Komerziala> komertzialakKargatuXMLBidez(Context context) {
+        List<Komerziala> komerzialakList = new ArrayList<>();
 
-    private List<Komerziala> createKomerzialak() {
-        List<Bisita> bisitaList = new ArrayList<>();
+        try {
+            String xml = XMLManager.getInstance().XMLKargatuFitxategitikKomerzialak(context);
+            List<Komerziala> komerzialakFromXML = XMLManager.getInstance().fromXML(xml);
 
-        Komerziala komerzila1 = new Komerziala();
-        komerzila1.setIzena("Jon Etxebarria");
-        komerzila1.setEmail("jon@example.com");
-        komerzila1.setTelefonoa("655123456");
-        komerzila1.setPasahitza("123");
+            if (komerzialakFromXML != null) {
+                for (Komerziala komerzialaXML : komerzialakFromXML) {
+                    Komerziala existingKomerziala = dbManager.getByIzena(komerzialaXML.getIzena());
 
-        Komerziala komerzila2 = new Komerziala();
-        komerzila2.setIzena("Maite Zubiri");
-        komerzila2.setEmail("maite@example.com");
-        komerzila2.setTelefonoa("666234567");
-        komerzila2.setPasahitza("123");
+                    if (existingKomerziala != null) {
+                        existingKomerziala.setIzena(komerzialaXML.getIzena());
+                        existingKomerziala.setTelefonoa(komerzialaXML.getTelefonoa());
+                        existingKomerziala.setPasahitza(komerzialaXML.getPasahitza());
 
-        Komerziala komerzila3 = new Komerziala();
-        komerzila3.setIzena("Peio Mendizabal");
-        komerzila3.setEmail("peio@example.com");
-        komerzila3.setTelefonoa("677345678");
-        komerzila3.setPasahitza("123");
-
-        Komerziala komerzila4 = new Komerziala();
-        komerzila4.setIzena("Irati Garmendia");
-        komerzila4.setEmail("irati@example.com");
-        komerzila4.setTelefonoa("688456789");
-        komerzila4.setPasahitza("123");
-
-        Komerziala komerzila5 = new Komerziala();
-        komerzila5.setIzena("Xabier Olaizola");
-        komerzila5.setEmail("xabier@example.com");
-        komerzila5.setTelefonoa("699567890");
-        komerzila5.setPasahitza("123");
-
-        ArrayList<Komerziala> komerzialak = new ArrayList<>();
-        komerzialak.add(komerzila1);
-        komerzialak.add(komerzila2);
-        komerzialak.add(komerzila3);
-        komerzialak.add(komerzila4);
-        komerzialak.add(komerzila5);
-
-        return komerzialak;
+                        dbManager.save(existingKomerziala);
+                        komerzialakList.add(existingKomerziala);
+                    } else {
+                        dbManager.save(komerzialaXML);
+                        komerzialakList.add(komerzialaXML);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return komerzialakList;
     }
+
 
     // TEST BAT PROBATZEKO ADAPTER-A, DATUAK EZ DIRA HEMENDIK LORTUKO
     private List<Bisita> createTestBisitaList() {
         List<Bisita> bisitaList = new ArrayList<>();
 
-        ArrayList<Komerziala> komerzialak = (ArrayList<Komerziala>) createKomerzialak();
+        ArrayList<Komerziala> komerzialak = (ArrayList<Komerziala>) komertzialakKargatuXMLBidez(this);
 
         Bazkidea bazkidea1 = new Bazkidea();
         bazkidea1.setIzena("Ander Olaizola");
@@ -203,7 +190,7 @@ public class AppInit extends Application {
         return bisitaList;
     }
 
-    private List<Artikuloa> cargarArtikuloakDesdeXML(Context context) {
+    private List<Artikuloa> kargatuArtikuloakXMLBidez(Context context) {
         List<Artikuloa> artikuloakList = new ArrayList<>();
 
         try {

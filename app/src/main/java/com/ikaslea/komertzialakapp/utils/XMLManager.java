@@ -3,6 +3,7 @@ package com.ikaslea.komertzialakapp.utils;
 import android.content.Context;
 
 import com.ikaslea.komertzialakapp.models.Artikuloa;
+import com.ikaslea.komertzialakapp.models.Komerziala;
 import com.ikaslea.komertzialakapp.utils.Const;
 import com.thoughtworks.xstream.XStream;
 import java.io.ByteArrayOutputStream;
@@ -21,12 +22,20 @@ public class XMLManager {
     }
 
     public XMLManager() {
+        // Configura XStream para manejar la clase Artikuloa
         xstream.processAnnotations(Artikuloa.class);
-        xstream.alias("Artikuloak", java.util.List.class);
+        xstream.alias("Artikuloak", List.class);
         xstream.alias("Artikuloa", Artikuloa.class);
-        xstream.allowTypes(new Class[]{Artikuloa.class, java.util.List.class});
-    }
 
+        // Configura XStream para manejar la clase Komerziala
+        xstream.processAnnotations(Komerziala.class);
+        xstream.alias("Komerzialak", List.class);
+        xstream.alias("Komerziala", Komerziala.class);
+
+        // Permite los tipos necesarios
+        xstream.allowTypes(new Class[]{Artikuloa.class, List.class});
+        xstream.allowTypes(new Class[]{Komerziala.class, List.class});
+    }
 
     public String toXML(Object object) {
         return xstream.toXML(object);
@@ -44,6 +53,18 @@ public class XMLManager {
 
     public String XMLKargatuFitxategitik(Context context) throws IOException {
         InputStream is = context.getResources().openRawResource(R.raw.artikuluak);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int len;
+        while ((len = is.read(buffer)) != -1) {
+            baos.write(buffer, 0, len);
+        }
+        is.close();
+        return baos.toString("UTF-8");
+    }
+
+    public String XMLKargatuFitxategitikKomerzialak(Context context) throws IOException {
+        InputStream is = context.getResources().openRawResource(R.raw.komerzialak);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
         int len;

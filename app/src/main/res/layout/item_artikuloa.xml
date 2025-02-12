@@ -58,7 +58,6 @@
         app:layout_constraintStart_toStartOf="@+id/artikuloaText"
         app:layout_constraintTop_toBottomOf="@+id/stockText" />
 
-    <!-- TextView para el precio del producto -->
     <TextView
         android:id="@+id/prezioaText"
         android:layout_width="wrap_content"
@@ -71,15 +70,14 @@
         app:layout_constraintStart_toStartOf="@+id/kategoriaText"
         app:layout_constraintTop_toBottomOf="@+id/kategoriaText" />
 
-    <!-- EditText para la cantidad a seleccionar -->
     <EditText
         android:id="@+id/cantidadText"
-        android:layout_width="100dp"
+        android:layout_width="63dp"
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/edittext_background"
         android:ems="10"
-        android:hint="Cantidad"
+        android:hint="0"
         android:inputType="number"
         android:padding="8dp"
         android:textSize="14sp"

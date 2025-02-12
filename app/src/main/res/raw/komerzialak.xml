@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Komerzialak>
+    <Komerziala>
+        <izena>Jon Etxebarria</izena>
+        <email>jon@example.com</email>
+        <telefonoa>655123456</telefonoa>
+        <pasahitza>123</pasahitza>
+    </Komerziala>
+    <Komerziala>
+        <izena>Maite Zubiri</izena>
+        <email>maite@example.com</email>
+        <telefonoa>666234567</telefonoa>
+        <pasahitza>123</pasahitza>
+    </Komerziala>
+    <Komerziala>
+        <izena>Peio Mendizabal</izena>
+        <email>peio@example.com</email>
+        <telefonoa>677345678</telefonoa>
+        <pasahitza>123</pasahitza>
+    </Komerziala>
+    <Komerziala>
+        <izena>Irati Garmendia</izena>
+        <email>irati@example.com</email>
+        <telefonoa>688456789</telefonoa>
+        <pasahitza>123</pasahitza>
+    </Komerziala>
+    <Komerziala>
+        <izena>Xabier Olaizola</izena>
+        <email>xabier@example.com</email>
+        <telefonoa>699567890</telefonoa>
+        <pasahitza>123</pasahitza>
+    </Komerziala>
+</Komerzialak>

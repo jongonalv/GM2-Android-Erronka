@@ -56,7 +56,7 @@ public class EditBazkideaActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         motaSpinner.setAdapter(adapter);
 
-        idText.setText(String.valueOf(bazkidea.getId()));
+        idText.setText(String.valueOf("Bazkide zenbakia: " + bazkidea.getId()));
         izenaEditText.setText(bazkidea.getIzena());
         emailEditText.setText(bazkidea.getEmail());
         telefonoaEditText.setText(bazkidea.getTelefonoa());

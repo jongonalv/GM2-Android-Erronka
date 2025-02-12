@@ -14,4 +14,7 @@
     <color name="whiteTransparent">#FAFAFA</color>
     <color name="shadowGray">#33000000</color>
     <color name="shadowLight">#11000000</color>
+    <color name="green">#4CAF50</color>
+    <color name="green_light">#E8F5E9</color>
+    <color name="red">#F44336</color>
 </resources>

@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.ikaslea.komertzialakapp.EditEskaeraActivity;
 import com.ikaslea.komertzialakapp.R;
@@ -28,6 +29,8 @@ import com.ikaslea.komertzialakapp.models.Komerziala;
 import com.ikaslea.komertzialakapp.models.enums.BazkideMota;
 import com.ikaslea.komertzialakapp.models.enums.Egoera;
 import com.ikaslea.komertzialakapp.utils.DBManager;
+import com.ikaslea.komertzialakapp.utils.FileManager;
+import com.ikaslea.komertzialakapp.utils.XMLManager;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -52,7 +55,7 @@ public class EskaerakFragment extends Fragment {
     private EditText idKonzeptuaEditText,
         dataEditText;
 
-    private Button berriaButton;
+    private Button berriaButton, bidaliButton;
 
     private RecyclerView eskaerakRecyclerView;
 
@@ -76,6 +79,7 @@ public class EskaerakFragment extends Fragment {
         idKonzeptuaEditText = view.findViewById(R.id.idKonzeptuaEditText);
         dataEditText = view.findViewById(R.id.dataEditText);
         berriaButton = view.findViewById(R.id.berriaButton);
+        bidaliButton = view.findViewById(R.id.bidaliButton);
         eskaerakRecyclerView = view.findViewById(R.id.listEskaerak);
 
 
@@ -110,6 +114,20 @@ public class EskaerakFragment extends Fragment {
             }
         });
 
+        // XML Fitxategia bihurtzeko eskaerak
+        bidaliButton.setOnClickListener(v -> {
+            List<Eskaera> eskaerakList = DBManager.getInstance().getAll(Eskaera.class);
+            String xmlContent = XMLManager.getInstance().toXML(eskaerakList);
+            String fileName = "eskaerak.xml";
+            boolean isSaved = FileManager.saveXMLToFile(requireContext(), xmlContent, fileName);
+
+            // Erabiltzaileari mezua erakutsi
+            if (isSaved) {
+                Toast.makeText(requireContext(), "Eskaerak XML fitxategia gordeta: " + fileName, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(requireContext(), "Errorea eskaerak XML fitxategia gordetzean", Toast.LENGTH_SHORT).show();
+            }
+        });
         return view;
     }
 
