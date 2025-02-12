@@ -198,6 +198,7 @@ public class EskaerakFragment extends Fragment {
     private void berriaButtonConf() {
         berriaButton.setOnClickListener( v -> {
             Eskaera eskaera = new Eskaera();
+            eskaera.setEskaeraData(LocalDateTime.now());
             Intent intent = new Intent(getContext(), EditEskaeraActivity.class);
 
             intent.putExtra("eskaera", eskaera);
