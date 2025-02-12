@@ -26,6 +26,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Fragment honek datu baseko bisitak erakusten ditu Recycler view batean, eta egutegi bat du bisitak ikustekeko.
+ * Bisita berriak gehitzeko aukera berriaButton botoiaren bidez.
+ *
+ */
+
 public class CalendarFragment extends Fragment {
 
     private RecyclerView recyclerView;

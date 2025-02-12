@@ -37,6 +37,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+
+/**
+ * Fragmetn honen helburua eskaerak kudeatzea da.
+ * Eskaerak sortzkeo berriaButton botoiaren bidez eta eskaerak editatzeko botoia du editEskaeraActivity-ra jaoten deba.
+ */
+
+
 public class EskaerakFragment extends Fragment {
 
     private Spinner estadoSpinner,

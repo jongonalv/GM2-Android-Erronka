@@ -16,6 +16,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.ikaslea.komertzialakapp.R;
 
+/**
+ *  Google Maps integratzen du eta onMapReady() metodoa erabiliz, sukursalaren kokapena mapa batean markatzen du.
+ */
 public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;

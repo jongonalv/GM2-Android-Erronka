@@ -14,6 +14,11 @@ import com.ikaslea.komertzialakapp.fragments.BazkideFragment;
 import com.ikaslea.komertzialakapp.fragments.KatalogoaFragment;
 import com.ikaslea.komertzialakapp.utils.DBManager;
 
+/**
+ * erabiltzailearen saioa egiaztatzen du, erabiltzaileak sartu ondoren aplikazioko menuaren bidez
+ * hainbat fragmentu kargatzen ditu.
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     @Override

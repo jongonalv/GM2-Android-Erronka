@@ -17,6 +17,11 @@ import com.ikaslea.komertzialakapp.models.Bazkidea;
 import com.ikaslea.komertzialakapp.models.enums.BazkideMota;
 import com.ikaslea.komertzialakapp.utils.DBManager;
 
+/**
+ *  bazkide baten datuak editatu eta ezabatzeko aukera ematen du, Spinner bidez mota aukeratzeko,
+ *  eta botoiak erabiltzen dira aldaketak gordetzeko edo bazkidea ezabatzeko.
+ */
+
 public class EditBazkideaActivity extends AppCompatActivity {
 
     private TextView idText;

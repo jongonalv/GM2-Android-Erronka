@@ -24,6 +24,11 @@ import com.ikaslea.komertzialakapp.utils.DBManager;
 
 import java.util.List;
 
+/**
+ * Bisitak kudeatu. Hau da, bisitako datuak editatatu.
+ * datak eta orduak aukeratzea, bazkide bat asignatzea eta ekintzak burutzea,
+ * hala nola gordetzea, ezabatzea edo osorik eginda markatzea.
+ */
 public class EditBisitaActivity extends AppCompatActivity {
 
     private TextView idText;

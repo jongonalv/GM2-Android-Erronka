@@ -14,6 +14,12 @@ import com.ikaslea.komertzialakapp.models.Komerziala;
 import com.ikaslea.komertzialakapp.utils.AuthManager;
 import com.ikaslea.komertzialakapp.utils.DBManager;
 
+/**
+ * Erabiltzailearen izena eta pasahitza jasotzen ditu, datu-basearekin egiaztatzen du
+ * eta saioa hasten du, saioaren datuak gorde eta hasierako pantailatik (LoginActivity) aplikazioaren
+ * MainActivity pasatuz.
+ */
+
 public class LoginActivity extends AppCompatActivity {
 
     private EditText editTextIzena, editTextPasahitza;

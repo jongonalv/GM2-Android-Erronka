@@ -28,6 +28,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ *Bazkideak zerrenda erakusten du,hainbat irizpide erabiliz (telefonoa, izena, emaila, mota) filtratzeko aukera ematen du,
+ *baita bakoitzaren edizioa egiteko aukera ere. Horrez gain, bazkide berriak gehitzeko botoia dago.
+ *RecyclerView erabiltzen da zerrenda erakusteko eta Spinner bat bazkide mota aukeratzeko.
+ */
 public class BazkideFragment extends Fragment {
 
     private Spinner bazkideMotaSpinner;
@@ -113,7 +118,7 @@ public class BazkideFragment extends Fragment {
 
         List<String> bazkideMotaList = new ArrayList<>();
 
-        // bazkide mota guztiak lortueta hutsa aukera gehitu spinnerrean
+        // bazkide mota guztiak lortu eta hutsa aukera gehitu spinnerrean
         bazkideMotaList.add("");
 
         Arrays.stream(BazkideMota.values())
@@ -184,8 +189,10 @@ public class BazkideFragment extends Fragment {
     private void filterBazkideaList(String telefonoa, String izena, String email, String mota) {
         Komerziala komerziala = DBManager.getInstance().getByIzena(erabiltzailea);
 
+        // Bazkideak lortzen dira komerziala IDarekin
         List<Bazkidea> bazkideaList = DBManager.getInstance().getBazkideByKomerzialaId(komerziala.getId());
 
+        // Filtroak aplikatu parametroak balio badu
         if (telefonoa != null) {
             bazkideaList = bazkideaList.stream()
                     .filter(
@@ -216,7 +223,7 @@ public class BazkideFragment extends Fragment {
                             bazkidea -> bazkidea.getBazkideMota().name().contains(mota)
                     ).collect(Collectors.toList());
         }
-
+        //datuak eguneratu
         adapter.updateData(bazkideaList);
     }
 }

@@ -24,6 +24,9 @@ import com.ikaslea.komertzialakapp.utils.XMLManager;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Artikuluen zerrenda kargatzen du eta artikuluak filtratzeko aukera.
+ */
 
 public class KatalogoaFragment extends Fragment {
 

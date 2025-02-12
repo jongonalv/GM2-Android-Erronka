@@ -25,6 +25,7 @@ public class BisitaAdapter extends RecyclerView.Adapter<BisitaAdapter.BisitaView
     private List<Bisita> bisitaList;
     private OnEditButtonClickListener onEditButtonClickListener;
 
+
     public BisitaAdapter(Context context, List<Bisita> bisitaList, OnEditButtonClickListener listener) {
         this.context = context;
         this.bisitaList = bisitaList;
@@ -63,7 +64,7 @@ public class BisitaAdapter extends RecyclerView.Adapter<BisitaAdapter.BisitaView
 
 
     /**
-     * Bisiak eguneratzeko metodoa
+     * Bisitak eguneratzeko metodoa
      * @param bisitaList Bisiak
      */
     public void updateData(List<Bisita> bisitaList) {
@@ -89,6 +90,9 @@ public class BisitaAdapter extends RecyclerView.Adapter<BisitaAdapter.BisitaView
         }
     }
 
+    /**
+     * Editatu botoian klik egitean onEditButtonClick metodoa deituko dio
+     */
     public interface OnEditButtonClickListener {
         void onEditButtonClick(Bisita bisita);
     }

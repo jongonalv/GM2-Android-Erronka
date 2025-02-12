@@ -34,19 +34,19 @@ public class EditEskaeraActivity extends AppCompatActivity {
 
     private TextView idText;
     private EditText bazkideaEditText,
-        dataEditText,
-        totalaEditText,
-        konzeptuaEditText;
+            dataEditText,
+            totalaEditText,
+            konzeptuaEditText;
 
     private Spinner egoerakSpinner;
     private Eskaera eskaera;
 
-    
+
 
     private Button gordeButton,
-        gehituButton,
-        ezabatuButton,
-        entregatutaButton;
+            gehituButton,
+            ezabatuButton,
+            entregatutaButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +58,9 @@ public class EditEskaeraActivity extends AppCompatActivity {
         Intent intent = getIntent();
         eskaera = (Eskaera) intent.getSerializableExtra("eskaera");
 
+        // Eskaeraren Id-a edit textean ezarri
         idText.setText(String.valueOf(eskaera.getId()));
+
 
         egoerakSpinner = findViewById(R.id.egoerakSpinner);
         bazkideaEditText = findViewById(R.id.bazkideaEditText);
@@ -75,20 +77,21 @@ public class EditEskaeraActivity extends AppCompatActivity {
         dataEditText.setFocusable(false);
         totalaEditText.setFocusable(false);
 
+        // Egoeren spinner-a sortu
         ArrayAdapter<Egoera> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Egoera.values());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         egoerakSpinner.setAdapter(adapter);
 
-        // Establecer la opción seleccionada basada en la base de datos
+        //Aukeratutako aukera datu-basean oinarrituta ezartzea
         if (eskaera.getEgoera() != null) {
             int position = adapter.getPosition(eskaera.getEgoera());
             egoerakSpinner.setSelection(position);
         }
 
-
+        // Data ezarri
         dataEditText.setText(String.valueOf(eskaera.getEskaeraData().toLocalDate()));
 
-
+        // Data pickerraren klikaren kudeaketa
         dataEditText.setOnClickListener( v -> {
             DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
                 eskaera.setEskaeraData(eskaera.getEskaeraData().withYear(year).withMonth(month+1).withDayOfMonth(dayOfMonth));
@@ -103,11 +106,13 @@ public class EditEskaeraActivity extends AppCompatActivity {
             datePickerDialog.show();
         });
 
+
         bazkideaEditText.setText(eskaera.getBazkidea() != null ? eskaera.getBazkidea().getIzena() : "");
         dataEditText.setText(eskaera.getEskaeraData() != null ? eskaera.getEskaeraData().toLocalDate().toString() : "");
         totalaEditText.setText(String.valueOf(eskaera.getGuztira()));
         konzeptuaEditText.setText(eskaera.getKontzeptua());
 
+        //Egoera spinner-a onSelect listener-a
         egoerakSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -121,14 +126,15 @@ public class EditEskaeraActivity extends AppCompatActivity {
         });
 
 
-
+        //Gorde botoia, datu basean aldaketak gordetzeko
         gordeButton.setOnClickListener(v -> {
-           eskaera.setKontzeptua(konzeptuaEditText.getText().toString());
+            eskaera.setKontzeptua(konzeptuaEditText.getText().toString());
 
             DBManager.getInstance().save(eskaera);
             finish();
         });
 
+        //Ezabatu botoia, aukeratutako eskaera ezabatzeko
         ezabatuButton.setOnClickListener(v -> {
             DBManager.getInstance().delete(eskaera);
             finish();
@@ -136,9 +142,8 @@ public class EditEskaeraActivity extends AppCompatActivity {
 
         bazkideaEditText.setOnClickListener(v -> {showBazkideakDialog();});
 
-
+        // Entregatu botoia, Egoera "BIDALITA" denean bakarrik exekutatu
         entregatutaButton.setOnClickListener(view -> {
-            // Asegurar que solo se ejecute si la egoera es BIDALITA
             if (eskaera.getEgoera() == Egoera.BIDALITA) {
                 eskaera.setEgoera(Egoera.BUKATUTA);
                 DBManager.getInstance().save(eskaera);
@@ -147,10 +152,12 @@ public class EditEskaeraActivity extends AppCompatActivity {
         });
 
 
+    }
 
-        }
 
-
+    /**
+     * Bazkideak aukeratzeko dialogoa erakusten du.
+     */
     private void showBazkideakDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_bisita_list, null);
@@ -161,11 +168,12 @@ public class EditEskaeraActivity extends AppCompatActivity {
 
         AlertDialog alertDialog = builder.create();
 
+        // Bazkideak lortzen dira eta adaptadorearen bidez erakusten dira
         List<Bazkidea> bazkideaList = DBManager.getInstance().getAll(Bazkidea.class);
         BazkideaAdapter bazkideaAdapter = new BazkideaAdapter(this, bazkideaList, bazkidea -> {
-            bazkideaEditText.setText(bazkidea.getIzena()); // Actualiza el EditText con el nombre del Bazkidea seleccionado
-            eskaera.setBazkidea(bazkidea); // Actualiza el Bazkidea de la Bisitabazkidea
-            alertDialog.dismiss(); // Cierra el diálogo
+            bazkideaEditText.setText(bazkidea.getIzena()); // Aukeratutako Bazkidea EditText-ean jartzen da
+            eskaera.setBazkidea(bazkidea); //  Eskaera objektua eguneratzen da
+            alertDialog.dismiss(); // Dialogoa itxi
         });
 
         recyclerView.setAdapter(bazkideaAdapter);
