@@ -19,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.ikaslea.komertzialakapp.adapters.BazkideaAdapter;
 import com.ikaslea.komertzialakapp.models.Bazkidea;
 import com.ikaslea.komertzialakapp.models.Bisita;
@@ -39,6 +40,9 @@ public class EditEskaeraActivity extends AppCompatActivity {
 
     private Spinner egoerakSpinner;
     private Eskaera eskaera;
+
+    
+
     private Button gordeButton,
         gehituButton,
         ezabatuButton,
@@ -66,6 +70,7 @@ public class EditEskaeraActivity extends AppCompatActivity {
         ezabatuButton = findViewById(R.id.ezabatuButton);
         entregatutaButton = findViewById(R.id.entregatutaButton);
 
+        egoerakSpinner.setEnabled(false);
         bazkideaEditText.setFocusable(false);
         dataEditText.setFocusable(false);
         totalaEditText.setFocusable(false);
@@ -89,7 +94,7 @@ public class EditEskaeraActivity extends AppCompatActivity {
                 eskaera.setEskaeraData(eskaera.getEskaeraData().withYear(year).withMonth(month+1).withDayOfMonth(dayOfMonth));
 
 
-                dataEditText.setText(String.valueOf(eskaera.getEskaeraData().toLocalDate()));
+                dataEditText.setText(eskaera.getEskaeraData().toLocalDate().toString());
 
             },
                     eskaera.getEskaeraData().getYear(),
@@ -99,7 +104,7 @@ public class EditEskaeraActivity extends AppCompatActivity {
         });
 
         bazkideaEditText.setText(eskaera.getBazkidea() != null ? eskaera.getBazkidea().getIzena() : "");
-        dataEditText.setText(eskaera.getEskaeraData() != null ? eskaera.getEskaeraData().toString() : "");
+        dataEditText.setText(eskaera.getEskaeraData() != null ? eskaera.getEskaeraData().toLocalDate().toString() : "");
         totalaEditText.setText(String.valueOf(eskaera.getGuztira()));
         konzeptuaEditText.setText(eskaera.getKontzeptua());
 
@@ -135,10 +140,13 @@ public class EditEskaeraActivity extends AppCompatActivity {
         entregatutaButton.setOnClickListener(view -> {
             // Asegurar que solo se ejecute si la egoera es BIDALITA
             if (eskaera.getEgoera() == Egoera.BIDALITA) {
+                eskaera.setEgoera(Egoera.BUKATUTA);
                 DBManager.getInstance().save(eskaera);
                 finish();
             }
         });
+
+
 
         }
 
