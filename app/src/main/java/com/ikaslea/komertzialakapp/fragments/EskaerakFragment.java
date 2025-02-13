@@ -63,6 +63,14 @@ public class EskaerakFragment extends Fragment {
 
     private String erabiltzailea;
 
+    Komerziala komerziala;
+
+    List<Bazkidea> bazkideak;
+
+    List<Integer> bazkideIds;
+
+    List<Eskaera> eskaerak;
+
     public EskaerakFragment() {
         // Required empty public constructor
     }
@@ -82,6 +90,15 @@ public class EskaerakFragment extends Fragment {
         bidaliButton = view.findViewById(R.id.bidaliButton);
         eskaerakRecyclerView = view.findViewById(R.id.listEskaerak);
 
+        // Komerzialaren izena lortu
+        if (getArguments() != null) {
+            erabiltzailea = getArguments().getString("erabiltzailea");
+        }
+
+        komerziala = DBManager.getInstance().getByIzena(erabiltzailea);
+        bazkideak = DBManager.getInstance().getBazkideByKomerzialaId(komerziala.getId());
+        bazkideIds = bazkideak.stream().map(Bazkidea::getId).collect(Collectors.toList());
+        eskaerak = DBManager.getInstance().getEskaerakByBazkideaIds(bazkideIds);
 
         // Elementuak konfiguratu
         estadoSpinnerConf();
@@ -238,16 +255,6 @@ public class EskaerakFragment extends Fragment {
      */
     private void eskaeraRecyclerViewConf() {
 
-        if (getArguments() != null) {
-            erabiltzailea = getArguments().getString("erabiltzailea");
-        }
-
-        Komerziala komerziala = DBManager.getInstance().getByIzena(erabiltzailea);
-        List<Bazkidea> bazkideak = DBManager.getInstance().getBazkideByKomerzialaId(komerziala.getId());
-        List<Integer> bazkideIds = bazkideak.stream().map(Bazkidea::getId).collect(Collectors.toList());
-        List<Eskaera> eskaerak = DBManager.getInstance().getEskaerakByBazkideaIds(bazkideIds);
-
-
         adapter = new EskaeraAdapter(eskaerak, eskaera -> {
             Intent intent = new Intent(getContext(), EditEskaeraActivity.class);
 
@@ -268,15 +275,6 @@ public class EskaerakFragment extends Fragment {
      * @param bazkidea elbidearen bazkidearen izena
      */
     public void filterEskaeraList(String estado, String konzeptua, LocalDateTime data, String bazkidea) {
-
-        if (getArguments() != null) {
-            erabiltzailea = getArguments().getString("erabiltzailea");
-        }
-
-        Komerziala komerziala = DBManager.getInstance().getByIzena(erabiltzailea);
-        List<Bazkidea> bazkideak = DBManager.getInstance().getBazkideByKomerzialaId(komerziala.getId());
-        List<Integer> bazkideIds = bazkideak.stream().map(Bazkidea::getId).collect(Collectors.toList());
-        List<Eskaera> eskaerak = DBManager.getInstance().getEskaerakByBazkideaIds(bazkideIds);
 
         if (estado != null) {
             eskaerak = eskaerak.stream()
