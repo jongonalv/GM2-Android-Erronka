@@ -51,6 +51,8 @@ public class BazkideFragment extends Fragment {
 
     private String erabiltzailea;
 
+    Komerziala komerziala;
+
     public BazkideFragment() {
         // Required empty public constructor
     }
@@ -64,6 +66,8 @@ public class BazkideFragment extends Fragment {
         if (getArguments() != null) {
             erabiltzailea = getArguments().getString("erabiltzailea");
         }
+
+        komerziala = DBManager.getInstance().getByIzena(erabiltzailea);
 
         System.out.println(erabiltzailea);
 
@@ -105,6 +109,7 @@ public class BazkideFragment extends Fragment {
         berriaButton.setOnClickListener(v -> {
             Bazkidea bazkidea = new Bazkidea();
             bazkidea.setBazkideMota(BazkideMota.BERRIA);
+            bazkidea.setKomerziala(komerziala);
             Intent intent = new Intent(getContext(), EditBazkideaActivity.class);
             intent.putExtra("bazkidea", bazkidea);
 

@@ -46,7 +46,7 @@ public class EditEskaeraActivity extends AppCompatActivity {
             ezabatuButton,
             entregatutaButton;
 
-    private Map<Artikuloa, Integer> selectedProducts = new HashMap<>(); // Variable de clase para almacenar los productos seleccionados
+    private Map<Artikuloa, Integer> selectedProducts = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -48,7 +48,6 @@ public class BazkideaAdapter extends RecyclerView.Adapter<BazkideaAdapter.Bazkid
         holder.id.setText(String.valueOf(bazkidea.getId()));
         holder.izena.setText(bazkidea.getIzena());
         holder.bazMota.setText(bazkidea.getBazkideMota().name());
-
         holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(bazkidea));
     }
 
