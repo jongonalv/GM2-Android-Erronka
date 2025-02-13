@@ -43,19 +43,32 @@ public class BisitaAdapter extends RecyclerView.Adapter<BisitaAdapter.BisitaView
     public void onBindViewHolder(@NonNull BisitaViewHolder holder, int position) {
         Bisita bisita = bisitaList.get(position);
         Bazkidea bazkidea = bisita.getBazkidea();
-        holder.partnerName.setText(bazkidea.getIzena());
-        holder.partnerType.setText(bazkidea.getBazkideMota().name());
-        holder.partnerObjective.setText(bisita.getBisitarenHelburua());
 
+        if (bazkidea != null) {
+            holder.partnerName.setText(bazkidea.getIzena() != null ? bazkidea.getIzena() : "");
+            holder.partnerType.setText(bazkidea.getBazkideMota() != null ? bazkidea.getBazkideMota().name() : "");
+        } else {
+            holder.partnerName.setText("");
+            holder.partnerType.setText("");
+        }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.getDefault());
-        String visitDateTime = bisita.getHasieraData().format(formatter);
-        holder.visitDateTime.setText(visitDateTime);
+        holder.partnerObjective.setText(bisita.getBisitarenHelburua() != null ? bisita.getBisitarenHelburua() : "");
+
+        if (bisita.getHasieraData() != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm", Locale.getDefault());
+            String visitDateTime = bisita.getHasieraData().format(formatter);
+            holder.visitDateTime.setText(visitDateTime);
+        } else {
+            holder.visitDateTime.setText("");
+        }
 
         holder.editButton.setOnClickListener(v -> {
-            onEditButtonClickListener.onEditButtonClick(bisita);
+            if (onEditButtonClickListener != null) {
+                onEditButtonClickListener.onEditButtonClick(bisita);
+            }
         });
     }
+
 
     @Override
     public int getItemCount() {

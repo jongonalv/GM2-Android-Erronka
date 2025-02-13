@@ -1,6 +1,7 @@
 package com.ikaslea.komertzialakapp.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,10 +63,20 @@ public class ArtikuloaAdapter extends RecyclerView.Adapter<ArtikuloaAdapter.Arti
             holder.stock.setVisibility(View.VISIBLE);
             holder.kantitatea.setOnFocusChangeListener((v, hasFocus) -> {
                 if (!hasFocus) {
-                    int cantidad = Integer.parseInt(holder.kantitatea.getText().toString());
+                    String cantidadTexto = holder.kantitatea.getText().toString().trim();
+                    int cantidad = 0;
+
+                    if (!cantidadTexto.isEmpty()) {
+                        try {
+                            cantidad = Integer.parseInt(cantidadTexto);
+                        } catch (NumberFormatException e) {
+                            Log.e("ArtikuloaAdapter", "Errorea kantitatea bihurtzerakoan: " + cantidadTexto, e);
+                        }
+                    }
                     selectedProducts.put(artikuloa, cantidad);
                 }
             });
+
         } else {
             holder.kantitatea.setVisibility(View.GONE);
             holder.stock.setVisibility(View.GONE);
