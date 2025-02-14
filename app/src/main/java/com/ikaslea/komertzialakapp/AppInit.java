@@ -14,6 +14,7 @@ import com.ikaslea.komertzialakapp.models.enums.Egoera;
 import com.ikaslea.komertzialakapp.utils.DBManager;
 import com.ikaslea.komertzialakapp.utils.XMLManager;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +31,13 @@ public class AppInit extends Application {
         super.onCreate();
         DBManager.inizializatu(this);
 
+        File dir = new File("./data");
+        if (!dir.exists()) dir.mkdir();
+
+
         dbManager = DBManager.getInstance();
 
         dbManager.deleteAll();
-
-        List<Artikuloa> artikuloaList = kargatuArtikuloakXMLBidez(this);
 
         List<Bisita> bisitaList = createTestBisitaList();
         for (Bisita bisita : bisitaList) {
@@ -44,11 +47,11 @@ public class AppInit extends Application {
         }
 
         List<Bazkidea> bazkideaList = dbManager.getAll(Bazkidea.class);
-        List<Eskaera> eskaeraList = createEskaeraList(bazkideaList, artikuloaList);
+/*        List<Eskaera> eskaeraList = createEskaeraList(bazkideaList, artikuloaList);
 
         for (Eskaera eskaera : eskaeraList) {
             dbManager.save(eskaera);
-        }
+        }*/
 
         for (Bazkidea bazkidea : bazkideaList) {
             dbManager.save(bazkidea);
@@ -190,35 +193,6 @@ public class AppInit extends Application {
         return bisitaList;
     }
 
-    private List<Artikuloa> kargatuArtikuloakXMLBidez(Context context) {
-        List<Artikuloa> artikuloakList = new ArrayList<>();
-
-        try {
-            String xml = XMLManager.getInstance().XMLKargatuFitxategitik(context);
-            List<Artikuloa> artikuloakFromXML = XMLManager.getInstance().fromXML(xml);
-
-            if (artikuloakFromXML != null) {
-                for (Artikuloa artikuloXML : artikuloakFromXML) {
-                    Artikuloa existingArtikuloa = dbManager.getArtikuloaByIzena(artikuloXML.getIzena());
-
-                    if (existingArtikuloa != null) {
-                        existingArtikuloa.setStock(artikuloXML.getStock());
-                        existingArtikuloa.setPrezioa(artikuloXML.getPrezioa());
-                        existingArtikuloa.setKategoria(artikuloXML.getKategoria());
-
-                        dbManager.save(existingArtikuloa);
-                        artikuloakList.add(existingArtikuloa);
-                    } else {
-                        dbManager.save(artikuloXML);
-                        artikuloakList.add(artikuloXML);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return artikuloakList;
-    }
 
 
 

@@ -2,6 +2,7 @@ package com.ikaslea.komertzialakapp.fragments;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +23,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.ikaslea.komertzialakapp.EditEskaeraActivity;
+import com.ikaslea.komertzialakapp.FileSaver;
 import com.ikaslea.komertzialakapp.R;
 import com.ikaslea.komertzialakapp.adapters.EskaeraAdapter;
+import com.ikaslea.komertzialakapp.models.Artikuloa;
 import com.ikaslea.komertzialakapp.models.Bazkidea;
 import com.ikaslea.komertzialakapp.models.Eskaera;
 import com.ikaslea.komertzialakapp.models.Komerziala;
@@ -30,8 +34,14 @@ import com.ikaslea.komertzialakapp.models.enums.BazkideMota;
 import com.ikaslea.komertzialakapp.models.enums.Egoera;
 import com.ikaslea.komertzialakapp.utils.DBManager;
 import com.ikaslea.komertzialakapp.utils.FileManager;
+import com.ikaslea.komertzialakapp.utils.FileToString;
 import com.ikaslea.komertzialakapp.utils.XMLManager;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -71,8 +81,53 @@ public class EskaerakFragment extends Fragment {
 
     List<Eskaera> eskaerak;
 
+    private FileSaver FileSaver;
+
     public EskaerakFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FileSaver = new FileSaver(requireContext(), new FileSaver.FileSaveCallback() {
+            @Override
+            public void onFileSaved(Uri uri) {
+                String xml = XMLManager.getInstance().toXML(DBManager.getInstance().getAll(Eskaera.class));
+
+                if (xml == null) {
+                    Toast.makeText(requireContext(), "Ez dago daturik exportatzeko", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                try {
+                    OutputStream outputStream = requireContext().getContentResolver().openOutputStream(uri);
+                    OutputStreamWriter writer = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
+                    writer.write(xml);
+                    writer.flush();
+                    writer.close();
+                    outputStream.close();
+                } catch (Exception e) {
+                    Log.e("KatalogoaFragment", "Errorea XML fitxategia sortzean", e);
+                }
+
+                Toast.makeText(requireContext(), "XML fitxategia ondo sortu da!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSaveCancelled() {
+                Toast.makeText(requireContext(), "XML fitxategia ez da kargatu", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show();
+                Log.e("KatalogoaFragment", message);
+
+            }
+        });
+
+        FileSaver.registerLauncher(this);
     }
 
 
@@ -133,17 +188,7 @@ public class EskaerakFragment extends Fragment {
 
         // XML Fitxategia bihurtzeko eskaerak
         bidaliButton.setOnClickListener(v -> {
-            List<Eskaera> eskaerakList = DBManager.getInstance().getAll(Eskaera.class);
-            String xmlContent = XMLManager.getInstance().toXML(eskaerakList);
-            String fileName = "eskaerak.xml";
-            boolean isSaved = FileManager.saveXMLToFile(requireContext(), xmlContent, fileName);
-
-            // Erabiltzaileari mezua erakutsi
-            if (isSaved) {
-                Toast.makeText(requireContext(), "Eskaerak XML fitxategia gordeta: " + fileName, Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(requireContext(), "Errorea eskaerak XML fitxategia gordetzean", Toast.LENGTH_SHORT).show();
-            }
+            FileSaver.saveFile("eskaerak.xml");
         });
         return view;
     }

@@ -51,18 +51,6 @@ public class XMLManager {
         }
     }
 
-    public String XMLKargatuFitxategitik(Context context) throws IOException {
-        InputStream is = context.getResources().openRawResource(R.raw.artikuluak);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int len;
-        while ((len = is.read(buffer)) != -1) {
-            baos.write(buffer, 0, len);
-        }
-        is.close();
-        return baos.toString("UTF-8");
-    }
-
     public String XMLKargatuFitxategitikKomerzialak(Context context) throws IOException {
         InputStream is = context.getResources().openRawResource(R.raw.komerzialak);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
