@@ -55,29 +55,16 @@
         <!-- Spinner -->
         <Spinner
             android:id="@+id/kategoriakSpinner"
+            style="@style/CustomSpinnerStyle"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            style="@style/CustomSpinnerStyle"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
             android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/spinnerHint"
-            app:layout_constraintEnd_toStartOf="@id/kargatuButton"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Botón -->
-        <Button
-            android:id="@+id/kargatuButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Kargatu"
-            android:backgroundTint="@color/naranjaTuerkaOscuro"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- RecyclerView ocupa la mayor parte de la pantalla -->

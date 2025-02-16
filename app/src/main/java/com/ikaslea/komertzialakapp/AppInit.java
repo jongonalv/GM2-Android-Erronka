@@ -2,6 +2,8 @@ package com.ikaslea.komertzialakapp;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Environment;
+import android.util.Log;
 
 import com.ikaslea.komertzialakapp.models.Artikuloa;
 import com.ikaslea.komertzialakapp.models.Bazkidea;
@@ -14,7 +16,11 @@ import com.ikaslea.komertzialakapp.models.enums.Egoera;
 import com.ikaslea.komertzialakapp.utils.DBManager;
 import com.ikaslea.komertzialakapp.utils.XMLManager;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +30,8 @@ import java.util.List;
  */
 public class AppInit extends Application {
 
+    private static final String TAG = "AppInit";
+
     private static DBManager dbManager;
 
     @Override
@@ -31,108 +39,98 @@ public class AppInit extends Application {
         super.onCreate();
         DBManager.inizializatu(this);
 
-        File dir = new File("./data");
-        if (!dir.exists()) dir.mkdir();
-
-
         dbManager = DBManager.getInstance();
-
         dbManager.deleteAll();
+        if (!Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            Log.e(TAG, "Almacenamiento externo no disponible.");
+            return;
+        }
 
-        List<Bisita> bisitaList = createTestBisitaList();
+        File externalDir = getExternalFilesDir(null);
+        if (externalDir == null) {
+            Log.e(TAG, "No se pudo obtener el directorio externo de la app.");
+            return;
+        }
+
+        File baseDir = new File(externalDir, "datos");
+
+        if (!baseDir.exists()) {
+            if (!baseDir.mkdirs()) {
+                Log.e(TAG, "No se pudo crear el directorio 'datos'.");
+                return;
+            }
+        }
+
+        File komertzialakFile = new File(baseDir, "komerzialak.xml");
+
+        List<Komerziala> komerzialak = fromXml(komertzialakFile);
+        List<Bazkidea> bazkideak = fromXml(new File(baseDir, "bazkideak.xml"));
+        List<Artikuloa> artikuloaList = fromXml(new File(baseDir, "artikuluak.xml"));
+
+
+        for (Komerziala komerziala : komerzialak) {
+            dbManager.save(komerziala);
+        }
+
+        komerzialak = dbManager.getAll(Komerziala.class);
+
+        for (Bazkidea bazkidea : bazkideak) {
+            bazkidea.setKomerziala(komerzialak.get(0));
+            dbManager.save(bazkidea);
+        }
+
+        for (Artikuloa artikuloa : artikuloaList) {
+            dbManager.save(artikuloa);
+        }
+
+        bazkideak = dbManager.getAll(Bazkidea.class);
+        artikuloaList = dbManager.getAll(Artikuloa.class);
+
+        List<Bisita> bisitaList = createTestBisitaList(komerzialak, bazkideak);
         for (Bisita bisita : bisitaList) {
-            dbManager.save(bisita.getKomerzila());
-            dbManager.save(bisita.getBazkidea());
             dbManager.save(bisita);
         }
 
-        List<Bazkidea> bazkideaList = dbManager.getAll(Bazkidea.class);
-/*        List<Eskaera> eskaeraList = createEskaeraList(bazkideaList, artikuloaList);
+        List<Eskaera> eskaeraList = createEskaeraList(bazkideak, artikuloaList);
 
         for (Eskaera eskaera : eskaeraList) {
             dbManager.save(eskaera);
-        }*/
-
-        for (Bazkidea bazkidea : bazkideaList) {
-            dbManager.save(bazkidea);
         }
+
     }
-    private List<Komerziala> komertzialakKargatuXMLBidez(Context context) {
-        List<Komerziala> komerzialakList = new ArrayList<>();
+
+    private <T> List<T> fromXml(File xml) {
+        FileInputStream inputStream = null;
+        StringBuilder stringBuilder = new StringBuilder();
+
 
         try {
-            String xml = XMLManager.getInstance().XMLKargatuFitxategitikKomerzialak(context);
-            List<Komerziala> komerzialakFromXML = XMLManager.getInstance().fromXML(xml);
-
-            if (komerzialakFromXML != null) {
-                for (Komerziala komerzialaXML : komerzialakFromXML) {
-                    Komerziala existingKomerziala = dbManager.getByIzena(komerzialaXML.getIzena());
-
-                    if (existingKomerziala != null) {
-                        existingKomerziala.setIzena(komerzialaXML.getIzena());
-                        existingKomerziala.setTelefonoa(komerzialaXML.getTelefonoa());
-                        existingKomerziala.setPasahitza(komerzialaXML.getPasahitza());
-
-                        dbManager.save(existingKomerziala);
-                        komerzialakList.add(existingKomerziala);
-                    } else {
-                        dbManager.save(komerzialaXML);
-                        komerzialakList.add(komerzialaXML);
-                    }
+            inputStream = new FileInputStream(xml);
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+            return XMLManager.getInstance().fromXML(stringBuilder.toString());
+        } catch (Exception e) {
+            Log.e(TAG, "Error al leer el archivo XML", e);
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (Exception e) {
+                    Log.e(TAG, "Error al cerrar el archivo XML", e);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        return komerzialakList;
+        throw new RuntimeException("El archivo no existe o no se pudo leer");
     }
 
 
     // TEST BAT PROBATZEKO ADAPTER-A, DATUAK EZ DIRA HEMENDIK LORTUKO
-    private List<Bisita> createTestBisitaList() {
+    private List<Bisita> createTestBisitaList(List<Komerziala> komerzialak, List<Bazkidea> bazkideak) {
         List<Bisita> bisitaList = new ArrayList<>();
-
-        ArrayList<Komerziala> komerzialak = (ArrayList<Komerziala>) komertzialakKargatuXMLBidez(this);
-
-        Bazkidea bazkidea1 = new Bazkidea();
-        bazkidea1.setIzena("Ander Olaizola");
-        bazkidea1.setEmail("ander@example.com");
-        bazkidea1.setTelefonoa("600123456");
-        bazkidea1.setHelbidea("Calle Mayor 12, Bilbao");
-        bazkidea1.setBazkideMota(BazkideMota.BERRIA);
-        bazkidea1.setKomerziala(komerzialak.get(0));
-
-        Bazkidea bazkidea2 = new Bazkidea();
-        bazkidea2.setIzena("Miren Agirre");
-        bazkidea2.setEmail("miren@example.com");
-        bazkidea2.setTelefonoa("611234567");
-        bazkidea2.setHelbidea("Avenida Libertad 5, Donostia");
-        bazkidea2.setBazkideMota(BazkideMota.BERRIA);
-        bazkidea2.setKomerziala(komerzialak.get(3));
-
-        Bazkidea bazkidea3 = new Bazkidea();
-        bazkidea3.setIzena("Iñaki Lertxundi");
-        bazkidea3.setEmail("inaki@example.com");
-        bazkidea3.setTelefonoa("622345678");
-        bazkidea3.setHelbidea("Calle San Juan 34, Vitoria");
-        bazkidea3.setBazkideMota(BazkideMota.BERRIA);
-        bazkidea3.setKomerziala(komerzialak.get(0));
-
-        Bazkidea bazkidea4 = new Bazkidea();
-        bazkidea4.setIzena("Ane Etxeberria");
-        bazkidea4.setEmail("ane@example.com");
-        bazkidea4.setTelefonoa("633456789");
-        bazkidea4.setHelbidea("Plaza Nueva 8, Bilbao");
-        bazkidea4.setBazkideMota(BazkideMota.REKURRENTEA);
-        bazkidea4.setKomerziala(komerzialak.get(2));
-
-        Bazkidea bazkidea5 = new Bazkidea();
-        bazkidea5.setIzena("Jokin Mendizabal");
-        bazkidea5.setEmail("jokin@example.com");
-        bazkidea5.setTelefonoa("644567890");
-        bazkidea5.setHelbidea("Paseo de la Concha 15, Donostia");
-        bazkidea5.setBazkideMota(BazkideMota.POTENZIALA);
-        bazkidea5.setKomerziala(komerzialak.get(1));
 
         Bisita bisita1 = new Bisita();
         bisita1.setHasieraData(LocalDateTime.of(2025, 1, 10, 9, 0));
@@ -141,7 +139,7 @@ public class AppInit extends Application {
         bisita1.setHelbidea("Kale Nagusia 123, Bilbo");
         bisita1.setObserbazioak("Bezeroa interesatuta dago premium tresnerian");
         bisita1.setEginda(true);
-        bisita1.setBazkidea(bazkidea1);
+        bisita1.setBazkidea(bazkideak.get(0));
         bisita1.setKomerzila(komerzialak.get(0));
 
         Bisita bisita2 = new Bisita();
@@ -151,8 +149,8 @@ public class AppInit extends Application {
         bisita2.setHelbidea("Askatasun etorbidea 45, Donostia");
         bisita2.setObserbazioak("Bezeroak deskontuak eskatu ditu bolumen handietarako");
         bisita2.setEginda(false);
-        bisita2.setBazkidea(bazkidea2);
-        bisita2.setKomerzila(komerzialak.get(3));
+        bisita2.setBazkidea(bazkideak.get(1));
+        bisita2.setKomerzila(komerzialak.get(0));
 
         Bisita bisita3 = new Bisita();
         bisita3.setHasieraData(LocalDateTime.of(2025, 1, 20, 14, 0));
@@ -161,7 +159,7 @@ public class AppInit extends Application {
         bisita3.setHelbidea("Kolon pasealekua 78, Gasteiz");
         bisita3.setObserbazioak("Bezeroa interesatuta dago epe luzerako akordio batean");
         bisita3.setEginda(false);
-        bisita3.setBazkidea(bazkidea3);
+        bisita3.setBazkidea(bazkideak.get(2));
         bisita3.setKomerzila(komerzialak.get(0));
 
         Bisita bisita4 = new Bisita();
@@ -171,8 +169,8 @@ public class AppInit extends Application {
         bisita4.setHelbidea("Gran Vía kalea 56, Bilbo");
         bisita4.setObserbazioak("Bezeroak entrega arazoak aipatu ditu");
         bisita4.setEginda(true);
-        bisita4.setBazkidea(bazkidea4);
-        bisita4.setKomerzila(komerzialak.get(2));
+        bisita4.setBazkidea(bazkideak.get(3));
+        bisita4.setKomerzila(komerzialak.get(0));
 
         Bisita bisita5 = new Bisita();
         bisita5.setHasieraData(LocalDateTime.of(2025, 1, 30, 10, 0));
@@ -181,8 +179,8 @@ public class AppInit extends Application {
         bisita5.setHelbidea("Plaza Berria 23, Iruñea");
         bisita5.setObserbazioak("Produktuen laginak entregatu dira");
         bisita5.setEginda(true);
-        bisita5.setBazkidea(bazkidea5);
-        bisita5.setKomerzila(komerzialak.get(1));
+        bisita5.setBazkidea(bazkideak.get(4));
+        bisita5.setKomerzila(komerzialak.get(0));
 
         bisitaList.add(bisita1);
         bisitaList.add(bisita2);

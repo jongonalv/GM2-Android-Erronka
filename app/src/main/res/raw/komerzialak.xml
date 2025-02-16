@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Komerzialak>
-    <Komerziala>
+    <Komerziala id="68">
         <izena>Jon Etxebarria</izena>
         <email>jon@example.com</email>
         <telefonoa>655123456</telefonoa>

@@ -1,18 +1,25 @@
 package com.ikaslea.komertzialakapp.fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ikaslea.komertzialakapp.EditBisitaActivity;
+import com.ikaslea.komertzialakapp.FileSaver;
 import com.ikaslea.komertzialakapp.R;
 import com.ikaslea.komertzialakapp.adapters.BisitaAdapter;
 import com.ikaslea.komertzialakapp.models.Bazkidea;
@@ -20,7 +27,11 @@ import com.ikaslea.komertzialakapp.models.Bisita;
 import com.ikaslea.komertzialakapp.models.Komerziala;
 import com.ikaslea.komertzialakapp.models.enums.BazkideMota;
 import com.ikaslea.komertzialakapp.utils.DBManager;
+import com.ikaslea.komertzialakapp.utils.XMLManager;
 
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,15 +47,58 @@ public class CalendarFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private BisitaAdapter bisitaAdapter;
-    CalendarView calendarView;
-    Button berriaButton;
-    View view;
-    DBManager dbManager = DBManager.getInstance();
+    private CalendarView calendarView;
+    private Button berriaButton;
+    private View view;
+    private DBManager dbManager = DBManager.getInstance();
 
-    String erabiltzailea;
+    private Button exportatuButton;
+
+    private String erabiltzailea;
+
+    private FileSaver fileSaver;
 
     public CalendarFragment() {
 
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        fileSaver = new FileSaver(getContext(), new FileSaver.FileSaveCallback() {
+            @Override
+            public void onFileSaved(Uri uri) {
+                String xml = XMLManager.getInstance().toXML(DBManager.getInstance().getAll(Bisita.class));
+
+                if (xml == null) {
+                    Toast.makeText(requireContext(), "Ez dago daturik exportatzeko", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                try {
+                    OutputStream outputStream = requireContext().getContentResolver().openOutputStream(uri);
+                    OutputStreamWriter writer = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
+                    writer.write(xml);
+                    writer.flush();
+                    writer.close();
+                    outputStream.close();
+                } catch (Exception e) {
+                    Log.e("CalendarFragment", "Errorea XML fitxategia sortzean", e);
+                }
+            }
+
+            @Override
+            public void onSaveCancelled() {
+                Toast.makeText(getContext(), "Errorea gertatu da fitxategia gordetzean", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(getContext(), "Errorea gertatu da fitxategia gordetzean", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        fileSaver.registerLauncher(this);
     }
 
     @Override
@@ -69,6 +123,12 @@ public class CalendarFragment extends Fragment {
             Intent intent = new Intent(getContext(), EditBisitaActivity.class);
             intent.putExtra("bisita", bisita);
             startActivity(intent);
+        });
+
+        exportatuButton = view.findViewById(R.id.exportatuButton);
+
+        exportatuButton.setOnClickListener(v -> {
+            fileSaver.saveFile("bisitak.xml");
         });
 
         return view;

@@ -1,0 +1,77 @@
+<Komerzialak>
+    <Bazkidea id="61">
+        <bazkideMota>BERRIA</bazkideMota>
+        <email>ander@example.com</email>
+        <helbidea>Calle Mayor 12, Bilbao</helbidea>
+        <izena>Ander Olaizola</izena>
+        <komerziala id="68">
+            <bazkideak class="com.j256.ormlite.dao.StreamableLazyForeignCollection"/>
+            <bisitak class="com.j256.ormlite.dao.StreamableLazyForeignCollection"/>
+            <email>jon@example.com</email>
+            <izena>Jon Etxebarria</izena>
+            <pasahitza>123</pasahitza>
+            <telefonoa>655123456</telefonoa>
+        </komerziala>
+        <telefonoa>600123456</telefonoa>
+    </Bazkidea>
+    <Bazkidea id="62">
+        <bazkideMota>BERRIA</bazkideMota>
+        <email>miren@example.com</email>
+        <helbidea>Avenida Libertad 5, Donostia</helbidea>
+        <izena>Miren Agirre</izena>
+        <komerziala id="68">
+            <bazkideak class="com.j256.ormlite.dao.StreamableLazyForeignCollection"/>
+            <bisitak class="com.j256.ormlite.dao.StreamableLazyForeignCollection"/>
+            <email>irati@example.com</email>
+            <izena>Irati Garmendia</izena>
+            <pasahitza>123</pasahitza>
+            <telefonoa>688456789</telefonoa>
+        </komerziala>
+        <telefonoa>611234567</telefonoa>
+    </Bazkidea>
+    <Bazkidea id="63">
+        <bazkideMota>BERRIA</bazkideMota>
+        <email>inaki@example.com</email>
+        <helbidea>Calle San Juan 34, Vitoria</helbidea>
+        <izena>Iñaki Lertxundi</izena>
+        <komerziala id="68">
+            <bazkideak class="com.j256.ormlite.dao.StreamableLazyForeignCollection"/>
+            <bisitak class="com.j256.ormlite.dao.StreamableLazyForeignCollection"/>
+            <email>jon@example.com</email>
+            <izena>Jon Etxebarria</izena>
+            <pasahitza>123</pasahitza>
+            <telefonoa>655123456</telefonoa>
+        </komerziala>
+        <telefonoa>622345678</telefonoa>
+    </Bazkidea>
+    <Bazkidea id="64">
+        <bazkideMota>REKURRENTEA</bazkideMota>
+        <email>ane@example.com</email>
+        <helbidea>Plaza Nueva 8, Bilbao</helbidea>
+        <izena>Ane Etxeberria</izena>
+        <komerziala id="68">
+            <bazkideak class="com.j256.ormlite.dao.StreamableLazyForeignCollection"/>
+            <bisitak class="com.j256.ormlite.dao.StreamableLazyForeignCollection"/>
+            <email>peio@example.com</email>
+            <izena>Peio Mendizabal</izena>
+            <pasahitza>123</pasahitza>
+            <telefonoa>677345678</telefonoa>
+        </komerziala>
+        <telefonoa>633456789</telefonoa>
+    </Bazkidea>
+    <Bazkidea id="65">
+        <bazkideMota>POTENZIALA</bazkideMota>
+        <email>jokin@example.com</email>
+        <helbidea>Paseo de la Concha 15, Donostia</helbidea>
+        <izena>Jokin Mendizabal</izena>
+        <komerziala id="68">
+            <bazkideak class="com.j256.ormlite.dao.StreamableLazyForeignCollection"/>
+            <bisitak class="com.j256.ormlite.dao.StreamableLazyForeignCollection"/>
+            <email>maite@example.com</email>
+            <izena>Maite Zubiri</izena>
+            <pasahitza>123</pasahitza>
+            <telefonoa>666234567</telefonoa>
+        </komerziala>
+        <telefonoa>644567890</telefonoa>
+    </Bazkidea>
+</Komerzialak>

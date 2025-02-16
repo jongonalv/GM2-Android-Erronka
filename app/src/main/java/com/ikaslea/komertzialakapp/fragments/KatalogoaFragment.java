@@ -42,8 +42,6 @@ public class KatalogoaFragment extends Fragment {
 
     private Spinner spinnerKategoria;
 
-    private Button btnKargatu;
-
     private RecyclerView recyclerView;
     private boolean activateFields = false;
     private Map<Artikuloa, Integer> selectedProducts;
@@ -69,7 +67,6 @@ public class KatalogoaFragment extends Fragment {
 
         // view-ko kontrolak lortu
         spinnerKategoria = view.findViewById(R.id.kategoriakSpinner);
-        btnKargatu = view.findViewById(R.id.kargatuButton);
         recyclerView = view.findViewById(R.id.artikuloakList);
 
         // kategoriak lortu eta spinnerrean gehitu
@@ -120,15 +117,6 @@ public class KatalogoaFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {}
-        });
-
-
-
-
-        //XML fitxategia kargatzeko logika guztia botoiari klik egiten diogunean
-        btnKargatu.setOnClickListener(v -> {
-            throw new UnsupportedOperationException("Fuck");
-
         });
 
         return view;

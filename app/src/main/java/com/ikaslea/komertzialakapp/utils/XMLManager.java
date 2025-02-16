@@ -3,6 +3,7 @@ package com.ikaslea.komertzialakapp.utils;
 import android.content.Context;
 
 import com.ikaslea.komertzialakapp.models.Artikuloa;
+import com.ikaslea.komertzialakapp.models.Bazkidea;
 import com.ikaslea.komertzialakapp.models.Komerziala;
 import com.ikaslea.komertzialakapp.utils.Const;
 import com.thoughtworks.xstream.XStream;
@@ -32,9 +33,12 @@ public class XMLManager {
         xstream.alias("Komerzialak", List.class);
         xstream.alias("Komerziala", Komerziala.class);
 
+        xstream.processAnnotations(Bazkidea.class);
+        xstream.alias("Bazkideak", List.class);
+        xstream.alias("Bazkidea", Bazkidea.class);
+
         // Permite los tipos necesarios
-        xstream.allowTypes(new Class[]{Artikuloa.class, List.class});
-        xstream.allowTypes(new Class[]{Komerziala.class, List.class});
+        xstream.allowTypes(new Class[]{Artikuloa.class, Komerziala.class, Bazkidea.class, List.class});
     }
 
     public String toXML(Object object) {
@@ -49,17 +53,5 @@ public class XMLManager {
         } else {
             return List.of((T) result);
         }
-    }
-
-    public String XMLKargatuFitxategitikKomerzialak(Context context) throws IOException {
-        InputStream is = context.getResources().openRawResource(R.raw.komerzialak);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int len;
-        while ((len = is.read(buffer)) != -1) {
-            baos.write(buffer, 0, len);
-        }
-        is.close();
-        return baos.toString("UTF-8");
     }
 }
