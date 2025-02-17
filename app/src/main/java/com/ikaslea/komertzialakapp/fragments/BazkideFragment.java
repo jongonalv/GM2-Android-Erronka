@@ -1,7 +1,9 @@
 package com.ikaslea.komertzialakapp.fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,19 +12,26 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ikaslea.komertzialakapp.EditBazkideaActivity;
+import com.ikaslea.komertzialakapp.FileSaver;
 import com.ikaslea.komertzialakapp.R;
 import com.ikaslea.komertzialakapp.adapters.BazkideaEditAdapter;
 import com.ikaslea.komertzialakapp.models.Bazkidea;
 import com.ikaslea.komertzialakapp.models.Komerziala;
 import com.ikaslea.komertzialakapp.models.enums.BazkideMota;
 import com.ikaslea.komertzialakapp.utils.DBManager;
+import com.ikaslea.komertzialakapp.utils.XMLManager;
 
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,7 +50,7 @@ public class BazkideFragment extends Fragment {
             izenaInput,
             emailInput;
 
-    private Button berriaButton;
+    private Button berriaButton, exportatuButton;
 
     private RecyclerView bazkideakRecyclerView;
 
@@ -51,17 +60,64 @@ public class BazkideFragment extends Fragment {
 
     private String erabiltzailea;
 
-    Komerziala komerziala;
+    private Komerziala komerziala;
+
+    private FileSaver fileSaver;
 
     public BazkideFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        fileSaver = new FileSaver(getContext(), new FileSaver.FileSaveCallback() {
+            @Override
+            public void onFileSaved(Uri uri) {
+                String xml = XMLManager.getInstance().toXML(DBManager.getInstance().getAll(Bazkidea.class));
+
+                if (xml == null) {
+                    Toast.makeText(requireContext(), "Ez dago daturik exportatzeko", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                try {
+                    OutputStream outputStream = requireContext().getContentResolver().openOutputStream(uri);
+                    OutputStreamWriter writer = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
+                    writer.write(xml);
+                    writer.flush();
+                    writer.close();
+                    outputStream.close();
+                } catch (Exception e) {
+                    Log.e("Bazkidea", "Errorea XML fitxategia sortzean", e);
+                }
+
+            }
+
+            @Override
+            public void onSaveCancelled() {
+                Toast.makeText(getContext(), "Errorea gertatu da fitxategia gordetzean", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(getContext(), "Errorea gertatu da fitxategia gordetzean", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        fileSaver.registerLauncher(this);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bazkidea, container, false);
+
+        exportatuButton = view.findViewById(R.id.exportatuButton);
+
+        exportatuButton.setOnClickListener(v -> {
+            fileSaver.saveFile("bazkideak.xml");
+        });
 
         if (getArguments() != null) {
             erabiltzailea = getArguments().getString("erabiltzailea");
